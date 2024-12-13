@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 12:55:29 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:34:45 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 /*
 int *flag:
 Указатель на целое число, которое будет обновлено для указания условий анализа:
@@ -49,16 +49,16 @@ int	find_end(char *input, int pos, int *flag)
 void	split_input(char *input, t_arg **args, t_shell *mini)
 {
 	int		i;
-	int		begin;						// Marks the beginning of the current argument
-	int		end;						// Marks the end of the current argument
-	int		flag;						// Indicates special handling for operators or redirections
-	char	*tmp;						// Temporary storage for the current substring
+	int		start;						// beginning of the current argument
+	int		end;						// end of the current argument
+	int		flag;						// special handling for operators or redirections
+	char	*tmp;						// temp storage for the current substring
 	i = 0;
 	flag = 0;
 	while (input[i] != '\0')
 	{
 		i = skip_space_tab(input, i);	// Skip any leading whitespaces
-		begin = i;						// Set the starting index of the current token
+		start = i;						// Set the starting index of the current token
 		if (input[i] == '\0')			// If the end of the string is reached, exit
 			return ;
 		end = find_end(input, i, &flag);	// Find the end of the current token or operator
@@ -66,18 +66,18 @@ void	split_input(char *input, t_arg **args, t_shell *mini)
 		i = skip_space_tab(input, i);		// Skip trailing whitespaces (ensures clean arguments)
 		if (flag != 0)						// If a special operator (<, <<, |, etc.) was detected
 		{
-			tmp = ft_substr(input, begin, end - begin);	// Extract the current token
+			tmp = ft_substr(input, start, end - start);	// Extract the current token
 			if (ft_strcmp(tmp, "\0"))					// Check if the token is non-empty
-				add_arg_to_end(args, new_arg(tmp, mini)); // Add it to the args list
+				add_arg_end(args, new_arg(tmp, mini)); // Add it to the args list
 			else
-				free(tmp);                             // Free the empty token
-			add_arg_to_end(args, new_arg(ft_substr(input, end, flag), mini)); // Add the special operator as a separate argument
+				free(tmp);
+			add_arg_end(args, new_arg(ft_substr(input, end, flag), mini)); // Add the special operator as a separate argument
 				
-			i += flag;                                 // Skip the special operator's length
-			flag = 0;                                  // Reset the flag
+			i += flag;		// Skip the special operator's length
+			flag = 0;		// Reset the flag
 		}
 		else // If no special operator was detected
-			add_arg_to_end(args, new_arg(ft_substr(input, begin, end - begin), mini));// Add the token to the args list
+			add_arg_end(args, new_arg(ft_substr(input, start, end - start), mini));// Add the token to the args list
 	}
 }
 

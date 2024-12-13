@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 15:05:41 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:35:31 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
 // // Replaces an environment variable in the input string with its corresponding value.
 // It extracts the key from the input, retrieves its value from the environment,
