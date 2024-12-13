@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 13:12:50 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:41:55 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../minishell.h"
 
 /**
  * Creates a new argument node with the given argument string.

@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 15:10:09 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:05:56 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../minishell.h"
 
 // Function to skip over spaces and tabs in an input string
 // Returns the index after all consecutive spaces/tabs
@@ -81,7 +81,7 @@ void	set_redirection(t_cmd *cmds)
 
 	if (cmds == NULL)
 		return ;
-	it = 0;
+	i= 0;
 	tmp = (t_redir *) cmds->redir;
 	while (tmp)
 	{

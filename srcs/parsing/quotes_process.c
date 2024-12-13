@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:34:19 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:42:43 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /**
  * function processes a substring of the input string by extracting parts before, 

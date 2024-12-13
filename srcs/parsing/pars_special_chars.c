@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:21:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:35:43 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:42:35 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /**
  * Parses special characters in the input string, handling quotes, escape characters,

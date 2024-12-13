@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:35:48 by aokhapki         ###   ########.fr       */
+/*   Created: 2024/12/13 19:45:10 by aokhapki          #+#    #+#             */
+/*   Updated: 2024/12/13 19:45:14 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-void	parser(t_shell *mini, t_env *env_dup)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	(void)env_dup;
-	mini->input = readline(BEGIN(49, 32)"[minishell ]$ "CLOSE);
-	if (!mini->input)
-		exit(g_ext_stats);
-	if (*mini->input)
-		add_history (mini->input);
-	if (validator(mini->input) == 0)
-	{
-		mini->args = process_args(mini);
-		// mini->cmds = process_cmds(mini);
-	}
-	free(mini->input);
-	mini->input = NULL;
+	size_t	it;
+
+	it = 0;
+	while (s1[it] && s2[it] && (s1[it] == s2[it]))
+		it++;
+	return ((unsigned char)s1[it] - (unsigned char)s2[it]);
 }

@@ -6,11 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:35:31 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:07:09 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 // // Replaces an environment variable in the input string with its corresponding value.
 // It extracts the key from the input, retrieves its value from the environment,
@@ -91,7 +91,7 @@ char	*ft_strjoin_connect(char const *s1, char *connect, char const *s2)
 // This function handles the case when a question mark is encountered in the input string.
 // It retrieves the current value of g_ext_stats, constructs a new string with this value,
 // and resets g_ext_stats to 0.
-char	*question_handle(char *input, int begin, int *it)
+char	*question_handle(char *input, int begin, int *i)
 {
 	char	*line_new;
 	char	*tmp_1;
@@ -102,7 +102,7 @@ char	*question_handle(char *input, int begin, int *it)
 	nbr_val = ft_itoa(g_ext_stats);
 	tmp_1 = ft_substr(input, 0, begin);
 	tmp_2 = ft_strjoin(tmp_1, nbr_val);
-	tail = ft_strdup(&input[*it]);
+	tail = ft_strdup(&input[*i]);
 	line_new = ft_strjoin(tmp_2, tail);
 	free(nbr_val);
 	free(tmp_1);
@@ -114,25 +114,25 @@ char	*question_handle(char *input, int begin, int *it)
 }
 
 // check for dollar in the input string and determines if they represent
-// an environment variable or a special case ("?"). It updates the iterator
+// an environment variable or a special case ("?"). iupdates the iterator
 // and calls the appropriate handler function to process the input.
-char	*is_dollar(char *input, int *it, t_env *env_dup)
+char	*is_dollar(char *input, int *i, t_env *env_dup)
 {
 	int		begin;
 
-	begin = *it;
+	begin = *i;
 	if (ft_strchr("?", input[begin + 1]))
 	{
-		*it += 2;
-		return (question_handle(input, begin, it));
+		*i += 2;
+		return (question_handle(input, begin, i));
 	}
-	while (input[++(*it)])
+	while (input[++(*i)])
 	{
-		if (!key_checker(input[*it]))
+		if (!key_checker(input[*i]))
 			break ;
 	}
-	if (*it == begin + 1)
+	if (*i== begin + 1)
 		return (input);
-	input = key_handler(input, begin, *it, env_dup);
+	input = key_handler(input, begin, *i, env_dup);
 	return (input);
 }

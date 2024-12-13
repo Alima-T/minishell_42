@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 14:27:44 by aokhapki          #+#    #+#              #
-#    Updated: 2024/03/27 11:03:55 by aokhapki         ###   ########.fr        #
+#    Updated: 2024/12/13 19:46:19 by aokhapki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SOURCE			=	ft_atoi.c \
 					ft_tolower.c \
 					ft_strchr.c \
 					ft_strrchr.c \
+					ft_strcmp.c \
 					ft_strncmp.c \
 					ft_memchr.c \
 					ft_memcmp.c \
