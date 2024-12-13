@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 12:52:46 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:10:09 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	open_fd(char *path, char flag)
 //   - "<"  : Input redirection
 //   - ">"  : Output redirection (overwrite)
 //   - ">>" : Output redirection (append)
-void	set_redirection(t_cmdl *cmds)
+void	set_redirection(t_cmd *cmds)
 {
 	t_redir	*tmp;
 	int		it;

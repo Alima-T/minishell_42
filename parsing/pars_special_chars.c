@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:21:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 14:09:13 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:09:51 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @return The modified input string after processing special characters.
  */
 
-char	*parse_special_chars(char *nput, t_env *env_dup) // "", '', $, |, $?, <, >, <<, >>
+char	*parse_special_chars(char *input, t_env *env_dup) // "", '', $, |, $?, <, >, <<, >>
 {
 	int i;
 	i = 0;
