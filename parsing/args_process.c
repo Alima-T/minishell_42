@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/12 19:53:29 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:55:29 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	find_end(char *input, int pos, int *flag)
 				*flag = 1;
 			if (ft_strchr("<>", input[pos]) && ft_strchr("<>", input[pos + 1])) //Double Redirection (<< or >>) If the current char is < or > and the next charis also < or >: *flag = 2: The flag is set to 2, indicating a double redirection.
 				*flag = 2;
-//			pos = pass_whitespaces(input, pos);
 			return (pos);
 		}
 		pos++;
@@ -47,7 +46,7 @@ int	find_end(char *input, int pos, int *flag)
 	return (pos);
 }
 
-void	split_input(char *input, t_arg **args, t_shell *minishell)
+void	split_input(char *input, t_arg **args, t_shell *mini)
 {
 	int		i;
 	int		begin;						// Marks the beginning of the current argument
@@ -69,16 +68,16 @@ void	split_input(char *input, t_arg **args, t_shell *minishell)
 		{
 			tmp = ft_substr(input, begin, end - begin);	// Extract the current token
 			if (ft_strcmp(tmp, "\0"))					// Check if the token is non-empty
-				add_arg_to_end(args, new_arg(tmp, minishell)); // Add it to the args list
+				add_arg_to_end(args, new_arg(tmp, mini)); // Add it to the args list
 			else
 				free(tmp);                             // Free the empty token
-			add_arg_to_end(args,                     // Add the special operator as a separate argument
-				new_arg(ft_substr(input, end, flag), minishell));
+			add_arg_to_end(args, new_arg(ft_substr(input, end, flag), mini)); // Add the special operator as a separate argument
+				
 			i += flag;                                 // Skip the special operator's length
 			flag = 0;                                  // Reset the flag
 		}
 		else // If no special operator was detected
-			add_arg_to_end(args, new_arg(ft_substr(input, begin, end - begin), minishell));// Add the token to the args list
+			add_arg_to_end(args, new_arg(ft_substr(input, begin, end - begin), mini));// Add the token to the args list
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/12 19:46:38 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:27:16 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # include <readline/history.h>
 # include "./LIBFT/libft.h"
 
-#define CLOSE		"\001\033[0m\002"			// Закрыть все свойства
-#define BOLD		"\001\033[1m\002"			// Подчеркнуть, жирным шрифтом, выделить
-#define BEGIN(x,y)	"\001\033["#x";"#y"m\002"	// x: background, y: foreground
+#define CLOSE		"\001\033[0m\002"			// close (escape) any applied text formatting
+#define BOLD		"\001\033[1m\002"			// bold formatting
+#define BEGIN(x,y)	"\001\033["#x";"#y"m\002"	// apply both bx: background, y: foreground colors to the text. 
 
 /*
 g_  global / ext_  external /stats - status 
@@ -43,13 +43,13 @@ typedef struct s_shell
 	struct s_cmdl	*cmds;
 }					t_shell;
 
-typedef struct s_envl
+typedef struct s_env
 {
 	char			*line;
 	char			*key;
 	char			*value;
-	struct s_envl	*next;
-}					t_envl;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_arg
 {
@@ -58,7 +58,7 @@ typedef struct s_arg
 	struct s_arg	*next;
 }				t_arg;
 
-typedef struct s_cmdl
+typedef struct s_cmd
 {
 	char			**command;
 	int				in;
@@ -67,8 +67,8 @@ typedef struct s_cmdl
 	int				fork;
 	pid_t			pid;
 	struct s_rdr	*redir;
-	struct s_cmdl	*next;
-}				t_cmdl;
+	struct s_cmd	*next;
+}				t_cmd;
 
 typedef struct s_redir
 {
@@ -82,7 +82,7 @@ typedef struct s_redir
  */
 int				skip_space_tab(char *inp, int i);
 int				open_fd(char *path, char flag);
-void			set_redirection(t_cmdl *cmds);
+void			set_redirection(t_cmd *cmds);
 int				find_end(char *input, int pos, int *flag);
 void			split_input(char *input, t_arg **args, t_shell *minishell);
 t_arg			*process_args(t_shell *minishell);
