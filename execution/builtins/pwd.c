@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 14:26:43 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 13:43:15 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/16 14:26:29 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-// changes the current working dir to the specified path
-void	builtin_cd(char **args)
+// function to print working directory
+void	builtin_pwd(void)
 {
 	const char	*error_message;
+	// buffer to hold the current working dir
+	char		cwd[1024];
 
-	// checks if an arg is provided; if not, writes an error message to STDERR
-	if (args[1] == NULL)
+	// get the current working dir
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		error_message = "cd: missing args\n";
-		// 2 - STDERR_FILENO (file descriptor for standard error output)
-		write(STDERR_FILENO, error_message, ft_strlen(error_message));
-		return ;
+		// write the current dir to st output
+		write(STDOUT_FILENO, cwd, ft_strlen(cwd));
+		write(STDOUT_FILENO, "\n", 1);
 	}
-	// changes the current working dir; if it fails, it prints the error message
-	if (chdir(args[1]) != 0)
-		perror("cd"); // error reporting
+	else
+	{
+		// error message for faillure
+		error_message = "pwd: error retrieving current dir\n";
+		// write error message to standard error
+		write(STDERR_FILENO, error_message, ft_strlen(error_message));
+	}
 }

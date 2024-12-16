@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 16:09:24 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:44:25 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,16 @@ t_arg				*process_args(t_shell *minishell);
 
 // builtins
 
-void				cd(char **args);
-void				echo(char **args);
+void				builtin_cd(char **args);
+void				builtin_echo(char **args);
+void				builtin_pwd(void);
+void				builtin_export(void);
+void				builtin_unset(char **args);
+void				builtin_env(void);
+void				builtin_exit(void);
 
 // utils
 
-size_t				ft_strlen(const char *s);
 int					ft_strcmp(char *s1, char *s2);
 
 #endif

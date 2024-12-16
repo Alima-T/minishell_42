@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 15:55:59 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 13:41:29 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/16 14:26:22 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+// function to list environment variables
+void	builtin_export(void)
 {
+	extern char	**env; // access to the env variables
 	int	i;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+	while (env[i] != NULL)
 	{
+		// write each env variable to standard output
+		write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
+		write(STDOUT_FILENO, "\n", 1);
 		i++;
 	}
-	return (s1[i] - s2[i]);
 }

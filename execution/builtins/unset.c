@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 14:26:43 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/16 14:26:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-// changes the current working dir to the specified path
-void	builtin_cd(char **args)
+// function to remove an env variable
+void	builtin_unset(char **args)
 {
 	const char	*error_message;
 
-	// checks if an arg is provided; if not, writes an error message to STDERR
 	if (args[1] == NULL)
 	{
-		error_message = "cd: missing args\n";
-		// 2 - STDERR_FILENO (file descriptor for standard error output)
+		error_message = "unset: missing arg\n";
 		write(STDERR_FILENO, error_message, ft_strlen(error_message));
 		return ;
 	}
-	// changes the current working dir; if it fails, it prints the error message
-	if (chdir(args[1]) != 0)
-		perror("cd"); // error reporting
+	// remove the specified env variable
+	unsetenv(args[1]);
 }

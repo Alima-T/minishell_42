@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 15:55:59 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 13:41:29 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/16 14:21:49 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+// function to terminate the shell
+void	builtin_exit(void)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-	{
-		i++;
-	}
-	return (s1[i] - s2[i]);
+	// exit the shell with a status code of 0 (indicating success)
+	exit(0);
 }
