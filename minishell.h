@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/12/13 20:18:17 by aokhapki         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/16 14:44:25 by tbolsako         ###   ########.fr       */
+>>>>>>> cd519d9a96b8dc203b7d098f5ebba410c0be58a5
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +29,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+<<<<<<< HEAD
 # define CLOSE "\001\033[0m\002" // close (escape) any applied text formatting
 # define BOLD "\001\033[1m\002"  // bold formatting
 # define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both x: background, y: foreground colors to the text.
@@ -32,6 +37,20 @@
 /* g_  global / ext_  external /stats - status: stores the exit status of the last executed external command or process
 */
 int					g_ext_stats;
+=======
+# define CLOSE "\001\033[0m\002"
+// close (escape) any applied text formatting
+# define BOLD "\001\033[1m\002"                    // bold formatting
+# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both bx: background,
+y : foreground colors to the text.
+
+	/*
+	g_  global / ext_  external /stats - status
+	global exit status or global external status,
+		stores the exit status of the last executed external command or process
+	*/
+	int g_ext_stats;
+>>>>>>> cd519d9a96b8dc203b7d098f5ebba410c0be58a5
 
 typedef struct s_shell
 {
@@ -75,6 +94,7 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
+<<<<<<< HEAD
 /*** #ALIMA start # *** */
 /*** utils ***/
 
@@ -121,5 +141,34 @@ char				*is_dollar(char *input, int *i, t_env *env_dup);
 
 
 /*** # TANJA end # ***/
+=======
+/*
+ * utils alima
+ */
+int					skip_space_tab(char *inp, int i);
+int					open_fd(char *path, char flag);
+void				set_redirection(t_cmd *cmds);
+int					find_end(char *input, int pos, int *flag);
+void				split_input(char *input, t_arg **args, t_shell *minishell);
+t_arg				*process_args(t_shell *minishell);
+
+/*
+ * utils Tanya
+ */
+>>>>>>> cd519d9a96b8dc203b7d098f5ebba410c0be58a5
+
+// builtins
+
+void				builtin_cd(char **args);
+void				builtin_echo(char **args);
+void				builtin_pwd(void);
+void				builtin_export(void);
+void				builtin_unset(char **args);
+void				builtin_env(void);
+void				builtin_exit(void);
+
+// utils
+
+int					ft_strcmp(char *s1, char *s2);
 
 #endif
