@@ -6,11 +6,18 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 13:54:02 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:12:21 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../minishell.h"
+
+// determines the path to change to based on user input
+static char	*get_cd_path(int ac, char *av[])
+{
+	char	*home;
+	char	*oldpwd;
+}
 
 // changes the current working dir to the specified path
 int	builtin_cd(int ac, char *av[])
@@ -24,6 +31,18 @@ int	builtin_cd(int ac, char *av[])
 	if (!path)
 		return (1); // error in getting path
 	if (chdir(path) != 0)
+	{
+		*exit_status() = 1; // set exit status
+		perror("cd");
+		return (1); // change dir failed
+	}
+	// upd OLDPWD
+	if (upd_env_var("OLDPWD", get_env_var("PWD")) != 0)
+		return (1);
+	// upd PWD
+	if (upd_env_var("PWD", getcwd(NULL, 0)) != 0)
+		return (1);
+	return (0);
 }
 
 // void	builtin_cd(char **args)

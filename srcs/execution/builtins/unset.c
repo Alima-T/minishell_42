@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 14:14:03 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 14:26:09 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/19 14:12:58 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../minishell.h"
 
-// function to print env variables
-void	builtin_env(void)
+// function to remove an env variable
+void	builtin_unset(char **args)
 {
-	extern char	**env;
-	int			i;
+	const char	*error_message;
 
-	i = 0;
-	while (env[i] != NULL)
+	if (args[1] == NULL)
 	{
-		write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
-		write(STDOUT_FILENO, "\n", 1);
-		i++;
+		error_message = "unset: missing arg\n";
+		write(STDERR_FILENO, error_message, ft_strlen(error_message));
+		return ;
 	}
+	// remove the specified env variable
+	unsetenv(args[1]);
 }

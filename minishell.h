@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/19 13:15:37 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:16:58 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,6 @@ void				set_redirection(t_cmd *cmds);
 int					find_end(char *input, int pos, int *flag);
 void				split_input(char *input, t_arg **args, t_shell *minishell);
 t_arg				*process_args(t_shell *minishell);
-
-
 
 // builtins
 
