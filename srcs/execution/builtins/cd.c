@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 16:37:28 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:40:15 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,11 @@ int	builtin_cd(int ac, char *av[])
 	// upd OLDPWD and PWD
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		upd_env_var("OLDPWD", oldpwd); // set OLDPWD to the previous PWD
-		upd_env_var("PWD", cwd);       // upd PWD to the current dir
+		if (setenv("OLDPWD", oldpwd, 1) != 0) // set OLDPWD to the previous PWD
+			perror("cd: failed to upd env variable");
+		if (setenv("PWD", cwd, 1) != 0)
+			perror("cd: failed to upd env variable");
+				// upd PWD to the current dir
 	}
 	else
 		perror("cd");
