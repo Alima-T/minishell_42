@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/18 16:04:01 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:15:37 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,6 @@ void				builtin_env(void);
 void				builtin_exit(void);
 
 // utils
-
-int					ft_strcmp(char *s1, char *s2);
-
 
 /*** # TANJA end # ***/
 #endif
