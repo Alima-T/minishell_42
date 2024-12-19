@@ -6,11 +6,11 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 14:12:58 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:56:02 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 // function to remove an env variable
 void	builtin_unset(char **args)

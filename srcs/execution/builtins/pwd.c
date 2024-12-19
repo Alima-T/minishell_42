@@ -6,11 +6,11 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:43:15 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 14:12:53 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:55:58 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 // function to print working directory
 void	builtin_pwd(void)

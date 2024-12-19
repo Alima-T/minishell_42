@@ -6,11 +6,11 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 14:12:49 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:55:54 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 // function to list environment variables
 void	builtin_export(void)
