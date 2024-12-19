@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 14:21:49 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/19 14:12:49 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../minishell.h"
 
-// function to terminate the shell
-void	builtin_exit(void)
+// function to list environment variables
+void	builtin_export(void)
 {
-	// exit the shell with a status code of 0 (indicating success)
-	exit(0);
+	extern char	**env; // access to the env variables
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		// write each env variable to standard output
+		write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
+		write(STDOUT_FILENO, "\n", 1);
+		i++;
+	}
 }

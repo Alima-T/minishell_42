@@ -6,11 +6,11 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/16 14:26:37 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:12:31 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../minishell.h"
 
 // prints the provided args to the standard output
 void	builtin_echo(char **args)
