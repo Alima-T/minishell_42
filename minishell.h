@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/19 16:03:12 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:52:47 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,32 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+// for perror
 # include <stdio.h>
+// for for getenv, setenv
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
+// for chdir, getcwd
 # include <unistd.h>
+// for PATH_MAX
+# include <limits.h>
+// for bool type
+# include <stdbool.h>
 
 # define CLOSE "\001\033[0m\002"
 // close (escape) any applied text formatting
-# define BOLD "\001\033[1m\002"                    // bold formatting
-# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both x: background,
-y : foreground colors to the text.
-# define PATH_MAX 1024
+# define BOLD "\001\033[1m\002" // bold formatting
+# define BEGIN(x, y) \
+	"\001\033[" #x ";" #y "m\002" // apply both x: background,
+									// y : foreground colors to the text.
 
-	/* g_  global / ext_  external /stats
-		- status: stores the exit status of the last executed external command or process
-		*/
+/* g_  global / ext_  external /stats
+	- status: stores the exit status of the last executed external command or process
+	*/
 
-	int g_ext_stats;
+int					g_ext_stats;
 
 typedef struct s_shell
 {

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 15:55:42 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:12:55 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,46 @@
 // prints the provided args to the standard output
 void	builtin_echo(char **args)
 {
-	int	newline;
 	int	i;
+	int	j;
 
-	newline = 1; // flag to determine if a newline should be printed
-				// checks if the 1st arg is '-n', which supresses the newline
-				// at the end of the output 
-	if (args[1] && ft_strcmp(args[1], "-n") == 0)
+	bool newline; // flag to suppress newline
+	i = 1; // start from the 1st arg
+	newline = false;
+	// check for -n flags
+	while (args[i] != NULL)
 	{
-		newline = 0; // don't print newline
-		args++;
-	}
-	i = 1;
-	// iterates through the args and prints each one,adding a space 
-	// between them 
-	while (args[i])
-	{
-		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
-		if (args[i + 1])
-			write(STDOUT_FILENO, " ", 1); // print space between args
+		if (args[i][0] == '-' && ft_strcmp(args[i], "-n") == 0)
+			newline = true; // set flag to suppress newline
+		else if (args[i][0] == '-' && args[i][1] == 'n')
+		{
+			// checks if the arg starts with -n and is followed by only 'n's
+			j = 1;
+			while (args[i][j] == 'n')
+				j++;
+			if (args[i][j] == '\0')
+				newline = true; // all characters after -n are 'n'
+			else
+			{
+				newline = false; // other characters present,
+									// do not suppress newline
+				break ; // stop if there are other characters
+			}
+		}
+		else
+			break ; // stop if we encounter a non-flag arg
 		i++;
 	}
+	// iterates through the args and prints each one, adding a space
+	// between them
+	while (args[i] != NULL)
+	{
+		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
+		i++;
+		if (args[i] != NULL)
+			write(STDOUT_FILENO, " ", 1); // print space between args
+	}
 	// if the '-n' isn't used, it prints a newline at the end
-	if (newline)
+	if (!newline)
 		write(STDOUT_FILENO, "\n", 1);
 }
