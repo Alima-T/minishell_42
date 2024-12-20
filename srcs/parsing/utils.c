@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 20:05:56 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:12:11 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ int	open_fd(char *path, char flag)
 	}
 	return (fd); // Return the valid file descriptor
 }
-// Function: handle_redirections
-// Purpose: Handles redirections in the given command and opens appropriate file descriptors
+// Function: handle_redirs
+// Purpose: Handles redirs in the given command and opens appropriate file descriptors
 // Parameters:
-//   - cmds: command structure containing redirection information
-// Note: Supports three types of redirections:
-//   - "<"  : Input redirection
-//   - ">"  : Output redirection (overwrite)
-//   - ">>" : Output redirection (append)
-void	set_redirection(t_cmd *cmds)
+//   - cmds: command structure containing redir information
+// Note: Supports three types of redirs:
+//   - "<"  : Input redir
+//   - ">"  : Output redir (overwrite)
+//   - ">>" : Output redir (append)
+void	set_redir(t_cmd *cmds)
 {
 	t_redir	*tmp;
 	int		it;

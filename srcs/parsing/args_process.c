@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:52:47 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:12:11 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	find_end(char *input, int pos, int *flag)
 		}
 		if (ft_strchr(" \t<|>", input[pos])) //check if current char is a space or tab or redirect( <, >) or pipe (|) .
 		{
-			if (ft_strchr("<|>", input[pos])) //If the char is (<, >, or |) *flag = 1: The flag is set to 1, indicating a single redirection or pipe.
+			if (ft_strchr("<|>", input[pos])) //If the char is (<, >, or |) *flag = 1: The flag is set to 1, indicating a single redir or pipe.
 				*flag = 1;
-			if (ft_strchr("<>", input[pos]) && ft_strchr("<>", input[pos + 1])) //Double Redirection (<< or >>) If the current char is < or > and the next charis also < or >: *flag = 2: The flag is set to 2, indicating a double redirection.
+			if (ft_strchr("<>", input[pos]) && ft_strchr("<>", input[pos + 1])) //Double redir (<< or >>) If the current char is < or > and the next charis also < or >: *flag = 2: The flag is set to 2, indicating a double redir.
 				*flag = 2;
 			return (pos);
 		}
@@ -51,7 +51,7 @@ void	split_input(char *input, t_arg **args, t_shell *mini)
 	int		i;
 	int		start;						// beginning of the current argument
 	int		end;						// end of the current argument
-	int		flag;						// special handling for operators or redirections
+	int		flag;						// special handling for operators or redirs
 	char	*tmp;						// temp storage for the current substring
 	i = 0;
 	flag = 0;
@@ -81,7 +81,7 @@ void	split_input(char *input, t_arg **args, t_shell *mini)
 	}
 }
 
-int	is_redirection(char *arg)
+int	is_redir(char *arg)
 {
 	if ((ft_strcmp(arg, ">") == 0)
 		|| (ft_strcmp(arg, ">>") == 0)
@@ -95,7 +95,7 @@ void	mark_redirect(t_arg *args)
 {
 	while (args)
 	{
-		if (is_redirection(args->arg_val) == 1)
+		if (is_redir(args->arg_val) == 1)
 		{
 			args->redir_flag = 1;
 			args->next->redir_flag = 2;
