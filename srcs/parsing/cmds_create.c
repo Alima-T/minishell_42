@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 15:06:42 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:53:25 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_cmd	*create_cmds_list(t_arg *args)
 	if (!element || !args)
 		return (NULL);
 	element->redir = NULL;
-	element->redir = (struct s_redir *) redirect_processing(&args);
+	element->redir = (struct s_redir *) redirect_process(&args);
 	lists_count = find_cmd(args);
 	element->command = turn_cmd_to_array(args, lists_count);
 	element->inp = 0;
