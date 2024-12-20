@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fake_globals.c                                     :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 17:35:12 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 16:24:47 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/19 17:35:38 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	*exit_status(void)
+// function to list environment variables
+void	builtin_export(void)
 {
-	static int	exit_stat = 0;
+	extern char	**env; // access to the env variables
+	int	i;
 
-	return (&exit_stat);
+	i = 0;
+	while (env[i] != NULL)
+	{
+		// write each env variable to standard output
+		write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
+		write(STDOUT_FILENO, "\n", 1);
+		i++;
+	}
 }

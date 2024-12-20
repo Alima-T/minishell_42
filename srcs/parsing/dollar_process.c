@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 20:07:09 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:27:30 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*question_handle(char *input, int begin, int *i)
 	char	*nbr_val;
 	char	*tail;
 
-	nbr_val = ft_itoa(g_ext_stats);
+	nbr_val = ft_itoa(*exit_status());
 	tmp_1 = ft_substr(input, 0, begin);
 	tmp_2 = ft_strjoin(tmp_1, nbr_val);
 	tail = ft_strdup(&input[*i]);
@@ -109,7 +109,7 @@ char	*question_handle(char *input, int begin, int *i)
 	free(tmp_2);
 	free(tail);
 	free(input);
-	g_ext_stats = 0;
+	*exit_status() = 0;
 	return (line_new);
 }
 

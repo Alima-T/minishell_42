@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fake_globals.c                                     :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 17:35:12 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 16:24:47 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/19 17:35:45 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	*exit_status(void)
+// function to remove an env variable
+void	builtin_unset(char **args)
 {
-	static int	exit_stat = 0;
+	const char	*error_message;
 
-	return (&exit_stat);
+	if (args[1] == NULL)
+	{
+		error_message = "unset: missing arg\n";
+		write(STDERR_FILENO, error_message, ft_strlen(error_message));
+		return ;
+	}
+	// remove the specified env variable
+	unsetenv(args[1]);
 }

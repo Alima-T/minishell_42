@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fake_globals.c                                     :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 17:35:12 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 16:24:47 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/19 17:35:34 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	*exit_status(void)
+// function to terminate the shell
+void	builtin_exit(void)
 {
-	static int	exit_stat = 0;
-
-	return (&exit_stat);
+	// exit the shell with a status code of 0 (indicating success)
+	exit(0);
 }

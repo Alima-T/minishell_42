@@ -1,20 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fake_globals.c                                     :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 17:35:12 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 16:24:47 by tbolsako         ###   ########.fr       */
+/*   Created: 2024/12/16 14:14:03 by tbolsako          #+#    #+#             */
+/*   Updated: 2024/12/20 16:18:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	*exit_status(void)
+// function to print env variables
+int	builtin_env(char **env)
 {
-	static int	exit_stat = 0;
+	int		i;
+	char	**current;
 
-	return (&exit_stat);
+	if (!env || !*env)
+	{
+		perror("env: environment not set");
+		return (1);
+	}
+	current = env;
+	while (*current)
+	{
+		
+		write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
+		write(STDOUT_FILENO, "\n", 1);
+		i++;
+	}
+	return (0);
 }

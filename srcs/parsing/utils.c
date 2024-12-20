@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 20:05:56 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:28:55 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	open_fd(char *path, char flag)
 	if (fd == -1)// Handle errors during file opening
 	{
 		print_msg(1, strerror(errno), 1);  // Print the error message
-		g_ext_stats = 1;                    // Set global error status
-		exit(g_ext_stats);                  // Exit the program
+		*exit_status() = 1;                    // Set global error status
+		exit(*exit_status());                  // Exit the program
 	}
 	return (fd); // Return the valid file descriptor
 }
@@ -109,7 +109,7 @@ int print_msg(int return_val, char *message, int ext_stat)
 	ft_putendl_fd(message, STDERR_FILENO);	
 	// Set the global variable g_ext_stats to the value of ext_stat
 	// This is typically used to track the exit status of commands or errors.
-	g_ext_stats = ext_stat;	
+	*exit_status() = ext_stat;	
 	// Return the value of ret_val
 	// This value is typically used to signal success or failure to the caller.
 	return (return_val);

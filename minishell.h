@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/19 16:52:47 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:30:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 /* g_  global / ext_  external /stats
 	- status: stores the exit status of the last executed external command or process
 	*/
-
-int					g_ext_stats;
+// !!!!!!!!!!!!!!!!!!!!!!!!!!! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ (только в сигналах макс. 1)
+// int					g_ext_stats;
 
 typedef struct s_shell
 {
@@ -129,14 +129,14 @@ char				*is_dollar(char *input, int *i, t_env *env_dup);
 
 /*** # ALIMA end # ***/
 
-/*** # TANJA start # ***/
-
 int					skip_space_tab(char *inp, int i);
 int					open_fd(char *path, char flag);
 void				set_redirection(t_cmd *cmds);
 int					find_end(char *input, int pos, int *flag);
 void				split_input(char *input, t_arg **args, t_shell *minishell);
 t_arg				*process_args(t_shell *minishell);
+
+/*** # TANJA start # ***/
 
 // builtins
 
@@ -147,6 +147,12 @@ void				builtin_export(void);
 void				builtin_unset(char **args);
 void				builtin_env(void);
 void				builtin_exit(void);
+
+// execution
+
+// fake_global
+
+int					*exit_status(void);
 
 // utils
 
