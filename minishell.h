@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 15:12:11 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:49:23 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,10 @@ int					find_cmd(t_arg *args);
 char				**turn_cmd_to_array(t_arg *args, int lists_count);
 t_cmd				*create_cmds_list(t_arg *args);
 
+/*** cmds_process.c  ***/
+
+
+/*** redirect_process.c  ***/
 t_redir				*redirect_process(t_arg **args);
 
 
