@@ -6,20 +6,20 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 16:48:45 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:47:48 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// for perror
+# include <stdio.h>
 # include "./LIBFT/libft.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-// for perror
-# include <stdio.h>
 // for for getenv, setenv
 # include <stdlib.h>
 # include <string.h>
@@ -32,9 +32,11 @@
 // for bool type
 # include <stdbool.h>
 
-# define CLOSE "\001\033[0m\002" // close (escape) any applied text formatting
+# define CLOSE "\001\033[0m\002"
+// close (escape) any applied text formatting
 # define BOLD "\001\033[1m\002" // bold formatting
-# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both x: background y : foreground colors to the text.
+# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002"
+// apply both x: background y : foreground colors to the text.
 
 typedef struct s_shell
 {
@@ -89,6 +91,11 @@ int					print_msg(int return_val, char *message, int ext_stat);
 /***  pars_special_chars.c alima ***/
 char				*parse_special_chars(char *input, t_env *env_dup);
 
+/***  parser.c alima ***/
+// ТАНЯ ДОБАВИЛА
+
+void				parser(t_shell *mini, t_env *env_dup);
+
 /***  args_process.c ***/
 int					find_end(char *input, int pos, int *flag);
 void				split_input(char *input, t_arg **args, t_shell *mini);
@@ -108,13 +115,24 @@ char				*combine_subs(char *input, int start, int end);
 char				*is_quote(char *input, int *i);
 char				*is_double_quote(char *input, int *i, t_env *env_dup);
 
+// ТАНЯ ДОБАВИЛА
+char				*ft_strjoin_con(const char *s1, const char *s2,
+						const char *s3);
+
 /***  dollar_process.c ***/
-char				*replace_env_var(char *input, int start, int end, t_env *env_dup);
+char				*replace_env_var(char *input, int start, int end,
+						t_env *env_dup);
 char				is_valid_char(char c);
 char				*find_in_env(t_env *env_dup, char *key);
-char				*ft_strjoin_connect(char const *s1, char *connect, char const *s2);
+char				*ft_strjoin_connect(char const *s1, char *connect,
+						char const *s2);
 char				*question_handle(char *input, int begin, int *i);
 char				*is_dollar(char *input, int *i, t_env *env_dup);
+
+// ТАНЯ ДОБАВИЛА
+int					key_checker(char c);
+char				*key_handler(char *input, int start, int end,
+						t_env *env_dup);
 
 /*** cmds_create ***/
 int					find_cmd(t_arg *args);
@@ -123,11 +141,13 @@ t_cmd				*create_cmds_list(t_arg *args);
 
 /*** cmds_process.c  ***/
 
-
 /*** redirect_process.c  ***/
 t_redir				*redirect_process(t_arg **args);
 
-
+// ТАНЯ ДОБАВИЛА
+int					redir_first(t_arg **args, t_redir **rdr);
+t_redir				*redir_new(char *type, char *name);
+void				redir_add_end(t_redir **list, t_redir *new);
 
 /*** # ALIMA end # ***/
 
@@ -143,11 +163,11 @@ t_arg				*process_args(t_shell *minishell);
 // builtins
 
 int					builtin_cd(int ac, char *av[]);
-void				builtin_echo(char **args);
+int					builtin_echo(char **args);
 void				builtin_pwd(void);
-void				builtin_export(void);
+void				builtin_export(char **env);
 void				builtin_unset(char **args);
-void				builtin_env(void);
+int					builtin_env(char **env);
 void				builtin_exit(void);
 
 // execution
@@ -157,6 +177,13 @@ void				builtin_exit(void);
 int					*exit_status(void);
 
 // utils
+
+size_t				ft_strcspn(const char *s, const char *reject);
+
+// MAIN
+
+void				execute_cmnd(t_shell *mini);
+void				free_exit(t_shell *mini, int exit_status);
 
 /*** # TANJA end # ***/
 #endif

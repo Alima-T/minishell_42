@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 17:35:23 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:53:56 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	builtin_cd(int ac, char *av[])
 	if (ac > 2) // too many args
 		return (0);
 	handle_missing_env_vars(); // ensure PWD and OLDPWD are set
-	path = get_cd_path(av, ac);
+	path = get_cd_path(ac, av);
 	if (!path)
 		return (1); // error in getting path
 	if (getcwd(oldpwd, sizeof(oldpwd)) == NULL)

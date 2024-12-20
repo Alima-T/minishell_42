@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_special_chars.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:21:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:42:35 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:10:15 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
  * @return The modified input string after processing special characters.
  */
 
-char	*parse_special_chars(char *input, t_env *env_dup) // "", '', $, |, $?, <, >, <<, >>
+// "", '', $, |, $?, <, >, <<, >>
+char	*parse_special_chars(char *input, t_env *env_dup)
 {
 	int i;
 	i = 0;
@@ -35,4 +36,5 @@ char	*parse_special_chars(char *input, t_env *env_dup) // "", '', $, |, $?, <, >
 			input = is_dollar(input, &i, env_dup);
 		i++;
 	}
+	return (input);
 }

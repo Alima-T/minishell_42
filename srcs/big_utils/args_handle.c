@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   args_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:41:55 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:52:55 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "../../minishell.h"
 
 /**
  * Creates a new argument node with the given argument string.
  * Allocates memory for the new node and duplicates the argument string.
- * 
+ *
  * @param arg_str The argument string to be stored in the new node.
  * @param mini A pointer to the shell structure (not used in this function).
- * @return A pointer to the newly created argument node, or NULL if allocation fails.
+ * @return A pointer to the newly created argument node,
+	or NULL if allocation fails.
  */
 t_arg	*new_arg(char *arg_str, t_shell *mini)
 {
@@ -38,11 +40,11 @@ t_arg	*new_arg(char *arg_str, t_shell *mini)
 /**
  * Adds a new argument node to the end of the linked list.
  * If the list is empty, the new node becomes the head of the list.
- * 
+ *
  * @param lst A double pointer to the head of the list.
  * @param new A pointer to the new argument node to be added.
  */
-void	add_arg_end(t_arg	**lst, t_arg *new)
+void	add_arg_end(t_arg **lst, t_arg *new)
 {
 	t_arg	*last;
 
@@ -62,7 +64,7 @@ void	add_arg_end(t_arg	**lst, t_arg *new)
 /**
  * Deletes the first node in the argument list.
  * Frees the memory allocated for the argument string and the node itself.
- * 
+ *
  * @param args A double pointer to the head of the argument list.
  */
 void	del_first_node(t_arg **args)
@@ -80,7 +82,7 @@ void	del_first_node(t_arg **args)
 
 /**
  * Deletes a specific argument node and frees its memory.
- * 
+ *
  * @param lst A pointer to the argument node to be deleted.
  */
 void	del_one(t_arg *lst)
@@ -96,7 +98,7 @@ void	del_one(t_arg *lst)
 /**
  * Destroys the entire argument list by deleting each node.
  * Frees all allocated memory for the argument strings and nodes.
- * 
+ *
  * @param lst A double pointer to the head of the argument list.
  */
 void	list_destroy(t_arg **lst)
@@ -113,4 +115,3 @@ void	list_destroy(t_arg **lst)
 	}
 	*lst = NULL;
 }
-

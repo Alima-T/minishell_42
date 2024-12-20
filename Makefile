@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
+#    By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 18:05:01 by aokhapki          #+#    #+#              #
-#    Updated: 2024/12/13 19:40:37 by aokhapki         ###   ########.fr        #
+#    Updated: 2024/12/20 18:34:11 by tbolsako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,16 +21,18 @@ CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror
 RM          = rm -f
 
+INCLUDES	= -I./include -I./LIBFT
+
 all:        $(NAME)
 
-$(NAME):    $(OBJS) include
+$(NAME):    $(OBJS) $(LIB_DIR)/libft.a
 			@echo "\033[0;34m---- Compiling Minishell Project ----\033[0m"
-			@make -C $(LIB_DIR)
-			@$(CC) $(CFLAGS) $(OBJS) $(LIB_DIR)/libft.a -o $(NAME)
+			@make -C $(LIB_DIR) || { echo "Failed to build libft"; exit 1; }
+			@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIB_DIR)/libft.a -o $(NAME) -lreadline
 			@echo "\033[0;32mMinishell is ready to run!\033[0m"
 
 %.o:        %.c
-			@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER)
+			@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 			@make clean -C $(LIB_DIR)
