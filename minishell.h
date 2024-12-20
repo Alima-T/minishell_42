@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/12/20 16:30:16 by tbolsako         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/20 15:49:23 by aokhapki         ###   ########.fr       */
+>>>>>>> 5944c644ab6b4c749c3555d14bd7b7c5fac51fa7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +36,22 @@
 // for bool type
 # include <stdbool.h>
 
-# define CLOSE "\001\033[0m\002"
-// close (escape) any applied text formatting
+# define CLOSE "\001\033[0m\002" // close (escape) any applied text formatting
 # define BOLD "\001\033[1m\002" // bold formatting
-# define BEGIN(x, y) \
-	"\001\033[" #x ";" #y "m\002" // apply both x: background,
-									// y : foreground colors to the text.
+# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both x: background y : foreground colors to the text.
 
 /* g_  global / ext_  external /stats
+<<<<<<< HEAD
 	- status: stores the exit status of the last executed external command or process
 	*/
 // !!!!!!!!!!!!!!!!!!!!!!!!!!! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ (только в сигналах макс. 1)
 // int					g_ext_stats;
+=======
+- status: stores the exit status of the last executed external command or process
+*/
+// ONLY ONE GLOBAL VAR 
+int					g_ext_stats;
+>>>>>>> 5944c644ab6b4c749c3555d14bd7b7c5fac51fa7
 
 typedef struct s_shell
 {
@@ -71,12 +79,12 @@ typedef struct s_arg
 typedef struct s_cmd
 {
 	char			**command;
-	int				in;
+	int				inp;
 	int				out;
 	int				pipe_fd[2];
 	int				fork;
 	pid_t			pid;
-	struct s_rdr	*redir;
+	struct s_redir	*redir;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -87,12 +95,12 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
-/*** #ALIMA start # *** */
+/*** #ALIMA start # ***/
 
 /*** utils ***/
 int					skip_space_tab(char *inp, int i);
 int					open_fd(char *path, char flag);
-void				set_redirection(t_cmd *cmds);
+void				set_redir(t_cmd *cmds);
 int					print_msg(int return_val, char *message, int ext_stat);
 
 /***  pars_special_chars.c alima ***/
@@ -101,7 +109,7 @@ char				*parse_special_chars(char *input, t_env *env_dup);
 /***  args_process.c ***/
 int					find_end(char *input, int pos, int *flag);
 void				split_input(char *input, t_arg **args, t_shell *mini);
-int					is_redirection(char *arg);
+int					is_redir(char *arg);
 void				mark_redirect(t_arg *args);
 t_arg				*process_args(t_shell *minishell);
 
@@ -118,20 +126,31 @@ char				*is_quote(char *input, int *i);
 char				*is_double_quote(char *input, int *i, t_env *env_dup);
 
 /***  dollar_process.c ***/
-char				*replace_env_var(char *input, int start, int end,
-						t_env *env_dup);
+char				*replace_env_var(char *input, int start, int end, t_env *env_dup);
 char				is_valid_char(char c);
 char				*find_in_env(t_env *env_dup, char *key);
-char				*ft_strjoin_connect(char const *s1, char *connect,
-						char const *s2);
+char				*ft_strjoin_connect(char const *s1, char *connect, char const *s2);
 char				*question_handle(char *input, int begin, int *i);
 char				*is_dollar(char *input, int *i, t_env *env_dup);
+
+/*** cmds_create ***/
+int					find_cmd(t_arg *args);
+char				**turn_cmd_to_array(t_arg *args, int lists_count);
+t_cmd				*create_cmds_list(t_arg *args);
+
+/*** cmds_process.c  ***/
+
+
+/*** redirect_process.c  ***/
+t_redir				*redirect_process(t_arg **args);
+
+
 
 /*** # ALIMA end # ***/
 
 int					skip_space_tab(char *inp, int i);
 int					open_fd(char *path, char flag);
-void				set_redirection(t_cmd *cmds);
+void				set_redir(t_cmd *cmds);
 int					find_end(char *input, int pos, int *flag);
 void				split_input(char *input, t_arg **args, t_shell *minishell);
 t_arg				*process_args(t_shell *minishell);

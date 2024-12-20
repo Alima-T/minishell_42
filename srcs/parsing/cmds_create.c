@@ -6,13 +6,13 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/19 15:43:43 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:53:25 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	find_cmd(t_arg *args) // not sure
+int	find_cmd(t_arg *args) // TODO not sure, check it
 {
 	t_arg	*tmp;
 	int		count;
@@ -30,11 +30,8 @@ int	find_cmd(t_arg *args) // not sure
 }
 
 /*
-t_arg *args
-Указатель на заголовок связанного списка ( t_arg структ), где каждый узел содерж аргумент ( arg_val) 
-
-int lists_count
-Кол-во узлов (арг) в связанном списке, сколько элементов необходимо преобразовать в массив.
+t_arg *args Указатель на заголовок связанного списка ( t_arg структ), где каждый узел содерж аргумент ( arg_val) 
+int lists_count Кол-во узлов (арг) в связанном списке, сколько элементов необходимо преобразовать в массив.
 */
 char	**turn_cmd_to_array(t_arg *args, int lists_count)
 {
@@ -57,7 +54,23 @@ char	**turn_cmd_to_array(t_arg *args, int lists_count)
 	return (args_array);// Return the created array of strings
 }
 
-// t_cmd	*create_cmds_list(t_arg *args)
-// {
-// 	int lists_
-// }
+t_cmd	*create_cmds_list(t_arg *args)
+{
+	int lists_count;
+	t_cmd *element;
+	
+	element = (t_cmd *) malloc(sizeof(t_cmd));
+	if (!element || !args)
+		return (NULL);
+	element->redir = NULL;
+	element->redir = (struct s_redir *) redirect_process(&args);
+	lists_count = find_cmd(args);
+	element->command = turn_cmd_to_array(args, lists_count);
+	element->inp = 0;
+	element->out = 1;
+	element->fork = 0;
+	element->pipe_fd[0] = 0;
+	element->pipe_fd[1] = 0;
+	element->next = NULL;
+	return (element);
+}
