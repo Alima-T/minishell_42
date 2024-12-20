@@ -6,11 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/12/20 16:28:55 by tbolsako         ###   ########.fr       */
-=======
-/*   Updated: 2024/12/20 15:12:11 by aokhapki         ###   ########.fr       */
->>>>>>> 5944c644ab6b4c749c3555d14bd7b7c5fac51fa7
+/*   Updated: 2024/12/20 16:34:52 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +77,22 @@ int	open_fd(char *path, char flag)
 void	set_redir(t_cmd *cmds)
 {
 	t_redir	*tmp;
-	int		it;
+	int		i;
 
 	if (cmds == NULL)
 		return ;
-	i= 0;
+	i = 0;
 	tmp = (t_redir *) cmds->redir;
 	while (tmp)
 	{
 		if (ft_strcmp("<", tmp->type) == 0)
-			cmds->in = open_fd(tmp->name, 'I');
+			cmds->inp = open_fd(tmp->name, 'I');
 		if (ft_strcmp(">", tmp->type) == 0)
 			cmds->out = open_fd(tmp->name, 'O');
 		if (ft_strcmp(">>", tmp->type) == 0)
 			cmds->out = open_fd(tmp->name, 'A');
 		tmp = tmp->next;
-		it++;
+		i++;
 	}
 }
 

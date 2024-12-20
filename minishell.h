@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/12/20 16:30:16 by tbolsako         ###   ########.fr       */
-=======
-/*   Updated: 2024/12/20 15:49:23 by aokhapki         ###   ########.fr       */
->>>>>>> 5944c644ab6b4c749c3555d14bd7b7c5fac51fa7
+/*   Updated: 2024/12/20 16:33:41 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +37,10 @@
 # define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both x: background y : foreground colors to the text.
 
 /* g_  global / ext_  external /stats
-<<<<<<< HEAD
 	- status: stores the exit status of the last executed external command or process
 	*/
 // !!!!!!!!!!!!!!!!!!!!!!!!!!! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ (только в сигналах макс. 1)
 // int					g_ext_stats;
-=======
-- status: stores the exit status of the last executed external command or process
-*/
-// ONLY ONE GLOBAL VAR 
-int					g_ext_stats;
->>>>>>> 5944c644ab6b4c749c3555d14bd7b7c5fac51fa7
 
 typedef struct s_shell
 {
