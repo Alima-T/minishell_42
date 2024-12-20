@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/19 14:16:58 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:52:47 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,30 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+// for perror
 # include <stdio.h>
+// for for getenv, setenv
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
+// for chdir, getcwd
 # include <unistd.h>
+// for PATH_MAX
+# include <limits.h>
+// for bool type
+# include <stdbool.h>
 
-# define CLOSE "\001\033[0m\002" // close (escape) any applied text formatting
-# define BOLD "\001\033[1m\002"  // bold formatting
-# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002" // apply both x: background, y: foreground colors to the text.
+# define CLOSE "\001\033[0m\002"
+// close (escape) any applied text formatting
+# define BOLD "\001\033[1m\002" // bold formatting
+# define BEGIN(x, y) \
+	"\001\033[" #x ";" #y "m\002" // apply both x: background,
+									// y : foreground colors to the text.
 
-/* g_  global / ext_  external /stats - status: stores the exit status of the last executed external command or process
-*/
+/* g_  global / ext_  external /stats
+	- status: stores the exit status of the last executed external command or process
+	*/
 
 int					g_ext_stats;
 
@@ -111,13 +122,12 @@ char				*replace_env_var(char *input, int start, int end,
 						t_env *env_dup);
 char				is_valid_char(char c);
 char				*find_in_env(t_env *env_dup, char *key);
-char				*ft_strjoin_connect(char const *s1, char *connect, char const *s2);
+char				*ft_strjoin_connect(char const *s1, char *connect,
+						char const *s2);
 char				*question_handle(char *input, int begin, int *i);
 char				*is_dollar(char *input, int *i, t_env *env_dup);
 
 /*** # ALIMA end # ***/
-
-
 
 /*** # TANJA start # ***/
 
@@ -130,7 +140,7 @@ t_arg				*process_args(t_shell *minishell);
 
 // builtins
 
-void				builtin_cd(char **args);
+int					builtin_cd(int ac, char *av[]);
 void				builtin_echo(char **args);
 void				builtin_pwd(void);
 void				builtin_export(void);
