@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:33:23 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 18:25:05 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:21:00 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /**
  обрабатывает список аргументов ( t_argсвязанный список) и обрабатывает флаги перенаправления,
 	обновляя список перенаправления ( t_redir).
- *
  */
 // Function to handle the first redirection
 int	redir_first(t_arg **args, t_redir **rdr)

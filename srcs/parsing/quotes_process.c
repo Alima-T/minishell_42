@@ -3,74 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 18:19:58 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:27:45 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * Concatenates three strings into a new dynamically allocated string.
- *
- * @param s1 The first string to concatenate.
- * @param s2 The second string to concatenate.
- * @param s3 The third string to concatenate.
+// /**
+//  * Concatenates three strings into a new dynamically allocated string.
+//  *
+//  * @param s1 The first string to concatenate.
+//  * @param s2 The second string to concatenate.
+//  * @param s3 The third string to concatenate.
 
-	* @return A pointer to the newly allocated string containing the concatenated result,
- *         or NULL if allocation fails.
- */
-char	*ft_strjoin_con(const char *s1, const char *s2, const char *s3)
-{
-	size_t	len1;
-	size_t	len2;
-	size_t	len3;
-	size_t	total_length;
-	char	*result;
-	char	*ptr;
+// 	* @return A pointer to the newly allocated string containing the concatenated result,
+//  *         or NULL if allocation fails.
+//  */
+// char	*ft_strjoin_con(const char *s1, const char *s2, const char *s3)
+// {
+// 	size_t	len1;
+// 	size_t	len2;
+// 	size_t	len3;
+// 	size_t	total_length;
+// 	char	*result;
+// 	char	*ptr;
 
-	// Calculate the lengths of the strings
-	if (s1 != NULL)
-		len1 = ft_strlen(s1);
-	else
-		len1 = 0;
-	if (s2 != NULL)
-		len2 = ft_strlen(s2);
-	else
-		len2 = 0;
-	if (s3 != NULL)
-		len3 = ft_strlen(s3);
-	else
-		len3 = 0;
-	// Calculate total length for the new string
-	total_length = len1 + len2 + len3;
-	// Allocate memory for the new string (+1 for the null terminator)
-	result = (char *)malloc(total_length + 1);
-	if (result == NULL)
-		return (NULL); // Return NULL if allocation fails
-	// Copy the strings into the new string
-	ptr = result;
-	if (s1 != NULL)
-	{
-		ft_memcpy(ptr, s1, len1);
-		ptr += len1;
-	}
-	if (s2 != NULL)
-	{
-		ft_memcpy(ptr, s2, len2);
-		ptr += len2;
-	}
-	if (s3 != NULL)
-	{
-		ft_memcpy(ptr, s3, len3);
-		ptr += len3;
-	}
-	// Null-terminate the new string
-	result[total_length] = '\0';
-	return (result); // Return the concatenated string
-}
+// 	// Calculate the lengths of the strings
+// 	if (s1 != NULL)
+// 		len1 = ft_strlen(s1);
+// 	else
+// 		len1 = 0;
+// 	if (s2 != NULL)
+// 		len2 = ft_strlen(s2);
+// 	else
+// 		len2 = 0;
+// 	if (s3 != NULL)
+// 		len3 = ft_strlen(s3);
+// 	else
+// 		len3 = 0;
+// 	// Calculate total length for the new string
+// 	total_length = len1 + len2 + len3;
+// 	// Allocate memory for the new string (+1 for the null terminator)
+// 	result = (char *)malloc(total_length + 1);
+// 	if (result == NULL)
+// 		return (NULL); // Return NULL if allocation fails
+// 	// Copy the strings into the new string
+// 	ptr = result;
+// 	if (s1 != NULL)
+// 	{
+// 		ft_memcpy(ptr, s1, len1);
+// 		ptr += len1;
+// 	}
+// 	if (s2 != NULL)
+// 	{
+// 		ft_memcpy(ptr, s2, len2);
+// 		ptr += len2;
+// 	}
+// 	if (s3 != NULL)
+// 	{
+// 		ft_memcpy(ptr, s3, len3);
+// 		ptr += len3;
+// 	}
+// 	// Null-terminate the new string
+// 	result[total_length] = '\0';
+// 	return (result); // Return the concatenated string
+// }
 
 /**
 

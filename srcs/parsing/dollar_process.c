@@ -3,58 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 18:07:41 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:36:21 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// Function to check if a character is a valid key character for environment variables
-int	key_checker(char c)
+// check if a character is a valid key character (underscore or alphanumeric).
+char	is_valid_char(char c)
 {
-	// Check if the character is a letter, digit, or underscore
-	return (ft_isalpha(c) || ft_isdigit(c) || c == '_');
+	if (c == '_' || ft_isalnum(c))
+		return (1); // valid
+	return (0);     // false
 }
 
-// Function to handle the extraction and replacement of an environment variable
-char	*key_handler(char *input, int start, int end, t_env *env_dup)
-{
-	char	*key;
-	char	*value;
-	char	*new_input;
-	int		key_length;
-
-	// Extract the key from the input string
-	key_length = end - start;
-	key = ft_substr(input, start, key_length); // Extract the key substring
-	// Find the value of the key in the environment
-	value = find_in_env(env_dup, key);
-		// Assuming find_in_env retrieves the value
-	// Create a new input string with the replaced value
-	if (value)
-	{
-		// Create new input with the value replacing the key
-		new_input = ft_strjoin(ft_substr(input, 0, start), value);
-		char *temp = new_input;                        
-			// Store the new input temporarily
-		new_input = ft_strjoin(new_input, input + end);
-			// Append the rest of the input
-		free(temp);                                    
-			// Free the temporary string
-	}
-	else
-	{
-		// If the key is not found, return the original input
-		new_input = ft_strdup(input);
-	}
-	free(key);        // Free the key string
-	return (new_input); // Return the new input string
-}
-
-//
 // Replaces an environment variable in the input string with its corresponding value.
 // It extracts the key from the input, retrieves its value from the environment,
 // and constructs a new string with the substituted value.
@@ -64,7 +29,6 @@ char	*replace_env_var(char *input, int start, int end, t_env *env_dup)
 	char	*tmp2;
 	char	*tmp3;
 	char	*key;
-
 	// Extract the environment variable key from the input string.
 	// The key starts after the '$' symbol and ends at the position of 'end'.
 	// We take a substring from 'begin + 1' to 'end - begin - 1' to get the key.
@@ -77,59 +41,12 @@ char	*replace_env_var(char *input, int start, int end, t_env *env_dup)
 	if (tmp2 == NULL)
 		input = ft_strjoin(tmp1, tmp3);
 	else
-		input = ft_strjoin_connect(tmp1, tmp2, tmp3);
+		input = ft_strjoin_con(tmp1, tmp2, tmp3);
 	free(tmp1);
 	free(tmp2);
 	free(tmp3);
 	free(key);
 	return (input);
-}
-
-// check if a character is a valid key character (underscore or alphanumeric).
-char	is_valid_char(char c)
-{
-	if (c == '_' || ft_isalnum(c))
-		return (1); // valid
-	return (0);     // false
-}
-
-char	*find_in_env(t_env *env_dup, char *key)
-{
-	if (!env_dup || !key)
-		return (NULL);
-	while (env_dup)
-	{
-		if (!ft_strcmp(env_dup->key, key))
-			return (env_dup->value);
-		env_dup = env_dup->next;
-	}
-	return (NULL);
-}
-
-char	*ft_strjoin_connect(char const *s1, char *connect, char const *s2)
-{
-	char	*new_str;
-	size_t	x;
-	size_t	y;
-
-	if (!s1 || !connect || !s2)
-		return (NULL);
-	new_str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(connect)
-				+ ft_strlen(s2) + 1));
-	if (!new_str)
-		return (NULL);
-	x = 0;
-	y = 0;
-	while (s1[y])
-		new_str[x++] = s1[y++];
-	y = 0;
-	while (connect[y])
-		new_str[x++] = connect[y++];
-	y = 0;
-	while (s2[y])
-		new_str[x++] = s2[y++];
-	new_str[x] = '\0';
-	return (new_str);
 }
 
 // This function handles the case when a question mark is encountered in the input string.
@@ -173,11 +90,11 @@ char	*is_dollar(char *input, int *i, t_env *env_dup)
 	}
 	while (input[++(*i)])
 	{
-		if (!key_checker(input[*i]))
+		if (!is_valid_char(input[*i]))
 			break ;
 	}
 	if (*i == begin + 1)
 		return (input);
-	input = key_handler(input, begin, *i, env_dup);
+	input = replace_env_var(input, begin, *i, env_dup);
 	return (input);
 }

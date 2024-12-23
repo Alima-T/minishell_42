@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_special_chars.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:21:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 18:10:15 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:08:09 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
  * @param env_dup A pointer to the environment variables (used for variable expansion).
  * @return The modified input string after processing special characters.
  */
-
 // "", '', $, |, $?, <, >, <<, >>
+
 char	*parse_special_chars(char *input, t_env *env_dup)
 {
 	int i;

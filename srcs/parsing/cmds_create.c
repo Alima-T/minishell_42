@@ -6,13 +6,13 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 15:53:25 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:05:53 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	find_cmd(t_arg *args) // TODO not sure, check it
+int	find_cmd(t_arg *args)
 {
 	t_arg	*tmp;
 	int		count;
@@ -20,11 +20,15 @@ int	find_cmd(t_arg *args) // TODO not sure, check it
 	if (!args)
 		return (0);
 	tmp = args;
-	count = 0;
-	while (tmp)
+	count = 1;
+	if (ft_strcmp("|", tmp->arg_val) == 0)
+		return (0);
+	while (tmp->next)
 	{
-		count++;
 		tmp = tmp->next;
+		if (ft_strcmp(tmp->arg_val, "|") == 0)
+			return (count);
+		count++;
 	}
 	return (count);
 }
@@ -73,4 +77,21 @@ t_cmd	*create_cmds_list(t_arg *args)
 	element->pipe_fd[1] = 0;
 	element->next = NULL;
 	return (element);
+}
+
+void	add_cmd_lst_end(t_cmd **list, t_cmd *new) 
+{
+	t_cmd	*last;
+
+	if (!list || !new)
+		exit(EXIT_FAILURE);
+	if (*list)
+	{
+		last = *list;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
+	else
+		*list = new;
 }
