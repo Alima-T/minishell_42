@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 18:47:48 by tbolsako         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:57:37 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,83 +80,79 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
-/*** #ALIMA start # ***/
+				/*** #ALIMA start # ***/
 
-/*** utils ***/
-int					skip_space_tab(char *inp, int i);
-int					open_fd(char *path, char flag);
-void				set_redir(t_cmd *cmds);
-int					print_msg(int return_val, char *message, int ext_stat);
-
-/***  pars_special_chars.c alima ***/
-char				*parse_special_chars(char *input, t_env *env_dup);
-
-/***  parser.c alima ***/
-// ТАНЯ ДОБАВИЛА
-
-void				parser(t_shell *mini, t_env *env_dup);
-
-/***  args_process.c ***/
-int					find_end(char *input, int pos, int *flag);
-void				split_input(char *input, t_arg **args, t_shell *mini);
-int					is_redir(char *arg);
-void				mark_redirect(t_arg *args);
-t_arg				*process_args(t_shell *minishell);
-
+				/*** BIG_UTILS  ***/
 /***  args_handle.c  ***/
 void				add_arg_end(t_arg **lst, t_arg *new);
-t_arg				*new_arg(char *arg_str, t_shell *mini);
 void				del_first_node(t_arg **args);
 void				del_one(t_arg *lst);
 void				list_destroy(t_arg **lst);
+t_arg				*new_arg(char *arg_str, t_shell *mini);
+/* env_handle.c */
+char				*find_in_env(t_env *env_dup, char *key);
 
-/***  quotes_process.c  ***/
-char				*combine_subs(char *input, int start, int end);
-char				*is_quote(char *input, int *i);
-char				*is_double_quote(char *input, int *i, t_env *env_dup);
+				/*** PARSING  */
+/***  args_process.c ***/
+int					find_end(char *input, int pos, int *flag);
+int					is_redir(char *arg);
+void				mark_redirect(t_arg *args);
+void				split_input(char *input, t_arg **args, t_shell *mini);
+t_arg				*process_args(t_shell *minishell);
+/*** cmds_create    ***/
+int					find_cmd(t_arg *args);
+char				**turn_cmd_to_array(t_arg *args, int lists_count);
+t_cmd				*create_cmds_list(t_arg *args);
+void				add_cmd_lst_end(t_cmd **list, t_cmd *new);
 
-// ТАНЯ ДОБАВИЛА
-char				*ft_strjoin_con(const char *s1, const char *s2,
-						const char *s3);
-
+/*** cmds_process.c ***/
+t_cmd				*cmds_processing(t_shell *mini);
 /***  dollar_process.c ***/
 char				*replace_env_var(char *input, int start, int end,
 						t_env *env_dup);
 char				is_valid_char(char c);
 char				*find_in_env(t_env *env_dup, char *key);
-char				*ft_strjoin_connect(char const *s1, char *connect,
-						char const *s2);
 char				*question_handle(char *input, int begin, int *i);
 char				*is_dollar(char *input, int *i, t_env *env_dup);
-
-// ТАНЯ ДОБАВИЛА
-int					key_checker(char c);
-char				*key_handler(char *input, int start, int end,
-						t_env *env_dup);
-
-/*** cmds_create ***/
-int					find_cmd(t_arg *args);
-char				**turn_cmd_to_array(t_arg *args, int lists_count);
-t_cmd				*create_cmds_list(t_arg *args);
-
-/*** cmds_process.c  ***/
-
-/*** redirect_process.c  ***/
-t_redir				*redirect_process(t_arg **args);
-
-// ТАНЯ ДОБАВИЛА
-int					redir_first(t_arg **args, t_redir **rdr);
-t_redir				*redir_new(char *type, char *name);
-void				redir_add_end(t_redir **list, t_redir *new);
-
-/*** # ALIMA end # ***/
-
+/***  envp_prosess.c ***/
+char				*copy_value(char *env_part);
+char				*copy_key(char *env_part);
+void				envl_lstadd_back(t_env	**list, t_env *new);
+t_env				*envl_lstnew(char *env_str);
+t_env				*copy_envp(char **envp);
+/***  pars_special_chars.c ***/
+char				*parse_special_chars(char *input, t_env *env_dup);
+/*** parse_utils.c    ***/
 int					skip_space_tab(char *inp, int i);
 int					open_fd(char *path, char flag);
 void				set_redir(t_cmd *cmds);
-int					find_end(char *input, int pos, int *flag);
-void				split_input(char *input, t_arg **args, t_shell *minishell);
-t_arg				*process_args(t_shell *minishell);
+/***  parser.c     ***/
+void				parser(t_shell *mini, t_env *env_dup);
+/***  quotes_process.c  ***/
+char				*combine_subs(char *input, int start, int end);
+char				*is_quote(char *input, int *i);
+char				*is_double_quote(char *input, int *i, t_env *env_dup);
+				/*** PRINTING  ***/
+/* print_msgs.c*/
+int 				print_msg(int return_val, char *message, int exit_stat);
+				/*** VALIDATION ***/
+/*** validator.c ***/
+int					start_check(char *input, int i);
+int					count_pipe_delim(char *input, int i);
+int					count_quote(char *input, int *i, char quote);
+int					finish_check(char *input, int *i);
+int					validator(char *input);
+/*** validate_redir.c ***/
+int					redir_reading(char *input, int *i);
+int					redir_writing(char *input, int *i);
+int					redir_counting(char *input, int *i, char redir);
+/*** redirect_process.c  ***/
+int					redir_first(t_arg **args, t_redir **rdr);
+void				redir_add_end(t_redir **list, t_redir *new);
+t_redir				*redirect_process(t_arg **args);
+t_redir				*redir_new(char *type, char *name);
+
+/*** # ALIMA end # ***/
 
 /*** # TANJA start # ***/
 
