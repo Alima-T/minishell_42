@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:26:24 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/13 19:46:04 by aokhapki         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:35:52 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,5 @@ void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
+char				*ft_strjoin_con(char const *s1, char *connector, char const *s2);
 #endif

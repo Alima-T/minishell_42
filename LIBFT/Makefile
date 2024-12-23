@@ -6,7 +6,7 @@
 #    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 14:27:44 by aokhapki          #+#    #+#              #
-#    Updated: 2024/12/13 19:46:19 by aokhapki         ###   ########.fr        #
+#    Updated: 2024/12/23 13:36:16 by aokhapki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SOURCE			=	ft_atoi.c \
 					ft_itoa.c \
 					ft_strmapi.c \
 					ft_striteri.c \
+					ft_strjoin_con.c\
 					ft_split.c 
 OBJS			=	$(SOURCE:.c=.o)
 BONUS			=	ft_lstadd_front.c \
