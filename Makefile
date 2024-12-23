@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+         #
+#    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 18:05:01 by aokhapki          #+#    #+#              #
-#    Updated: 2024/12/20 18:34:11 by tbolsako         ###   ########.fr        #
+#    Updated: 2024/12/23 12:51:16 by aokhapki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,28 +21,26 @@ CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror
 RM          = rm -f
 
-INCLUDES	= -I./include -I./LIBFT
-
 all:        $(NAME)
 
-$(NAME):    $(OBJS) $(LIB_DIR)/libft.a
+$(NAME):    $(OBJS)
 			@echo "\033[0;34m---- Compiling Minishell Project ----\033[0m"
 			@make -C $(LIB_DIR) || { echo "Failed to build libft"; exit 1; }
-			@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIB_DIR)/libft.a -o $(NAME) -lreadline
+			@$(CC) $(CFLAGS) $(OBJS) $(LIB_DIR)/libft.a -o $(NAME) -lreadline
 			@echo "\033[0;32mMinishell is ready to run!\033[0m"
 
 %.o:        %.c
-			@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+			@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER)
 
 clean:
 			@make clean -C $(LIB_DIR)
 			@$(RM) $(OBJS)
-			@echo "\033[0;31mCleaned up object files!\033[0m"
+			@echo "\033[0;33mCleaned up object files!\033[0m"
 
 fclean:      clean
 			@make fclean -C $(LIB_DIR)
 			@$(RM) $(NAME)
-			@echo "\033[0;31mCompletely cleaned the project!\033[0m"
+			"\033[0;33mCompletely cleaned the project!\033[0m"
 
 re:          fclean all
 
