@@ -25,12 +25,14 @@
 # include <string.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 // for chdir, getcwd
 # include <unistd.h>
 // for PATH_MAX
 # include <limits.h>
 // for bool type
 # include <stdbool.h>
+# include <termios.h>
 
 # define CLOSE "\001\033[0m\002"
 // close (escape) any applied text formatting
