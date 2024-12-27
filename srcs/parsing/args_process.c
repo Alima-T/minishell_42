@@ -12,6 +12,20 @@
 
 #include "../../minishell.h"
 /*
+Summary of Functions:
+1. find_end:
+This function identifies the end position of a token in the input string, handling quoted strings and checking for redirection or pipe characters. It updates the flag to indicate if a special operator was found.
+split_input:
+This function splits the input string into individual arguments, handling special operators and whitespace. It uses find_end to determine the boundaries of each token and adds them to the argument list.
+is_redir:
+This function checks if a given argument is a redirection operator (e.g., >, >>, <, <<). It returns 1 if it is a redirection operator and 0 otherwise.
+4. mark_redirect:
+This function traverses the argument list and sets flags for redirection operators. It marks the operator with a redir_flag of 1 and the following argument with a redir_flag of 2.
+5. process_args:
+This function orchestrates the processing of arguments by calling split_input to parse the input string and mark_redirect to set the appropriate flags. It returns the list of processed arguments.
+This code is part of a parser for a shell-like environment, responsible for interpreting command-line input, handling arguments, and managing redirection operators.
+*/
+/*
 int *flag:
 Указатель на целое число, которое будет обновлено для указания условий анализа:
 0: По умолчанию, никаких особых условий не обнаружено.
@@ -46,6 +60,13 @@ int	find_end(char *input, int pos, int *flag)
 	return (pos);
 }
 
+/**
+ * Splits the input string into arguments and handles special operators.
+ *
+ * @param input The input string to be split.
+ * @param args A double pointer to the list of arguments.
+ * @param mini A pointer to the shell structure.
+ */
 void	split_input(char *input, t_arg **args, t_shell *mini)
 {
 	int		i;
@@ -81,6 +102,12 @@ void	split_input(char *input, t_arg **args, t_shell *mini)
 	}
 }
 
+/**
+ * Checks if the given argument is a redirection operator.
+ *
+ * @param arg The argument string to check.
+ * @return 1 if the argument is a redirection operator, 0 otherwise.
+ */
 int	is_redir(char *arg)
 {
 	if ((ft_strcmp(arg, ">") == 0)
@@ -91,6 +118,13 @@ int	is_redir(char *arg)
 	return (0);
 }
 
+
+/**
+ * Marks redirection flags in the argument list.
+ * Sets the redir_flag for redirection operators and their following arguments.
+ *
+ * @param args A pointer to the list of arguments.
+ */
 void	mark_redirect(t_arg *args)
 {
 	while (args)
@@ -106,6 +140,13 @@ void	mark_redirect(t_arg *args)
 	}
 }
 
+/**
+ * Processes the arguments from the shell structure.
+ * Splits the input string into arguments and marks redirection flags.
+ *
+ * @param minishell A pointer to the shell structure containing input and arguments.
+ * @return A pointer to the list of processed arguments.
+ */
 t_arg	*process_args(t_shell *minishell)
 {
 	split_input(minishell->input, &(minishell->args), minishell);

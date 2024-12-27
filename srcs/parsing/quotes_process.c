@@ -10,73 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+Summary of Functions:
+1. copy_value:
+This function duplicates the value part of an environment variable string (in the format KEY=VALUE). It returns the duplicated value or NULL if no value exists.
+copy_key:
+This function duplicates the key part of an environment variable string. It returns the duplicated key.
+3. envl_lstnew:
+This function creates a new environment variable node. It allocates memory for the node, duplicates the entire environment variable string, extracts the key and value, and initializes the node's fields.
+4. envl_lstadd_back:
+This function adds a new environment variable node to the end of a linked list. It checks if the list is empty and either sets the new node as the head or traverses to the end of the list and links the new node there.
+copy_envp:
+This function copies the environment variables from an array into a linked list. It iterates through the array, creating new nodes for each environment variable and adding them to the linked list.
+This code is part of a system for managing environment variables in a shell-like environment, allowing for the storage and retrieval of key-value pairs representing environment settings. It ensures proper memory management and linked list operations for the environment variables.
+*/
+
 #include "../../minishell.h"
 
-// /**
-//  * Concatenates three strings into a new dynamically allocated string.
-//  *
-//  * @param s1 The first string to concatenate.
-//  * @param s2 The second string to concatenate.
-//  * @param s3 The third string to concatenate.
-
-// 	* @return A pointer to the newly allocated string containing the concatenated result,
-//  *         or NULL if allocation fails.
-//  */
-// char	*ft_strjoin_con(const char *s1, const char *s2, const char *s3)
-// {
-// 	size_t	len1;
-// 	size_t	len2;
-// 	size_t	len3;
-// 	size_t	total_length;
-// 	char	*result;
-// 	char	*ptr;
-
-// 	// Calculate the lengths of the strings
-// 	if (s1 != NULL)
-// 		len1 = ft_strlen(s1);
-// 	else
-// 		len1 = 0;
-// 	if (s2 != NULL)
-// 		len2 = ft_strlen(s2);
-// 	else
-// 		len2 = 0;
-// 	if (s3 != NULL)
-// 		len3 = ft_strlen(s3);
-// 	else
-// 		len3 = 0;
-// 	// Calculate total length for the new string
-// 	total_length = len1 + len2 + len3;
-// 	// Allocate memory for the new string (+1 for the null terminator)
-// 	result = (char *)malloc(total_length + 1);
-// 	if (result == NULL)
-// 		return (NULL); // Return NULL if allocation fails
-// 	// Copy the strings into the new string
-// 	ptr = result;
-// 	if (s1 != NULL)
-// 	{
-// 		ft_memcpy(ptr, s1, len1);
-// 		ptr += len1;
-// 	}
-// 	if (s2 != NULL)
-// 	{
-// 		ft_memcpy(ptr, s2, len2);
-// 		ptr += len2;
-// 	}
-// 	if (s3 != NULL)
-// 	{
-// 		ft_memcpy(ptr, s3, len3);
-// 		ptr += len3;
-// 	}
-// 	// Null-terminate the new string
-// 	result[total_length] = '\0';
-// 	return (result); // Return the concatenated string
-// }
-
 /**
-
-	* function processes a substring of the input string by extracting parts before,
- * between,
-	and after specified indices (start and end). It frees the original input
+ * function processes a substring of the input string by extracting parts before,
+ * between,  and after specified indices (start and end). It frees the original input
  * and returns a new str that combines the extracted parts.
  *
  * @param input The original input string.
@@ -133,15 +86,11 @@ char	*is_quote(char *input, int *i)
 
 /**
  * function processes double quotes in the input string. It handles dollar signs
- * within the quotes,
-	updating the iterator as it finds these characters. It calls
-
-	* combine_subs to handle the substring between the opening and closing double quotes.
- *
+ * within the quotes, updating the iterator as it finds these characters. 
+ * It calls * combine_subs to handle the substring between the opening and closing double quotes.
  * @param input The original input string.
  * @param i A pointer to the current index in the input string.
-
-	* @param env_dup A pointer to the environment variables (used for variable expansion).
+ * @param env_dup A pointer to the environment variables (used for variable expansion).
  * @return The modified input string after processing double quotes.
  */
 char	*is_double_quote(char *input, int *i, t_env *env_dup)
@@ -160,5 +109,5 @@ char	*is_double_quote(char *input, int *i, t_env *env_dup)
 	}
 	input = combine_subs(input, start, *i);
 		// Call combine_subs to process the substring.
-	return (input);                         // Return the modified input string.
+	return (input);  // Return the modified input string.
 }

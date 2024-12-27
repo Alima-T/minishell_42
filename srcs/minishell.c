@@ -113,13 +113,13 @@ int	main(int ac, char *av[])
 // (2) если не используешь, программа делает операцию echo hello дважды, НО полностью
 // не выходит из минишелла и можно там работать дальше
 
-		// if (!mini.input)
-		// {
-		// 	perror("Error reading input");
-		// 	break ;
-		// }
+		if (!mini.input)
+		{
+			perror("Error reading input");
+			break ;
+		}
 		// process the input into args
-		// mini.args = process_args(&mini);
+		mini.args = process_args(&mini);
 		if (mini.args)
 			execute_cmnd(&mini);
 		free(mini.input);  // free the input line after processing
