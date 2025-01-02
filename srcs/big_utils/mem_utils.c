@@ -6,29 +6,41 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 13:54:06 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:16:01 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-//TODO
-void cmd_lst_del_node(t_cmd *list)
+//initialize a t_shell structure. 
+void init(t_shell *mshell)
 {
-	
+	mshell->input = NULL;
+	mshell->env_copy = NULL;
+	mshell->cmds = NULL;
+	mshell->args = NULL;
+}
+/*
+function to safely allocate memory using malloc. 
+If the allocation fails, prints an err_msg and exits
+*/
+void *mem_allocator(size_t size)
+{
+	void *allocated_mem;
+	allocated_mem = (void *)malloc(size);
+	if(!allocated_mem)
+	{
+		perror("Memory allocation failed");
+		exit(EXIT_FAILURE);
+	}
+	return allocated_mem;
 }
 
-void cmd_destroy(t_cmd **list)
-{
-	t_cmd *temp;
-	
-	if(list == NULL)
-		return ;
-	while (*list)
-	{
-		temp = (*list)->next;
-		cmd_lst_del_node(*list);
-		*list = temp;
-	}
-	*list = NULL;
+/*
+Frees the list of args and the list or structure of cmds
+*/
+void free_shell_mem(t_shell *mini)
+{ 
+	list_destroy(&mini->args);
+	cmds_destroy(&mini->cmds);
 }
