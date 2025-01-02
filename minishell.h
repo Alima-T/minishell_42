@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 15:57:37 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:57:48 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_arg
 
 typedef struct s_cmd
 {
-	char			**command;
+	char			**cmd;
 	int				inp;
 	int				out;
 	int				pipe_fd[2];

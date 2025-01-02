@@ -6,12 +6,69 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/27 18:20:19 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:00:32 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+/**
+ * Удаляет первый узел в списке аргументов.
+ * Освобождает память, выделенную для строки аргумента и самого узла.
+ * Deletes the first node in the argument list.
+ * Frees the memory allocated for the argument string and the node itself.
+ * @param args A double pointer to the head of the argument list.
+ */
+void	del_first_node(t_arg **args)
+{
+	t_arg	*next; 
+
+	if (!args || !(*args)) 
+		return; 
+	next = (*args)->next; // Store the next node
+	free((*args)->arg_val); // Free the arg string of the first node
+	(*args)->arg_val = NULL; // Set the arg string ptr to NULL 
+	free((*args)); // Free the first node
+	*args = next; // Update the head to the next node
+}
+
+/**
+ * Deletes a specific argument node and frees its memory.
+ * Удаляет конкретный узел аргумента и освобождает его память.
+ * @param lst A pointer to the argument node to be deleted.
+ */
+void	del_one(t_arg *lst)
+{
+	if (!lst)
+		return;
+	free(lst->arg_val); // Free arg string
+	lst->arg_val = NULL; // Set arg string ptr to NULL
+	free(lst); // Free node itself 
+	lst = NULL; // Set node ptr to NULL (note: this does not affect the caller)
+}
+
+
+/**
+ * Destroys the entire argument list by deleting each node.
+ * Frees all allocated memory for the argument strings and nodes.
+ * Уничтожает весь список аргументов, удаляя каждый узел.
+ * Освобождает всю выделенную память для строк аргументов и узлов.
+ * @param lst A double ptr to the head of the argument list.
+ */
+void	list_destroy(t_arg **lst)
+{
+	t_arg	*tmp; // Temporary pointer to hold the next node
+
+	if (!lst) // Check for NULL
+		return; 
+	while (*lst) // While there are nodes in the list
+	{
+		tmp = (*lst)->next; // Store the next node
+		del_one(*lst); // Delete the current node
+		*lst = tmp; // Move to the next node
+	}
+	*lst = NULL; // Set the head of the list to NULL (list is now empty)
+}
 /**
 1. new_arg: Creates a new argument node, duplicates the argument string, and initializes the node.
 2. add_arg_end: Adds a new node to the end of the linked list of argument nodes.
@@ -72,64 +129,4 @@ void	add_arg_end(t_arg **lst, t_arg *new)
 	}
 	else
 		*lst = new; // If the list is empty, set the new node as the head
-}
-
-
-/**
- * Удаляет первый узел в списке аргументов.
- * Освобождает память, выделенную для строки аргумента и самого узла.
- * Deletes the first node in the argument list.
- * Frees the memory allocated for the argument string and the node itself.
- * @param args A double pointer to the head of the argument list.
- */
-void	del_first_node(t_arg **args)
-{
-	t_arg	*next; // Pointer to the next node
-
-	if (!args || !(*args)) // Check for NULL or empty
-		return; // Exit if the list is NULL or empty
-	next = (*args)->next; // Store the next node
-	free((*args)->arg_val); // Free the argument string of the first node / Освобождаем строку аргумента первого узла
-	(*args)->arg_val = NULL; // Set the argument string pointer to NULL / Устанавливаем указатель на строку аргумента в NULL
-	free((*args)); // Free the first node
-	*args = next; // Update the head to the next node
-}
-
-/**
- * Deletes a specific argument node and frees its memory.
- * Удаляет конкретный узел аргумента и освобождает его память.
- *
- * @param lst A pointer to the argument node to be deleted.
- */
-void	del_one(t_arg *lst)
-{
-	if (!lst) // Check if the node is NULL
-		return; // Exit if the node is NULL
-	free(lst->arg_val); // Free the argument string
-	lst->arg_val = NULL; // Set the argument string pointer to NULL
-	free(lst); // Free the node itself // Освобождаем память самого узла
-	lst = NULL; // Set the node pointer to NULL (note: this does not affect the caller)
-}
-
-
-/**
- * Destroys the entire argument list by deleting each node.
- * Frees all allocated memory for the argument strings and nodes.
- * Уничтожает весь список аргументов, удаляя каждый узел.
- * Освобождает всю выделенную память для строк аргументов и узлов.
- * @param lst A double pointer to the head of the argument list.
- */
-void	list_destroy(t_arg **lst)
-{
-	t_arg	*tmp; // Temporary pointer to hold the next node
-
-	if (!lst) // Check for NULL
-		return; 
-	while (*lst) // While there are nodes in the list
-	{
-		tmp = (*lst)->next; // Store the next node
-		del_one(*lst); // Delete the current node
-		*lst = tmp; // Move to the next node
-	}
-	*lst = NULL; // Set the head of the list to NULL (list is now empty)
 }
