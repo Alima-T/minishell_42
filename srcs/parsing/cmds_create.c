@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 13:05:53 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:21:51 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_cmd	*create_cmds_list(t_arg *args)
 	element->redir = NULL; // Initialize the redirection field to NULL
 	element->redir = (struct s_redir *) redirect_process(&args); // Process redirections and store the result
 	lists_count = find_cmd(args); // Find the number of arguments in the list
-	element->command = turn_cmd_to_array(args, lists_count); // Convert the argument list to an array
+	element->cmd = turn_cmd_to_array(args, lists_count); // Convert the argument list to an array
 	element->inp = 0; // Initialize input file descriptor to 0 (stdin)
 	element->out = 1; // Initialize output file descriptor to 1 (stdout)
 	element->fork = 0; // Initialize fork flag to 0 (not forked yet)

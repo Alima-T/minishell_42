@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 14:57:48 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:41:18 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 typedef struct s_shell
 {
 	char			*input;
-	struct s_env	*env_copy;
+	struct s_env	*env_dup;
 	struct s_arg	*args;
 	struct s_cmd	*cmds;
 }					t_shell;
@@ -86,13 +86,33 @@ typedef struct s_redir
 
 				/*** BIG_UTILS  ***/
 /***  args_handle.c  ***/
-void				add_arg_end(t_arg **lst, t_arg *new);
 void				del_first_node(t_arg **args);
 void				del_one(t_arg *lst);
 void				list_destroy(t_arg **lst);
+void				add_arg_end(t_arg **lst, t_arg *new);
 t_arg				*new_arg(char *arg_str, t_shell *mini);
+
 /* env_handle.c */
+void				env_del_node(t_env *list);
+void				env_destroy(t_env **list);
 char				*find_in_env(t_env *env_dup, char *key);
+int					env_dup_size(t_env *env_dup); 
+void				change_val_in_env_dup(t_env *env_dup, char *key, char *val);
+
+/* cmds_handle.c */
+void				redir_del_node(t_redir *redir_node);
+void				redir_destroy(t_redir **redir_list);
+void 				cmd_del_node(t_cmd *cmd_node);
+void 				cmd_destroy(t_cmd **list);
+
+/* mem_utils.c */
+void 				init(t_shell *mshell);
+void 				*mem_allocator(size_t size);
+void 				free_shell_mem(t_shell *mini);
+
+/* level_change.c */
+void				shell_level_down(t_shell *shell_context);
+void				shell_level_up(t_shell *shell_context);
 
 				/*** PARSING  */
 /***  args_process.c ***/
@@ -180,7 +200,7 @@ size_t				ft_strcspn(const char *s, const char *reject);
 
 // MAIN
 
-void				execute_cmnd(t_shell *mini);
+void				execute_cmd(t_shell *mini);
 void				free_exit(t_shell *mini, int exit_status);
 
 /*** # TANJA end # ***/

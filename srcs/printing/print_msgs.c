@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/28 17:44:41 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:11:57 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ void	no_such_message(char *message)
 
 void	print_redir(t_cmd *cmds)
 {
-	t_redir	*tmp;
+	t_redir	*temp;
 
 	if (cmds == NULL)
 		return ;
 	while (cmds)
 	{
-		tmp = (t_redir *) cmds->redir;
-		if (tmp == NULL)
+		temp = (t_redir *) cmds->redir;
+		if (temp == NULL)
 			break ;
-		while (tmp)
+		while (temp)
 		{
-			printf("redirect type - |%s| \t name - |%s|\n", tmp->type, tmp->name);
-			tmp = tmp->next;
+			printf("redirect type - |%s| \t name - |%s|\n", temp->type, temp->name);
+			temp = temp->next;
 		}
 		cmds = cmds->next;
 	}
@@ -77,31 +77,31 @@ void	print_redir(t_cmd *cmds)
 
 void	print_cmds(t_cmd *cmds)
 {
-	int		it;
-	t_redir	*tmp;
+	int		i;
+	t_redir	*temp;
 
-	if (cmds == NULL || !cmds->command)
+	if (cmds == NULL || !cmds->cmd)
 		return ;
 	while (cmds)
 	{
-		it = 0;
-		while (cmds->command[it])
+		i = 0;
+		while (cmds->cmd[i])
 		{
 			printf("cmds command[%d] - |%s|\t input - |%d|\t output - |%d|\n", \
-					it, cmds->command[it], cmds->inp, cmds->out);
-			it++;
+					i, cmds->cmd[i], cmds->inp, cmds->out);
+			i++;
 		}
-		tmp = (t_redir *) cmds->redir;
-		while (tmp)
+		temp = (t_redir *) cmds->redir;
+		while (temp)
 		{
-			printf("redirect type - |%s| \t name - |%s|\n", tmp->type, tmp->name);
-			tmp = tmp->next;
+			printf("redirect type - |%s| \t name - |%s|\n", temp->type, temp->name);
+			temp = temp->next;
 		}
 		cmds = cmds->next;
 	}
 }
 
-void	print_env_copy(t_env *env_dup)
+void	print_env_dup(t_env *env_dup)
 {
 	if (env_dup == NULL)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:45:15 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 14:53:27 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:31:32 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,13 @@
 // }
 
 /**
- * Deletes a single command node and frees its memory.
- * @param cmd_node A pointer to the command node to delete.
- */
-
-/**
  * Deletes a single redirection node and frees its memory.
  * Frees the dynamically allocated type and name strings,
  * and after each delation set ptr to NULL. 
  * Finaly frees node itself and sets ptr to NULL
  * @param redir_node A pointer to the redirection node to delete.
  */
-void	del_redir_node(t_redir *redir_node)
+void	redir_del_node(t_redir *redir_node)
 {
 	if (!redir_node)
 		return;
@@ -58,19 +53,24 @@ void	del_redir_node(t_redir *redir_node)
  */
 void	redir_destroy(t_redir **redir_list)
 {
-	t_redir	*tmp; // Temp ptr to hold the next node
+	t_redir	*temp; // Temp ptr to hold the next node
 
 	if (!redir_list)
 		return;
 	while (*redir_list)
 	{
-		tmp = (*redir_list)->next; // Store the next node
-		del_redir_node(*redir_list); // Delete the current node
-		*redir_list = tmp;
+		temp = (*redir_list)->next; // Store the next node
+		redir_del_node(*redir_list); // Delete the current node
+		*redir_list = temp;
 	}
 	*redir_list = NULL; // Set the head of the list to NULL (list is now empty)
 }
-void del_cmd_node(t_cmd *cmd_node)
+
+/**
+ * Deletes a single command node and frees its memory.
+ * @param cmd_node A pointer to the command node to delete.
+ */
+void cmd_del_node(t_cmd *cmd_node)
 {
 
 	int		i; // Iterator for cmd array
@@ -109,7 +109,7 @@ void cmd_destroy(t_cmd **list)
 	while (*list)
 	{
 		temp = (*list)->next;// Store the next node
-		cmd_lst_del_node(*list); // Delete the current node
+		cmd_del_node(*list); // Delete the current node
 		*list = temp;
 	}
 	*list = NULL;
