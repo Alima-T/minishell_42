@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 18:01:54 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:18:02 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 
 // Tanya, I made free function shorter and I moved your fre_exit function to memory_utils.c with others, 
 // we can check later and leave which is shorter and works better. Alima
-
-void	execute_cmd(t_shell *mini)
-{
-	char *args[3]; // array to hold cmnd and arg (echo + arg)
-	// check if the cmnd is echo
-	if (ft_strncmp(mini->args->arg_val, "echo", 4) == 0)
-	{
-		args[0] = mini->args->arg_val; // 1st arg is the cmnd
-		// check if there is a next arg
-		if (mini->args->next != NULL)
-			args[1] = mini->args->next->arg_val; // 2nd arg (if exists)
-		else
-			args[1] = NULL; // no 2nd arg
-		args[2] = NULL;     // Null-terminate the arg list
-		// execute the echo cmnd
-		builtin_echo(args);
-	}
-	else
-		printf("Command not recognized.\n");
-}
 
 // int	main(int ac, char *av[])
 // {

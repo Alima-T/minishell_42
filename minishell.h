@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 15:13:21 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:19:30 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,45 +42,51 @@
 
 typedef struct s_shell
 {
-	char			*input;
-	struct s_env	*env_dup;
-	struct s_arg	*args;
-	struct s_cmd	*cmds;
-}					t_shell;
+	char					*input;
+	struct s_env			*env_dup;
+	struct s_arg			*args;
+	struct s_cmd			*cmds;
+}							t_shell;
 
 typedef struct s_env
 {
-	char			*line;
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
+	char					*line;
+	char					*key;
+	char					*value;
+	struct s_env			*next;
+}							t_env;
 
 typedef struct s_arg
 {
-	char			*arg_val;
-	int				redir_flag;
-	struct s_arg	*next;
-}					t_arg;
+	char					*arg_val;
+	int						redir_flag;
+	struct s_arg			*next;
+}							t_arg;
 
 typedef struct s_cmd
 {
-	char			**cmd;
-	int				inp;
-	int				out;
-	int				pipe_fd[2];
-	int				fork;
-	pid_t			pid;
-	struct s_redir	*redir;
-	struct s_cmd	*next;
-}					t_cmd;
+	char					**cmd;
+	int						inp;
+	int						out;
+	int						pipe_fd[2];
+	int						fork;
+	pid_t					pid;
+	struct s_redir			*redir;
+	struct s_cmd			*next;
+}							t_cmd;
 
 typedef struct s_redir
 {
-	char			*type;
-	char			*name;
-	struct s_redir	*next;
-}					t_redir;
+	char					*type;
+	char					*name;
+	struct s_redir			*next;
+}							t_redir;
+
+typedef struct s_builtin_cmd
+{
+	char					*cmd;
+	struct s_builtin_cmd	*next;
+}							t_builtin_cmd;
 
 /*** #ALIMA start # ***/
 
@@ -194,6 +200,26 @@ int					is_valid_var_name(const char *name);
 size_t				ft_strcspn(const char *s, const char *reject);
 
 // execution
+
+void				execute_cmd(t_shell *mini);
+int					execute_multiple_cmds(t_shell *mini,
+						t_builtin_cmd *builtin_cmds);
+int					execute_single_cmd(t_cmd *cmd, t_shell *mini,
+						t_builtin_cmd *builtin_cmds);
+int					execute_builtin(t_cmd *cmd, t_shell *mini);
+int					execute_external_cmd(t_cmd *cmd, t_env *env_dup);
+
+// execution helper
+
+t_builtin_cmd		*init_builtin_cmds(void);
+int					count_args(char **args);
+int					is_builtin(const char *cmd, t_builtin_cmd *builtin_cmds);
+char				**env_list_to_array(t_env *env_dup);
+
+// execution cleanup
+
+void				free_builtin_cmds(t_builtin_cmd *builtin_cmds);
+void				free_env_array(char **envp);
 
 // fake_global
 
