@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:45:15 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 17:31:32 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/05 14:09:13 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@
 void	redir_del_node(t_redir *redir_node)
 {
 	if (!redir_node)
-		return;
+		return ;
 	free(redir_node->type); // Free type string
 	redir_node->type = NULL; // Set ptr to NULL
-	free(redir_node->name); 
-	redir_node->name = NULL; 
+	free(redir_node->name);
+	redir_node->name = NULL;
 	free(redir_node); // Free the node itself
 	redir_node = NULL; // Set ptr to NULL (note: does not affect caller)
 }
@@ -53,63 +53,62 @@ void	redir_del_node(t_redir *redir_node)
  */
 void	redir_destroy(t_redir **redir_list)
 {
-	t_redir	*temp; // Temp ptr to hold the next node
+	t_redir	*temp;	// Temp ptr to hold the next node
 
 	if (!redir_list)
-		return;
+		return ;
 	while (*redir_list)
 	{
-		temp = (*redir_list)->next; // Store the next node
-		redir_del_node(*redir_list); // Delete the current node
+		temp = (*redir_list)->next;	// Store the next node
+		redir_del_node(*redir_list);	// Delete the current node
 		*redir_list = temp;
 	}
-	*redir_list = NULL; // Set the head of the list to NULL (list is now empty)
+	*redir_list = NULL;	// Set the head of the list to NULL (list is now empty)
 }
 
 /**
  * Deletes a single command node and frees its memory.
  * @param cmd_node A pointer to the command node to delete.
  */
-void cmd_del_node(t_cmd *cmd_node)
+void	cmd_del_node(t_cmd *cmd_node)
 {
+	t_redir	*temp;	// Temp pointer to the redir list
+	int		i;		// Iterator for cmd array
 
-	int		i; // Iterator for cmd array
-	t_redir	*temp; // Temp pointer to the redir list
-
-	i = 0; 
-	if (!cmd_node) 
-		return; 
+	i = 0;
+	if (!cmd_node)
+		return ;
 	// Free each string in the cmd array
-	while (cmd_node->cmd[i]) 
+	while (cmd_node->cmd[i])
 	{
 		if (cmd_node->cmd == NULL) // Extra safeguard to handle NULL cmdarr
-			break;
-		free(cmd_node->cmd[i]); // Free current str
+			break ;
+		free(cmd_node->cmd[i]);	// Free current str
 		cmd_node->cmd[i] = NULL; // Set ptr to NULL
-		i++; 
+		i++;
 	}
-	free(cmd_node->cmd); // Free cmd_array itself
-	cmd_node->cmd = NULL; // Set ptr to NULL
-	temp = (t_redir *)cmd_node->redir; // Cast and store the redir list ptr
-	redir_destroy(&temp); // Destroy the redir list
-	free(cmd_node); // Free the cmd node itself
-	cmd_node = NULL; // Set the ptr to NULL (note: does not affect caller)
+	free(cmd_node->cmd);	// Free cmd_array itself
+	cmd_node->cmd = NULL;	// Set ptr to NULL
+	temp = (t_redir *)cmd_node->redir;	// Cast and store the redir list ptr
+	redir_destroy(&temp);	// Destroy the redir list
+	free(cmd_node);	// Free the cmd node itself
+	cmd_node = NULL;	// Set the ptr to NULL (note: does not affect caller)
 }
 
 /**
  * Destroys the entire command list and frees all allocated memory.
  * @param cmd_list A double ptr to the head of the command list.
  */
-void cmd_destroy(t_cmd **list)
+void	cmd_destroy(t_cmd **list)
 {
-	t_cmd *temp; // Temp pointer to hold the next node
-	
-	if(!list)
+	t_cmd	*temp;	// Temp pointer to hold the next node
+
+	if (!list)
 		return ;
 	while (*list)
 	{
-		temp = (*list)->next;// Store the next node
-		cmd_del_node(*list); // Delete the current node
+		temp = (*list)->next;	// Store the next node
+		cmd_del_node(*list);	// Delete the current node
 		*list = temp;
 	}
 	*list = NULL;

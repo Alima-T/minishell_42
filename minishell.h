@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 17:41:18 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/05 13:51:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,19 @@ t_arg				*new_arg(char *arg_str, t_shell *mini);
 void				env_del_node(t_env *list);
 void				env_destroy(t_env **list);
 char				*find_in_env(t_env *env_dup, char *key);
-int					env_dup_size(t_env *env_dup); 
+int					env_dup_size(t_env *env_dup);
 void				change_val_in_env_dup(t_env *env_dup, char *key, char *val);
 
 /* cmds_handle.c */
 void				redir_del_node(t_redir *redir_node);
 void				redir_destroy(t_redir **redir_list);
-void 				cmd_del_node(t_cmd *cmd_node);
-void 				cmd_destroy(t_cmd **list);
+void				cmd_del_node(t_cmd *cmd_node);
+void				cmd_destroy(t_cmd **list);
 
 /* mem_utils.c */
-void 				init(t_shell *mshell);
-void 				*mem_allocator(size_t size);
-void 				free_shell_mem(t_shell *mini);
+void				init(t_shell *mini, char **envp);
+void				*mem_allocator(size_t size);
+void				free_shell_mem(t_shell *mini);
 
 /* level_change.c */
 void				shell_level_down(t_shell *shell_context);
@@ -156,7 +156,7 @@ char				*is_quote(char *input, int *i);
 char				*is_double_quote(char *input, int *i, t_env *env_dup);
 				/*** PRINTING  ***/
 /* print_msgs.c*/
-int 				print_msg(int return_val, char *message, int exit_stat);
+int					print_msg(int return_val, char *message, int exit_stat);
 				/*** VALIDATION ***/
 /*** validator.c ***/
 int					start_check(char *input, int i);

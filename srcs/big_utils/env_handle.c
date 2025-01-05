@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 17:12:56 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/05 14:05:13 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ change_val_in_env_dup: обновляет значение переменной 
  */
 char	*find_in_env(t_env *env_dup, char *key)
 {
-	if (!env_dup || !key) // Проверка, если список или ключ равны NULL
-		return (NULL); // Возврат NULL, если один из них равен NULL
-	while (env_dup) // Проход по связанному списку
+	if (!env_dup || !key) 				// Проверка, если список или ключ равны NULL
+		return (NULL); 					// Возврат NULL, если один из них равен NULL
+	while (env_dup) 					// Проход по связанному списку
 	{
 		if (!ft_strcmp(env_dup->key, key)) // Сравнение текущего ключа с искомым ключом
-			return (env_dup->value); // Возврат значения, если ключ совпадает
-		env_dup = env_dup->next; // Переход к следующему узлу
+			return (env_dup->value); 		// Возврат значения, если ключ совпадает
+		env_dup = env_dup->next;			// Переход к следующему узлу
 	}
-	return (NULL); // Возврат NULL, если ключ не найден
+	return (NULL);						// Возврат NULL, если ключ не найден
 }
 
 /**
@@ -63,18 +63,20 @@ char	*find_in_env(t_env *env_dup, char *key)
  *
  * @param list Указатель на узел переменной окружения для удаления.
  */
-void	env_del_node(t_env *list) // del_env_node
+// del_env_node
+void	env_del_node(t_env *list)
 {
 	if (!list)
-		return; // Exit if the node is NULL
-	free(list->line); // Free the line string
-	list->line = NULL; // Set the line pointer to NULL
-	free(list->key); // Free the key string
-	list->key = NULL; // Set the key pointer to NULL
-	free(list->value); // Free the value string
-	list->value = NULL; // Set the value pointer to NULL
-	free(list); // Free the node itself
-	list = NULL; // Set the node pointer to NULL // Установка указателя узла в NULL (не влияет на вызывающую функцию)
+		return;			// Exit if the node is NULL
+	free(list->line);	// Free the line string
+	list->line = NULL;	// Set the line pointer to NULL
+	free(list->key);	// Free the key string
+	list->key = NULL;	// Set the key pointer to NULL
+	free(list->value);	// Free the value string
+	list->value = NULL;	// Set the value pointer to NULL
+	free(list);			// Free the node itself
+	list = NULL;		// Set the node pointer to NULL 
+						// Установка указателя узла в NULL (не влияет на вызывающую функцию)
 }
 
 /**
@@ -84,17 +86,17 @@ void	env_del_node(t_env *list) // del_env_node
  */
 void	env_destroy(t_env **list)
 {
-	t_env	*temp; // Temporary pointer to hold the next node
+	t_env	*temp;	// Temporary pointer to hold the next node
 
 	if (!list)
-		return;
-	while (*list) // While there are nodes in the list
+		return ;
+	while (*list)	// While there are nodes in the list
 	{
-		temp = (*list)->next; // Store the next node
-		env_del_node(*list); // Delete the current node
-		*list = temp; // Move to the next node
+		temp = (*list)->next;	// Store the next node
+		env_del_node(*list);	// Delete the current node
+		*list = temp;			// Move to the next node
 	}
-	*list = NULL; // Set the head of the list to NULL (list is now empty)
+	*list = NULL;	// Set the head of the list to NULL (list is now empty)
 }
 
 /**
@@ -103,19 +105,19 @@ void	env_destroy(t_env **list)
 * @param env_dup A pointer to the head of the environment variable list.
 * @return The count of environment variables, or -1 if the list is NULL.
 */
-int	env_dup_size(t_env *env_dup) 
+int	env_dup_size(t_env *env_dup)
 {
-	int		count; // Counter for the number of nodes
+	int	count;		// Counter for the number of nodes
 
-	if (!env_dup) // Check if the list is NULL
-		return (-1); // Return -1 if the list is NULL
-	count = 0; // Initialize the count
-	while (env_dup) // Traverse the linked list Проход по связанному списку
+	if (!env_dup)		// Check if the list is NULL
+		return (-1);	// Return -1 if the list is NULL
+	count = 0;			// Initialize the count
+	while (env_dup)		// Traverse the linked list Проход по связанному списку
 	{
-		env_dup = env_dup->next; // Move to the next node
-		count++; // Increment the count
+		env_dup = env_dup->next;	// Move to the next node
+		count++;					// Increment the count
 	}
-	return (count); // Return the total count of nodes
+	return (count);	// Return the total count of nodes
 }
 
 /**
@@ -127,20 +129,20 @@ int	env_dup_size(t_env *env_dup)
  */
 void	change_val_in_env_dup(t_env *env_dup, char *key, char *val)
 {
-	if (!env_dup || !key || !val) // Check for NULL
-		return; 
-	while (env_dup) // Traverse the linked list
+	if (!env_dup || !key || !val)	// Check for NULL
+		return ;
+	while (env_dup)					// Traverse the linked list
 	{
-		if (!ft_strcmp(env_dup->key, key)) // Compare the current key with the target key Сравнение текущего ключа с искомым ключом
+		if (!ft_strcmp(env_dup->key, key))	// Compare the current key with the target key Сравнение текущего ключа с искомым ключом
 		{
-			if (env_dup->line) // If the line exists, free it
+			if (env_dup->line)				// If the line exists, free it
 				free(env_dup->line);
-			env_dup->line = ft_strjoin_con(key, "=", val); // Create the new line
-			if (env_dup->value) // If the value exists, free it
+			env_dup->line = ft_strjoin_con(key, "=", val);	// Create the new line
+			if (env_dup->value)	// If the value exists, free it
 				free(env_dup->value);
-			env_dup->value = ft_strdup(val); // Duplicate the new value
-			return; // Exit after updating
+			env_dup->value = ft_strdup(val);	// Duplicate the new value
+			return ;	// Exit after updating
 		}
-		env_dup = env_dup->next; // Move to the next node
+		env_dup = env_dup->next;	// Move to the next node
 	}
 }
