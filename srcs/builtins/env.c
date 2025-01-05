@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:14:03 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 16:48:29 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 14:22:38 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,24 @@ int	builtin_env(char **env)
 	if (!env || !*env)
 	{
 		perror("env: environment not set");
-		return (1); // error if env is not set
+		// error if env is not set
+		return (1);
 	}
-	current = env; // pointer to traverse the env variables
+	// pointer to traverse the env variables
+	current = env;
 	while (*current)
 	{
-		var = *current; // get the curr env var
+		// get the curr env var
+		var = *current;
 		equal_sign = NULL;
 		i = 0;
-		while (var[i] != '\0') // iterate through the characters of the var
+		// iterate through the characters of the var
+		while (var[i] != '\0')
 		{
 			if (var[i] == '=')
 			{
-				equal_sign = &var[i]; // point to the equals sign
+				// point to the equals sign
+				equal_sign = &var[i];
 				break ;
 			}
 			i++;

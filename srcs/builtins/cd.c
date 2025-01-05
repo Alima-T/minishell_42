@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 17:53:56 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 14:17:18 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,30 +97,38 @@ int	builtin_cd(int ac, char *av[])
 	char	oldpwd[PATH_MAX];
 	char	cwd[PATH_MAX];
 
-	if (ac > 2) // too many args
+	// too many args
+	if (ac > 2)
 		return (0);
-	handle_missing_env_vars(); // ensure PWD and OLDPWD are set
+	// ensure PWD and OLDPWD are set
+	handle_missing_env_vars();
 	path = get_cd_path(ac, av);
 	if (!path)
-		return (1); // error in getting path
+	{
+		// error in getting path
+		return (1);
+	}
 	if (getcwd(oldpwd, sizeof(oldpwd)) == NULL)
 	{
 		perror("cd: getcwd");
-		return (1); // failed to get current dir
+		// failed to get current dir
+		return (1);
 	}
 	if (chdir(path) != 0)
 	{
 		perror("cd");
-		return (1); // change dir failed
+		// change dir failed
+		return (1);
 	}
 	// upd OLDPWD and PWD
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (setenv("OLDPWD", oldpwd, 1) != 0) // set OLDPWD to the previous PWD
+		// set OLDPWD to the previous PWD
+		if (setenv("OLDPWD", oldpwd, 1) != 0)
 			perror("cd: failed to upd env variable");
+		// upd PWD to the current dir
 		if (setenv("PWD", cwd, 1) != 0)
 			perror("cd: failed to upd env variable");
-				// upd PWD to the current dir
 	}
 	else
 		perror("cd");

@@ -6,14 +6,14 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:43:15 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/19 17:35:41 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 14:46:47 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // function to print working directory
-void	builtin_pwd(void)
+int	builtin_pwd(void)
 {
 	const char	*error_message;
 	// buffer to hold the current working dir
@@ -25,6 +25,7 @@ void	builtin_pwd(void)
 		// write the current dir to st output
 		write(STDOUT_FILENO, cwd, ft_strlen(cwd));
 		write(STDOUT_FILENO, "\n", 1);
+		return (0);
 	}
 	else
 	{
@@ -32,5 +33,6 @@ void	builtin_pwd(void)
 		error_message = "pwd: error retrieving current dir\n";
 		// write error message to standard error
 		write(STDERR_FILENO, error_message, ft_strlen(error_message));
+		return (1);
 	}
 }

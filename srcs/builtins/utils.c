@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:55:59 by tbolsako          #+#    #+#             */
-/*   Updated: 2024/12/20 17:15:33 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 14:43:01 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,21 @@ size_t	ft_strcspn(const char *s, const char *reject)
 		i++;
 	}
 	return (i);
+}
+
+// function to check if a var name is valid
+int	is_valid_var_name(const char *name)
+{
+	int	i;
+
+	if (!name || !isalpha(name[0]))
+		return (0);
+	i = 1;
+	while (name[i])
+	{
+		if (!isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 13:51:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:13:21 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 # define MINISHELL_H
 
 // for perror
-# include <stdio.h>
 # include "./LIBFT/libft.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 // for for getenv, setenv
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 // for chdir, getcwd
 # include <unistd.h>
 // for PATH_MAX
@@ -82,9 +82,9 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
-				/*** #ALIMA start # ***/
+/*** #ALIMA start # ***/
 
-				/*** BIG_UTILS  ***/
+/*** BIG_UTILS  ***/
 /***  args_handle.c  ***/
 void				del_first_node(t_arg **args);
 void				del_one(t_arg *lst);
@@ -114,7 +114,7 @@ void				free_shell_mem(t_shell *mini);
 void				shell_level_down(t_shell *shell_context);
 void				shell_level_up(t_shell *shell_context);
 
-				/*** PARSING  */
+/*** PARSING  */
 /***  args_process.c ***/
 int					find_end(char *input, int pos, int *flag);
 int					is_redir(char *arg);
@@ -139,7 +139,7 @@ char				*is_dollar(char *input, int *i, t_env *env_dup);
 /***  envp_prosess.c ***/
 char				*copy_value(char *env_part);
 char				*copy_key(char *env_part);
-void				envl_lstadd_back(t_env	**list, t_env *new);
+void				envl_lstadd_back(t_env **list, t_env *new);
 t_env				*envl_lstnew(char *env_str);
 t_env				*copy_envp(char **envp);
 /***  pars_special_chars.c ***/
@@ -154,10 +154,10 @@ void				parser(t_shell *mini, t_env *env_dup);
 char				*combine_subs(char *input, int start, int end);
 char				*is_quote(char *input, int *i);
 char				*is_double_quote(char *input, int *i, t_env *env_dup);
-				/*** PRINTING  ***/
+/*** PRINTING  ***/
 /* print_msgs.c*/
 int					print_msg(int return_val, char *message, int exit_stat);
-				/*** VALIDATION ***/
+/*** VALIDATION ***/
 /*** validator.c ***/
 int					start_check(char *input, int i);
 int					count_pipe_delim(char *input, int i);
@@ -182,21 +182,22 @@ t_redir				*redir_new(char *type, char *name);
 
 int					builtin_cd(int ac, char *av[]);
 int					builtin_echo(char **args);
-void				builtin_pwd(void);
-void				builtin_export(char **env);
-void				builtin_unset(char **args);
+int					builtin_pwd(void);
+int					builtin_export(int ac, char *av[], char **env);
+int					builtin_unset(int ac, char *av[], char **env);
 int					builtin_env(char **env);
-void				builtin_exit(void);
+int					builtin_exit(int ac, char *av[]);
+
+// builtins utils
+
+int					is_valid_var_name(const char *name);
+size_t				ft_strcspn(const char *s, const char *reject);
 
 // execution
 
 // fake_global
 
 int					*exit_status(void);
-
-// utils
-
-size_t				ft_strcspn(const char *s, const char *reject);
 
 // MAIN
 
