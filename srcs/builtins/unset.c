@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 15:12:43 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:55:03 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ static int	remove_env_var(char **env, const char *name)
 	len = ft_strlen(name);
 	i = 0;
 	j = 0;
-	while ((*env)[i])
+	while (env[i])
 	{
-		if (ft_strncmp((*env)[i], name, len) == 0 && env[i][len] == '=')
+		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
 		{
 			// free the memory of the var to be removed
-			free((*env)[i]);
+			free(env[i]);
 			// shift the remaining env vars down
 			j = i;
-			while ((*env)[j])
+			while (env[j])
 			{
-				(*env)[j] = (*env)[j + 1];
+				env[j] = env[j + 1];
 				j++;
 			}
 			return (0);
@@ -44,7 +44,7 @@ static int	remove_env_var(char **env, const char *name)
 }
 
 // function to remove an env variable
-int	builtin_unset(int ac, char *av[], char **env)
+int	builtin_unset(int ac, char *av[], char ***env)
 {
 	const char	*error_message;
 	int			i;
@@ -60,7 +60,7 @@ int	builtin_unset(int ac, char *av[], char **env)
 	{
 		if (is_valid_var_name(av[i]))
 		{
-			if (remove_env_var(env, av[i]) != 0)
+			if (remove_env_var(*env, av[i]) != 0)
 			{
 				perror("unset");
 				return (1);

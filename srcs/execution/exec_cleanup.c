@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:56:52 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 16:12:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:32:54 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ void	free_env_array(char **envp)
 		i++;
 	}
 	free(envp);
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }

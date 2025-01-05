@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:45:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 16:07:49 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:36:41 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,34 @@ char	**env_list_to_array(t_env *env_dup)
 	}
 	envp[i] = NULL;
 	return (envp);
+}
+
+char	*find_executable(char *cmd)
+{
+	char	*path;
+	char	**paths;
+	char	*full_path;
+	int		i;
+
+	path = getenv("PATH");
+	if (!path)
+		return (NULL);
+	paths = ft_split(path, ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		full_path = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(full_path, cmd);
+		if (access(full_path, X_OK) == 0)
+		{
+			free_split(paths);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	free_split(paths);
+	return (NULL);
 }

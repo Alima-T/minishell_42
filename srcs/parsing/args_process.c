@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/20 15:12:11 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:12:02 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	split_input(char *input, t_arg **args, t_shell *mini)
 			add_arg_end(args, new_arg(ft_substr(input, start, end - start), mini));// Add the token to the args list
 	}
 }
+
 
 /**
  * Checks if the given argument is a redirection operator.

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 13:50:16 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:12:27 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	skip_space_tab(char *inp, int i)
 		i++;
 	return (i);
 }
+
+
 /* IOA - Input(read from a file)/Output (write to a file)/Append (append data to a file)
 Purpose: Opens a file with specific permissions based on the flag
 Parameters:

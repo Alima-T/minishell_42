@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 16:19:17 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:37:08 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,16 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env_dup)
 	pid_t	pid;
 	int		status;
 	char	**envp;
+	char	*executable;
 
 	envp = env_list_to_array(env_dup);
+	executable = find_executable(cmd->cmd[0]);
+	if (!executable)
+	{
+		perror("execve");
+		free_env_array(envp);
+		return (1);
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -34,7 +42,7 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env_dup)
 			dup2(cmd->out, STDOUT_FILENO);
 			close(cmd->out);
 		}
-		execve(cmd->cmd[0], cmd->cmd, envp);
+		execve(executable, cmd->cmd, envp);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -42,6 +50,8 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env_dup)
 	{
 		// Fork failed
 		perror("fork");
+		free(executable);
+		free_env_array(envp);
 		return (1);
 	}
 	else
@@ -50,6 +60,7 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env_dup)
 		waitpid(pid, &status, 0);
 		*exit_status() = WEXITSTATUS(status);
 	}
+	free(executable);
 	free_env_array(envp);
 	return (0);
 }
@@ -57,9 +68,11 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env_dup)
 // function to execute a built-in command
 int	execute_builtin(t_cmd *cmd, t_shell *mini)
 {
-	int	cmd_count;
+	int		cmd_count;
+	char	**env_array;
 
 	cmd_count = count_args(cmd->cmd);
+	env_array = env_list_to_array(mini->env_dup);
 	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		return (builtin_cd(cmd_count, cmd->cmd));
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
@@ -67,13 +80,14 @@ int	execute_builtin(t_cmd *cmd, t_shell *mini)
 	else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 		return (builtin_echo(cmd->cmd));
 	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		return (builtin_env(mini->env_dup));
+		return (builtin_env(env_array));
 	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		return (builtin_export(cmd_count, cmd->cmd, mini->env_dup));
+		return (builtin_export(cmd_count, cmd->cmd, env_array));
 	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		return (builtin_unset(cmd_count, cmd->cmd, mini->env_dup));
+		return (builtin_unset(cmd_count, cmd->cmd, &env_array));
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
 		return (builtin_exit(cmd_count, cmd->cmd));
+	free_env_array(env_array);
 	return (1);
 }
 

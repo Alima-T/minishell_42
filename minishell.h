@@ -6,20 +6,20 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 16:36:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:36:47 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 // for perror
 # include "./LIBFT/libft.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 // for for getenv, setenv
 # include <stdlib.h>
 # include <string.h>
@@ -191,7 +191,7 @@ int					builtin_cd(int ac, char *av[]);
 int					builtin_echo(char **args);
 int					builtin_pwd(void);
 int					builtin_export(int ac, char *av[], char **env);
-int					builtin_unset(int ac, char *av[], char **env);
+int					builtin_unset(int ac, char *av[], char ***env);
 int					builtin_env(char **env);
 int					builtin_exit(int ac, char *av[]);
 
@@ -216,11 +216,13 @@ t_builtin_cmd		*init_builtin_cmds(void);
 int					count_args(char **args);
 int					is_builtin(const char *cmd, t_builtin_cmd *builtin_cmds);
 char				**env_list_to_array(t_env *env_dup);
+char				*find_executable(char *cmd);
 
 // execution cleanup
 
 void				free_builtin_cmds(t_builtin_cmd *builtin_cmds);
 void				free_env_array(char **envp);
+void				free_split(char **split);
 
 // fake_global
 
