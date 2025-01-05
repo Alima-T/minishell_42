@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 16:33:23 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:36:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void				cmd_destroy(t_cmd **list);
 void				init(t_shell *mini, char **envp);
 void				*mem_allocator(size_t size);
 void				free_shell_mem(t_shell *mini);
+void				free_exit(t_shell *mini, int exit_status);
 
 /* level_change.c */
 void				shell_level_down(t_shell *shell_context);
@@ -229,11 +230,6 @@ int					*exit_status(void);
 
 void				handle_signal(int signal);
 void				setup_signal_handlers(void);
-
-// MAIN
-
-void				execute_cmd(t_shell *mini);
-void				free_exit(t_shell *mini, int exit_status);
 
 /*** # TANJA end # ***/
 #endif
