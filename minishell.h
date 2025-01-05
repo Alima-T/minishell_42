@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 16:19:30 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:33:23 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,11 @@ void				free_env_array(char **envp);
 // fake_global
 
 int					*exit_status(void);
+
+// signals
+
+void				handle_signal(int signal);
+void				setup_signal_handlers(void);
 
 // MAIN
 
