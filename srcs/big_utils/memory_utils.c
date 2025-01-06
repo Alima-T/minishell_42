@@ -6,14 +6,13 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 14:18:51 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:05:57 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 //initialize a t_shell structure. TODO create another file for init and move it. Alima
-// Таня: добавила параметр, изменила 2ю строчку в функции
 void	init(t_shell *mini)
 {
 	mini->input = NULL;
@@ -42,11 +41,9 @@ void	*mem_allocator(size_t size)
 /*
 Frees the list of args and the list or structure of cmds
 */
-// Таня: добавила 2 строчки - env_destroy, free
+
 void	free_shell_mem(t_shell *mini)
 {
-	env_destroy(&mini->env_dup);
 	list_destroy(&mini->args);
 	cmd_destroy(&mini->cmds);
-	free(mini);
 }

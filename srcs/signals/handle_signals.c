@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signal.c                                    :+:      :+:    :+:   */
+/*   handle_signals.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 16:27:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 15:43:36 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 17:26:39 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,40 @@ void	sigs_interact_shell(void)
 	signal(SIGINT, &sig_interact_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 }
-// This function handles the SIGQUIT signal.
+/*handles the SIGQUIT signal by printing the signal number with a "Quit: " prefix to the error stream, 
+frees the mem allocated, sets the exit status to 131 (stand exit code for SIGQUIT), 
+обрабатывает сигнал SIGQUIT: выводит сообщение "Quit:" и номер сигнала в поток ошибок, 
+освобождает память и устанавливает статус выхода в 131.
+*/
 void	sig_non_interact_quit(int signal)
 {
 	char	*nb;
 
 	nb = ft_itoa(signal); 
-	ft_putstr_fd("Quit: ", STDERR_FILENO); // Output the message "Quit: " to the error stream.
-	ft_putendl_fd(nb, STDERR_FILENO); // Output the signal number to the error stream with a newline.
+	ft_putstr_fd("Quit: ", STDERR_FILENO); 
+	ft_putendl_fd(nb, STDERR_FILENO); 
 	free(nb); 
-	nb = NULL; // Set the pointer to the signal number string to NULL.
-	*exit_status() = 131; // Set the exit status to 131.
+	nb = NULL; 
+	*exit_status() = 131; 
 }
 
-// This function handles the SIGINT signal.
+/* handles the SIGINT signal, Output a newline character to the error stream.
+ft_putstr_fd("\n", STDERR_FILENO); выводит новую строку в поток ошибок для форматирования вывода в терминале.
+*exit_status() = 130; устан-т статус выхода в 130 (означает, что процесс был прерван сигналом SIGINT)
+*/
 void	sig_non_interact_ctrl_c(int signal)
 {
 	(void)signal; 
-	ft_putstr_fd("\n", STDERR_FILENO); // Output a newline character to the error stream.
-	*exit_status() = 130; // Set the exit status to 130.
+	ft_putstr_fd("\n", STDERR_FILENO); 
+	*exit_status() = 130; 
 }
 
-// This function sets up signal handlers for the non-interactive shell.
+/* This function sets up signal handlers for the non-interactive shell.
+signal(SIGTERM, SIG_DFL); // - Для сигнала SIGTERM уст-ся станд. действие SIG_DFL (завершение процесса)
+*/
 void	sigs_non_interact_shell(void)
 {
-	signal(SIGTERM, SIG_DFL); // Set the default handler for the SIGTERM signal.
-	signal(SIGINT, sig_non_interact_ctrl_c); // Set the handler for the SIGINT signal.
-	signal(SIGQUIT, sig_non_interact_quit); // Set the handler for the SIGQUIT signal.
+	signal(SIGTERM, SIG_DFL); // - Для сигнала SIGTERM устанавливается стандартное действие (SIG_DFL), что означает завершение процесса.
+	signal(SIGINT, sig_non_interact_ctrl_c);
+	signal(SIGQUIT, sig_non_interact_quit);
 }

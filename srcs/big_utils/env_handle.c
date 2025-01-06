@@ -3,38 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   env_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 14:05:13 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 17:46:38 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /*
-Explanation of Functions:
-1.find_in_env:
-This function searches for a specific key in the linked list of environment variables. If the key is found, it returns the corresponding value; otherwise, it returns NULL.
-2. env_lst_del_node:
-This function deletes a single node from the environment variable linked list. It frees the memory allocated for the node's line, key, and value strings, and then frees the node itself.
-3.env_destroy:
-This function destroys the entire linked list of environment variables. It iterates through the list, deleting each node using envl_lstdelone, and finally sets the head of the list to NULL.
-4. env_dup_lst_size:
-This function counts the number of nodes in the environment variable linked list. It returns the count of environment variables present or -1 if the list is NULL.
-5. change_val_in_env_dup:
-This function updates the value of an environment variable in the linked list. It searches for the specified key, and if found, it updates the value and constructs a new line representation of the variable.
-Summary:
-The env_handle.c file is responsible for managing environment variables in a shell-like environment. It provides functions to find, delete, count, and update environment variables stored in a linked list. This functionality is essential for a shell to manage its environment and provide users with the ability to interact with environment variables effectively.
+The env_handle.c file manages environment variables in a shell-like environment. 
+It provides functions for searching, deleting, counting, and updating environment variables stored in a linked list.
+
+Function explanations:
+find_in_env: searches for a key in the list and returns the value or NULL.
+env_del_node: deletes a node, freeing memory for the key, value, and the node itself.
+env_destroy: destroys the entire list by removing nodes and setting the list pointer to NULL.
+env_dup_size: counts the number of nodes in the list or returns -1 if the list is empty.
+change_val_in_env_dup: updates the value of an environment variable in the list, creating a new string for the variable.
+
+Файл env_handle.c управляет переменными окружения в оболочке. 
+Он предоставляет функции для поиска, удаления, подсчета и обновления переменных в связанном списке.
 
 Объяснение функций:
-find_in_env: ищет заданный ключ в связанном списке переменных окружения. Если ключ найден, возвращается соответствующее значение, иначе возвращается NULL.
-env_lst_del_node: удаляет один узел из связанного списка переменных окружения, освобождает память, выделенную для строки узла, ключа и значения, а затем освобождает сам узел.
-env_destroy: уничтожает весь связанный список переменных окружения. Она проходит по списку, удаляя каждый узел с помощью env_lst_del_node, и в конце устанавливает указатель на начало списка в NULL.
-env_dup_lst_size: подсчитывает кол-во узлов в связанном списке переменных окружения, возвращает кол-во переменных окружения или -1, если список равен NULL.
-change_val_in_env_dup: обновляет значение переменной окружения в связанном списке, ищет указанный ключ, и если находит его, обновляет значение и создает новую строку, представляющую переменную.
-
-Файл env_handle.c отвечает за управление переменными окружения в среде, подобной оболочке. Он предоставляет функции для поиска, удаления, подсчета и обновления переменных окружения, хранящихся в связанном списке. Эта функциональность важна для работы оболочки, чтобы она могла эффективно управлять окружением и предоставлять пользователям возможность взаимодействовать с переменными окружения.
+find_in_env: ищет ключ в списке и возвращает значение или NULL.
+env_del_node: удаляет узел, освобождает память для ключа, значения и самого узла.
+env_destroy: уничтожает весь список, удаляя узлы и устанавливая указатель на NULL.
+env_dup_size: подсчитывает количество узлов в списке или возвращает -1, если список пуст.
+change_val_in_env_dup: обновляет значение переменной окружения в списке, создав новую строку для переменной.
 */
 
 /**
@@ -46,78 +43,80 @@ change_val_in_env_dup: обновляет значение переменной 
  */
 char	*find_in_env(t_env *env_dup, char *key)
 {
-	if (!env_dup || !key) 				// Проверка, если список или ключ равны NULL
-		return (NULL); 					// Возврат NULL, если один из них равен NULL
-	while (env_dup) 					// Проход по связанному списку
+	if (!env_dup || !key)
+		return (NULL);
+	while (env_dup)
 	{
-		if (!ft_strcmp(env_dup->key, key)) // Сравнение текущего ключа с искомым ключом
-			return (env_dup->value); 		// Возврат значения, если ключ совпадает
-		env_dup = env_dup->next;			// Переход к следующему узлу
+		if (!ft_strcmp(env_dup->key, key))
+			return (env_dup->value);// Возврат значения, если ключ совпадает
+		env_dup = env_dup->next;
 	}
-	return (NULL);						// Возврат NULL, если ключ не найден
+	return (NULL);
 }
 
 /**
  * Удаляет отдельный узел переменной окружения из связанного списка.
  * Освобождает память, выделенную для узла и связанных с ним строк.
- *
  * @param list Указатель на узел переменной окружения для удаления.
+ * free(list); // Free the node itself
+ * list = NULL;// Установка указателя узла в NULL (не влияет на вызывающую функцию)
  */
-// del_env_node
 void	env_del_node(t_env *list)
 {
 	if (!list)
-		return;			// Exit if the node is NULL
-	free(list->line);	// Free the line string
-	list->line = NULL;	// Set the line pointer to NULL
-	free(list->key);	// Free the key string
-	list->key = NULL;	// Set the key pointer to NULL
-	free(list->value);	// Free the value string
-	list->value = NULL;	// Set the value pointer to NULL
-	free(list);			// Free the node itself
-	list = NULL;		// Set the node pointer to NULL 
-						// Установка указателя узла в NULL (не влияет на вызывающую функцию)
+		return;
+	free(list->line);
+	list->line = NULL;
+	free(list->key);
+	list->key = NULL;
+	free(list->value);
+	list->value = NULL;
+	free(list);
+	list = NULL;
 }
 
 /**
  * Destroys the entire environment variable linked list.Уничтожает весь связанный список переменных окружения.
  * It iterates through the list and deletes each node.Проходит по списку и удаляет каждый узел.
  * @param list A double pointer to the head of the environment variable list.
+ * 	*list = NULL;	// Set the head of the list to NULL (list is now empty)
  */
 void	env_destroy(t_env **list)
 {
-	t_env	*temp;	// Temporary pointer to hold the next node
+	t_env	*temp;
 
 	if (!list)
 		return ;
-	while (*list)	// While there are nodes in the list
+	while (*list)
 	{
-		temp = (*list)->next;	// Store the next node
-		env_del_node(*list);	// Delete the current node
-		*list = temp;			// Move to the next node
+		temp = (*list)->next;
+		env_del_node(*list);
+		*list = temp;
 	}
-	*list = NULL;	// Set the head of the list to NULL (list is now empty)
+	*list = NULL;
 }
 
 /**
-* Counts the number of nodes in the environment variable linked list.  Счет кол-ва узлов в связанном списке переменных окружения.
-* It returns the number of environment variables present.
+* Counts the number of nodes in the environment variable linked list
+* and returns the number of environment variables present. 
+* вычисляет количество элементов в связном списке `env_dup` (переменные окружения),
+* и возвращает это количество. Если список пустой (NULL), возвращается -1.
 * @param env_dup A pointer to the head of the environment variable list.
 * @return The count of environment variables, or -1 if the list is NULL.
 */
 int	env_dup_size(t_env *env_dup)
 {
-	int	count;		// Counter for the number of nodes
-
-	if (!env_dup)		// Check if the list is NULL
-		return (-1);	// Return -1 if the list is NULL
-	count = 0;			// Initialize the count
-	while (env_dup)		// Traverse the linked list Проход по связанному списку
+	int	count;
+	
+	if (!env_dup)
+		return (-1);
+	count = 0;
+	while (env_dup)
 	{
-		env_dup = env_dup->next;	// Move to the next node
-		count++;					// Increment the count
+		env_dup = env_dup->next;
+		count++;
 	}
-	return (count);	// Return the total count of nodes
+	return (count);
 }
 
 /**
@@ -129,20 +128,20 @@ int	env_dup_size(t_env *env_dup)
  */
 void	change_val_in_env_dup(t_env *env_dup, char *key, char *val)
 {
-	if (!env_dup || !key || !val)	// Check for NULL
+	if (!env_dup || !key || !val)
 		return ;
-	while (env_dup)					// Traverse the linked list
+	while (env_dup)
 	{
-		if (!ft_strcmp(env_dup->key, key))	// Compare the current key with the target key Сравнение текущего ключа с искомым ключом
+		if (!ft_strcmp(env_dup->key, key))
 		{
-			if (env_dup->line)				// If the line exists, free it
+			if (env_dup->line)
 				free(env_dup->line);
-			env_dup->line = ft_strjoin_con(key, "=", val);	// Create the new line
-			if (env_dup->value)	// If the value exists, free it
+			env_dup->line = ft_strjoin_con(key, "=", val);
+			if (env_dup->value)
 				free(env_dup->value);
-			env_dup->value = ft_strdup(val);	// Duplicate the new value
-			return ;	// Exit after updating
+			env_dup->value = ft_strdup(val);
+			return ;
 		}
-		env_dup = env_dup->next;	// Move to the next node
+		env_dup = env_dup->next;
 	}
 }
