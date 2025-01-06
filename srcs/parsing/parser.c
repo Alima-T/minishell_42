@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 17:41:10 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:53:29 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ void	parser(t_shell *mini, t_env *env_dup)
 	if (validator(mini->input) == 0)
 	{
 		mini->args = process_args(mini);
-		// mini->cmds = process_cmds(mini);
-		execute_cmd(mini); // Call the function to execute the command
+		mini->cmds = process_cmds(mini);
+		// execute_cmd(mini); // Call the function to execute the command
 	}
 	free(mini->input);
 	mini->input = NULL;
-	return ;
 }
