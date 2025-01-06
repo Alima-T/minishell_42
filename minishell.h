@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 15:53:00 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:08:06 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int					find_end(char *input, int pos, int *flag);
 int					is_redir(char *arg);
 void				mark_redirect(t_arg *args);
 void				split_input(char *input, t_arg **args, t_shell *mini);
-t_arg				*process_args(t_shell *minishell);
+t_arg				*process_args(t_shell *mini);
 /*** cmds_create    ***/
 int					find_cmd(t_arg *args);
 char				**turn_cmd_to_array(t_arg *args, int lists_count);
@@ -225,9 +225,9 @@ void				free_split(char **split);
 
 // fake_global
 
-int					*exit_status(void);
+int					*get_exit_status(void);
 
-// signals
+// handle_signals.c
 void	sig_interact_ctrl_c(int signal);
 void	sigs_interact_shell(void);
 void	sig_non_interact_quit(int signal);

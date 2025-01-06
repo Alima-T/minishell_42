@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 17:12:02 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 17:52:48 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	is_redir(char *arg)
 /**
  * Marks redirection flags in the argument list.
  * Sets the redir_flag for redirection operators and their following arguments.
- *
  * @param args A pointer to the list of arguments.
  */
 void	mark_redirect(t_arg *args)
@@ -144,14 +143,13 @@ void	mark_redirect(t_arg *args)
 /**
  * Processes the arguments from the shell structure.
  * Splits the input string into arguments and marks redirection flags.
- *
- * @param minishell A pointer to the shell structure containing input and arguments.
+ * @param mini A pointer to the shell structure containing input and arguments.
  * @return A pointer to the list of processed arguments.
  */
-t_arg	*process_args(t_shell *minishell)
+t_arg	*process_args(t_shell *mini)
 {
-	split_input(minishell->input, &(minishell->args), minishell);
-	mark_redirect(minishell->args);
-	return (minishell->args);
+	split_input(mini->input, &(mini->args), mini);
+	mark_redirect(mini->args);
+	return (mini->args);
 }
 
