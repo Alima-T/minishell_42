@@ -6,7 +6,7 @@
 #    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 18:05:01 by aokhapki          #+#    #+#              #
-#    Updated: 2024/12/23 12:51:16 by aokhapki         ###   ########.fr        #
+#    Updated: 2025/01/06 14:46:09 by aokhapki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ clean:
 fclean:      clean
 			@make fclean -C $(LIB_DIR)
 			@$(RM) $(NAME)
-			"\033[0;33mCompletely cleaned the project!\033[0m"
+			@echo "\033[0;33mCompletely cleaned the project!\033[0m"
 
 re:          fclean all
 

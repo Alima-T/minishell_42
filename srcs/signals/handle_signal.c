@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 16:27:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 16:31:24 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:45:11 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+// void sig_interact_ctrl_c(int signal)
 
 void	handle_signal(int signal)
 {

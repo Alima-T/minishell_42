@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 17:36:47 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:18:58 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,9 @@ void				cmd_del_node(t_cmd *cmd_node);
 void				cmd_destroy(t_cmd **list);
 
 /* mem_utils.c */
-void				init(t_shell *mini, char **envp);
+void				init(t_shell *mini);
 void				*mem_allocator(size_t size);
 void				free_shell_mem(t_shell *mini);
-void				free_exit(t_shell *mini, int exit_status);
 
 /* level_change.c */
 void				shell_level_down(t_shell *shell_context);
