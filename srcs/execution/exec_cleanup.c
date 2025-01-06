@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:56:52 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 17:32:54 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 19:19:23 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 void	free_builtin_cmds(t_builtin_cmd *builtin_cmds)
 {
 	t_builtin_cmd	*current;
+	t_builtin_cmd	*next;
 
-	while (builtin_cmds)
+	current = builtin_cmds;
+	while (current)
 	{
-		current = builtin_cmds;
-		builtin_cmds = builtin_cmds->next;
+		next = current->next;
 		free(current->cmd);
 		free(current);
+		current = next;
 	}
 }
 

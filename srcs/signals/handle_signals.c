@@ -26,7 +26,7 @@ Readline — это lib, в Unix-подобных системах, предос
  * clears the current input line, displays a new prompt, 
  * and updates the global exit status to 1 (error code).
  */
- 
+
 void	sig_interact_ctrl_c(int signal)
 {
 	(void) signal;
@@ -34,8 +34,9 @@ void	sig_interact_ctrl_c(int signal)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	*exit_status() = 1;
+	*get_exit_status() = 1;
 }
+
 /*обеспечивает устойчивость и отзывчивость оболочки к сигналам, 
 как от пользователя, так и от системы, позволяя выполнять команды 
 и прерывать их без неожиданного завершения программы.
@@ -48,10 +49,11 @@ when the user presses Ctrl+\ (SIGQUIT), maintaining a clean and controlled sessi
 */
 void	sigs_interact_shell(void)
 {
-	signal(SIGTERM, SIG_IGN); 
+	signal(SIGTERM, SIG_IGN);
 	signal(SIGINT, &sig_interact_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 }
+
 /*handles the SIGQUIT signal by printing the signal number with a "Quit: " prefix to the error stream, 
 frees the mem allocated, sets the exit status to 131 (stand exit code for SIGQUIT), 
 обрабатывает сигнал SIGQUIT: выводит сообщение "Quit:" и номер сигнала в поток ошибок, 
@@ -61,12 +63,12 @@ void	sig_non_interact_quit(int signal)
 {
 	char	*nb;
 
-	nb = ft_itoa(signal); 
-	ft_putstr_fd("Quit: ", STDERR_FILENO); 
-	ft_putendl_fd(nb, STDERR_FILENO); 
-	free(nb); 
-	nb = NULL; 
-	*exit_status() = 131; 
+	nb = ft_itoa(signal);
+	ft_putstr_fd("Quit: ", STDERR_FILENO);
+	ft_putendl_fd(nb, STDERR_FILENO);
+	free(nb);
+	nb = NULL;
+	*get_exit_status() = 131;
 }
 
 /* handles the SIGINT signal, Output a newline character to the error stream.
@@ -75,9 +77,9 @@ ft_putstr_fd("\n", STDERR_FILENO); выводит новую строку в п�
 */
 void	sig_non_interact_ctrl_c(int signal)
 {
-	(void)signal; 
-	ft_putstr_fd("\n", STDERR_FILENO); 
-	*exit_status() = 130; 
+	(void)signal;
+	ft_putstr_fd("\n", STDERR_FILENO);
+	*get_exit_status() = 130;
 }
 
 /* This function sets up signal handlers for the non-interactive shell.
@@ -85,7 +87,8 @@ signal(SIGTERM, SIG_DFL); // - Для сигнала SIGTERM уст-ся ста�
 */
 void	sigs_non_interact_shell(void)
 {
-	signal(SIGTERM, SIG_DFL); // - Для сигнала SIGTERM устанавливается стандартное действие (SIG_DFL), что означает завершение процесса.
+	// - Для сигнала SIGTERM устанавливается стандартное действие (SIG_DFL), что означает завершение процесса.
+	signal(SIGTERM, SIG_DFL);
 	signal(SIGINT, sig_non_interact_ctrl_c);
 	signal(SIGQUIT, sig_non_interact_quit);
 }

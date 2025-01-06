@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:22:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 15:11:20 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:38:33 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	start_check(char *input, int i)
  * @param i A pointer to the current index in the input string.
  * @return An integer indicating success (0) or an error code (non-zero).
  */
- 
 int	finish_check(char *input, int *i)
 {
 	*i = skip_space_tab(input, *i); // Skip any leading whitespace
