@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 17:12:27 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:03:26 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	open_fd(char *path, char flag)
 	if (fd == -1)// Handle errors during file opening
 	{
 		print_msg(1, strerror(errno), 1);  // Print the error message
-		*exit_status() = 1;                    // Set global error status
-		exit(*exit_status());                  // Exit the program
+		*get_exit_status() = 1;                    // Set global error status
+		exit(*get_exit_status());                  // Exit the program
 	}
 	return (fd); // Return the valid file descriptor
 }

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 14:21:13 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:57:37 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ int	builtin_echo(char **args)
 	// between them
 	while (args[i] != NULL)
 	{
-		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
+		if (args[i][0] == '\'' || args[i][0] == '\"')
+			write(STDOUT_FILENO, args[i] + 1, ft_strlen(args[i]) - 2);
+		else
+			write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
 		i++;
 		if (args[i] != NULL)
 		{

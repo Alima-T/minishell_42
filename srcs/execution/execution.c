@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 17:37:08 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:03:26 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env_dup)
 	{
 		// Parent process
 		waitpid(pid, &status, 0);
-		*exit_status() = WEXITSTATUS(status);
+		*get_exit_status() = WEXITSTATUS(status);
 	}
 	free(executable);
 	free_env_array(envp);

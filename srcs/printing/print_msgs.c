@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_msgs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/02 17:11:57 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:24:26 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,24 @@
 int	print_msg(int return_val, char *message, int exit_stat)
 {
 	// Print a formatted prefix "[minishell ]$ " to stderr
-	// BEGIN(49, 32) and CLOSE could be macros that add color or special formatting.
+	// BEGIN(49, 32) and CLOSE could be macros that add color or
+	// special formatting.
 	// 49: Default background color (terminal's default background).
 	// 32: Green text color (foreground).
-	ft_putstr_fd(BEGIN(49, 32)"[minishell ]$ "CLOSE, STDERR_FILENO);
+	ft_putstr_fd(BEGIN(49, 32) "[minishell ]$ " CLOSE, STDERR_FILENO);
 	// Print the provided message to stderr
 	ft_putendl_fd(message, STDERR_FILENO);
-	*exit_status() = exit_stat;
+	*get_exit_status() = exit_stat;
 	// Return the value of return_val
 	// This value is typically used to signal success or failure to the caller.
 	return (return_val);
 }
 
-void print_args(t_arg *args)
+void	print_args(t_arg *args)
 {
-	if(args == NULL)
+	if (args == NULL)
 		return ;
-	while(args)
+	while (args)
 	{
 		printf("args origin - |%s| \t %d\n", args->arg_val, args->redir_flag);
 		args = args->next;
@@ -44,12 +45,12 @@ void	error_msg(char *message)
 		ft_putendl_fd(message, STDERR_FILENO);
 	else
 		perror("Error");
-	*exit_status() = 128;
+	*get_exit_status() = 128;
 }
 
 void	no_such_message(char *message)
 {
-	ft_putstr_fd(BEGIN(49, 32)"[minishell ]$ "CLOSE, STDERR_FILENO);
+	ft_putstr_fd(BEGIN(49, 32) "[minishell ]$ " CLOSE, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);
@@ -63,12 +64,13 @@ void	print_redir(t_cmd *cmds)
 		return ;
 	while (cmds)
 	{
-		temp = (t_redir *) cmds->redir;
+		temp = (t_redir *)cmds->redir;
 		if (temp == NULL)
 			break ;
 		while (temp)
 		{
-			printf("redirect type - |%s| \t name - |%s|\n", temp->type, temp->name);
+			printf("redirect type - |%s| \t name - |%s|\n", temp->type,
+				temp->name);
 			temp = temp->next;
 		}
 		cmds = cmds->next;
@@ -87,14 +89,15 @@ void	print_cmds(t_cmd *cmds)
 		i = 0;
 		while (cmds->cmd[i])
 		{
-			printf("cmds command[%d] - |%s|\t input - |%d|\t output - |%d|\n", \
-					i, cmds->cmd[i], cmds->inp, cmds->out);
+			printf("cmds command[%d] - |%s|\t input - |%d|\t output - |%d|\n",
+				i, cmds->cmd[i], cmds->inp, cmds->out);
 			i++;
 		}
-		temp = (t_redir *) cmds->redir;
+		temp = (t_redir *)cmds->redir;
 		while (temp)
 		{
-			printf("redirect type - |%s| \t name - |%s|\n", temp->type, temp->name);
+			printf("redirect type - |%s| \t name - |%s|\n", temp->type,
+				temp->name);
 			temp = temp->next;
 		}
 		cmds = cmds->next;

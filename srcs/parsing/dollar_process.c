@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 15:36:21 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:03:26 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*question_handle(char *input, int begin, int *i)
 	char	*nbr_val; // String representation of the exit status
 	char	*tail; // Part of the input string after the question mark
 
-	nbr_val = ft_itoa(*exit_status()); // Convert the exit status to a string
+	nbr_val = ft_itoa(*get_exit_status()); // Convert the exit status to a string
 	tmp_1 = ft_substr(input, 0, begin); // Get the part before the question mark
 	tmp_2 = ft_strjoin(tmp_1, nbr_val); // Concatenate the part before with the exit status
 	tail = ft_strdup(&input[*i]); // Get the part of the input after the question mark
@@ -85,7 +85,7 @@ char	*question_handle(char *input, int begin, int *i)
 	free(tmp_2); // Free the temporary string for the concatenated result
 	free(tail); // Free the tail part of the input
 	free(input); // Free the original input string
-	*exit_status() = 0; // Reset the exit status to 0
+	*get_exit_status() = 0; // Reset the exit status to 0
 	return (line_new); // Return the new input string with the exit status
 }
 
