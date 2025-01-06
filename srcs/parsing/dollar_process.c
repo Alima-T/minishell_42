@@ -6,14 +6,14 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 15:36:21 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:53:09 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 /*
 Summary of the Function:
-Purpose: The cmds_processing function processes a linked list of arguments from a shell structure (t_shell *mini) and creates a list of commands (t_cmd) based on the presence of pipe characters (|).
+Purpose: The process_cmds function processes a linked list of arguments from a shell structure (t_shell *mini) and creates a list of commands (t_cmd) based on the presence of pipe characters (|).
 Logic:
 It first checks if there are any arguments. If not, it returns NULL.
 It initializes pointers to traverse the argument list and to mark the beginning of each command.

@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 14:18:58 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:53:00 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_cmd				*create_cmds_list(t_arg *args);
 void				add_cmd_lst_end(t_cmd **list, t_cmd *new);
 
 /*** cmds_process.c ***/
-t_cmd				*cmds_processing(t_shell *mini);
+t_cmd				*process_cmds(t_shell *mini);
 /***  dollar_process.c ***/
 char				*replace_env_var(char *input, int start, int end,
 						t_env *env_dup);
@@ -228,9 +228,11 @@ void				free_split(char **split);
 int					*exit_status(void);
 
 // signals
-
-void				handle_signal(int signal);
-void				setup_signal_handlers(void);
+void	sig_interact_ctrl_c(int signal);
+void	sigs_interact_shell(void);
+void	sig_non_interact_quit(int signal);
+void	sig_non_interact_ctrl_c(int signal);
+void	sigs_non_interact_shell(void);
 
 /*** # TANJA end # ***/
 #endif

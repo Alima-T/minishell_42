@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 16:27:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 15:36:01 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:43:36 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,31 @@ void	sigs_interact_shell(void)
 	signal(SIGINT, &sig_interact_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 }
+// This function handles the SIGQUIT signal.
+void	sig_non_interact_quit(int signal)
+{
+	char	*nb;
 
+	nb = ft_itoa(signal); 
+	ft_putstr_fd("Quit: ", STDERR_FILENO); // Output the message "Quit: " to the error stream.
+	ft_putendl_fd(nb, STDERR_FILENO); // Output the signal number to the error stream with a newline.
+	free(nb); 
+	nb = NULL; // Set the pointer to the signal number string to NULL.
+	*exit_status() = 131; // Set the exit status to 131.
+}
 
+// This function handles the SIGINT signal.
+void	sig_non_interact_ctrl_c(int signal)
+{
+	(void)signal; 
+	ft_putstr_fd("\n", STDERR_FILENO); // Output a newline character to the error stream.
+	*exit_status() = 130; // Set the exit status to 130.
+}
+
+// This function sets up signal handlers for the non-interactive shell.
+void	sigs_non_interact_shell(void)
+{
+	signal(SIGTERM, SIG_DFL); // Set the default handler for the SIGTERM signal.
+	signal(SIGINT, sig_non_interact_ctrl_c); // Set the handler for the SIGINT signal.
+	signal(SIGQUIT, sig_non_interact_quit); // Set the handler for the SIGQUIT signal.
+}
