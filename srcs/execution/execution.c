@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 19:33:27 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:56:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ int	execute_multiple_cmds(t_shell *mini)
 	t_cmd	*cmd;
 	int		pipe_fd[2];
 	int		status;
+	pid_t	pid;
 
 	cmd = mini->cmds;
 	mini->input_fd = STDIN_FILENO;
-	status = 0;
+	// status = 0;
 	while (cmd)
 	{
 		if (cmd->next)
@@ -122,30 +123,80 @@ int	execute_multiple_cmds(t_shell *mini)
 				return (1);
 			}
 			mini->output_fd = pipe_fd[1];
-			status = execute_single_cmd_with_redir(cmd, mini);
-			close(pipe_fd[1]);
-			mini->input_fd = pipe_fd[0];
+			// status = execute_single_cmd_with_redir(cmd, mini);
+			// close(pipe_fd[1]);
+			// mini->input_fd = pipe_fd[0];
 		}
 		else
 		{
 			mini->output_fd = STDOUT_FILENO;
-			status = execute_single_cmd_with_redir(cmd, mini);
+			// status = execute_single_cmd_with_redir(cmd, mini);
+		}
+		pid = fork();
+		if (pid == 0)
+		{
+			// Child process
+			if (mini->input_fd != STDIN_FILENO)
+			{
+				dup2(mini->input_fd, STDIN_FILENO);
+				close(mini->input_fd);
+			}
+			if (mini->output_fd != STDOUT_FILENO)
+			{
+				dup2(mini->output_fd, STDOUT_FILENO);
+				close(mini->output_fd);
+			}
+			execute_external_cmd(cmd, mini);
+		}
+		else if (pid < 0)
+		{
+			// Fork failed
+			perror("fork");
+			return (1);
+		}
+		else
+		{
+			// Parent process
+			waitpid(pid, &status, 0);
+			*get_exit_status() = WEXITSTATUS(status);
+			if (mini->input_fd != STDIN_FILENO)
+				close(mini->input_fd);
+			if (mini->output_fd != STDOUT_FILENO)
+				close(mini->output_fd);
+			mini->input_fd = pipe_fd[0];
 		}
 		cmd = cmd->next;
 	}
-	if (mini->input_fd != STDIN_FILENO)
-		close(mini->input_fd);
+	// if (mini->input_fd != STDIN_FILENO)
+	// 	close(mini->input_fd);
 	return (status);
 }
 
 // function to handle built-in and external commands
 void	execute_cmd(t_shell *mini)
 {
+	t_cmd	*cmd;
+	char	*expanded_cmd;
+	int		i;
+
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
 	{
 		perror("Failed to initialize built-in commands");
 		return ;
+	}
+	cmd = mini->cmds;
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->cmd[i])
+		{
+			expanded_cmd = expand_env_vars(cmd->cmd[i]);
+			free(cmd->cmd[i]);
+			cmd->cmd[i] = expanded_cmd;
+			i++;
+		}
+		cmd = cmd->next;
 	}
 	if (mini->cmds && mini->cmds->next)
 		execute_multiple_cmds(mini);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
+#    By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 14:27:44 by aokhapki          #+#    #+#              #
-#    Updated: 2024/12/23 13:36:16 by aokhapki         ###   ########.fr        #
+#    Updated: 2025/01/09 14:35:44 by tbolsako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SOURCE			=	ft_atoi.c \
 					ft_itoa.c \
 					ft_strmapi.c \
 					ft_striteri.c \
+					ft_strjoin_char.c \
 					ft_strjoin_con.c\
 					ft_split.c 
 OBJS			=	$(SOURCE:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 19:29:46 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:43:14 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ int							count_args(char **args);
 int							is_builtin(const char *cmd, t_builtin_cmd *builtin_cmds);
 char						**env_list_to_array(t_env *env_dup);
 char						*find_executable(char *cmd);
+char						*expand_env_vars(char *str);
 
 // execution cleanup
 
