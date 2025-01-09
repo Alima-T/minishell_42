@@ -6,11 +6,74 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 16:08:58 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:06:57 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+/**
+ * Parses special characters in the input string, handling quotes, escape characters,
+ * and variable expansions.
+ * 
+ * @param input The original input string to be parsed.
+ * @param env_dup A pointer to the environment variables (used for variable expansion).
+ * @return The modified input string after processing special characters.
+ */
+// "", '', $, |, $?, <, >, <<, >>
+
+char	*parse_special_chars(char *input, t_env *env_dup)
+{
+	int i;
+	i = 0;
+	while(input[i])
+	{
+		if(input[i] == '\'')
+			input = is_quote(input, &i);
+		if(input[i] == '\"')
+			input = is_double_quote(input, &i, env_dup);
+		if(input[i] == '$')
+			input = is_dollar(input, &i, env_dup);
+		i++;
+	}
+	return (input);
+}
+
+/*process_cmds_and_redirs проходит по всем командам (cmd) и перенаправлениям (rdr) в структуре данных оболочки 
+и применяет функцию parse_special_chars к каждой строке команды и имени файла перенаправления. 
+Эта обработка выполняет разбор специальных символов, таких как кавычки (', ") и переменные окружения ($), 
+используя данные из mini->env_dup, которые содержат переменные окружения. 
+В результате все команды и имена файлов очищаются и подготавливаются для выполнения, 
+разрешая или удаляя последовательности специальных символов.
+*/
+
+void process_cmds_and_redirs(t_shell *mini)
+{
+	t_cmd *cmd;
+	t_redir *rdr;
+	int i;
+	
+	cmd = mini->cmds;
+	rdr = (t_redir *) mini->cmds->redir;
+	while(cmd)
+	{
+		if(cmd->cmd)
+		{
+			i = 0;
+			while(cmd->cmd[i])
+			{
+				cmd->cmd[i] = parse_special_chars(cmd->cmd[i], mini->env_dup);
+				i++;
+			}
+		}
+		while(rdr)
+		{
+			rdr->name = parse_special_chars(rdr->name, mini->env_dup);
+			rdr = rdr->next;
+		}
+		cmd = cmd->next;
+	}
+}
 
 /*
 Summary of the Function:
@@ -49,6 +112,6 @@ t_cmd	*process_cmds(t_shell *mini)
 	}
 	// After the loop, create a command for the last segment of arguments
 	add_cmd_lst_end(&mini->cmds, create_cmds_list(cmd_begin));
-	//TODO mem_free
+	process_cmds_and_redirs(mini);
 	return (mini->cmds); // Return the list of commands created
 }

@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 15:57:50 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:10:21 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,9 @@ int							find_cmd(t_arg *args);
 char						**turn_cmd_to_array(t_arg *args, int lists_count);
 t_cmd						*create_cmds_list(t_arg *args);
 void						add_cmd_lst_end(t_cmd **list, t_cmd *new);
-
 /*** cmds_process.c ***/
+void						process_cmds_and_redirs(t_shell *mini);
+char						*parse_special_chars(char *input, t_env *env_dup);
 t_cmd						*process_cmds(t_shell *mini);
 /***  dollar_process.c ***/
 char						*replace_env_var(char *input, int start, int end,
@@ -153,8 +154,7 @@ char						*copy_key(char *env_part);
 void						envl_lstadd_back(t_env **list, t_env *new);
 t_env						*envl_lstnew(char *env_str);
 t_env						*copy_envp(char **envp);
-/***  parse_special_chars.c ***/
-char						*parse_special_chars(char *input, t_env *env_dup);
+
 /*** parse_utils.c    ***/
 int							skip_space_tab(char *inp, int i);
 int							open_fd(char *path, char flag);
