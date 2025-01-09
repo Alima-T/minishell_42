@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:20:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 18:13:57 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:18:18 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ int is_path(char *str)
 	}
 	return (0);	
 }
-/*
-Resolves the full executable path for a given command by:
-Returning the command directly if it already includes an executable path.
-Searching for the command in the directories listed in the PATH environment variable.
-If a match is found (exists and is executable), it returns the full path; otherwise, it returns NULL.
-
-Определяет полный путь к исполняемому файлу для заданной команды с помощью:
-Возврат команды напрямую, если она уже содержит путь к исполняемому файлу.
-Поиск команды в каталогах, указанных в PATHпеременной среды.
-Если совпадение найдено (существует и является исполняемым), возвращается полный путь; в противном случае возвращается NULL.
-
-*/
 
 //reapeat func (Alima)
 void free_array (char **array)
@@ -67,6 +55,16 @@ void free_array (char **array)
 	free(array);
 	array = NULL;
 }
+/*
+Resolves the full executable path for a given command by:
+Returning the command directly if it already includes an executable path.
+Searching for the command in the directories listed in the PATH environment variable.
+If a match is found (exists and is executable), it returns the full path; otherwise, it returns NULL.
+Определяет полный путь к исполняемому файлу для заданной команды с помощью:
+Возврат команды напрямую, если она уже содержит путь к исполняемому файлу.
+Поиск команды в каталогах, указанных в PATHпеременной среды.
+Если совпадение найдено (существует и является исполняемым), возвращается полный путь; в противном случае возвращается NULL.
+*/
 
 char *path_process(t_shell *mini, char *cmd_name)
 {
@@ -83,9 +81,14 @@ char *path_process(t_shell *mini, char *cmd_name)
 	while(paths[i])
 	{
 		path = ft_strjoin_con(paths[i], "/", cmd_name);
+		if(!access(path, F_OK | X_OK))
+		{
+			free_array(paths);
+			return(path);
+		}
+		free(path);
+		i++;
 	}
-	free(path);
-	i++;
 	free_array(paths);
 	return(NULL);
 }
