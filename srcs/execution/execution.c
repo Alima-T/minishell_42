@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/09 14:56:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:48:54 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	executable = find_executable(cmd->cmd[0]);
 	if (!executable)
 	{
-		printf("minishell: command not found: %s\n", cmd->cmd[0]);
+		printf("minishell: %s: command not found\n", cmd->cmd[0]);
 		free_env_array(envp);
 		// return 127 for command not found
 		return (127);
@@ -55,7 +55,10 @@ int	execute_builtin(t_cmd *cmd, t_shell *mini)
 	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
 		return (builtin_unset(cmd_count, cmd->cmd, &env_array));
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-		return (builtin_exit(cmd_count, cmd->cmd));
+	{
+		free_env_array(env_array);
+		builtin_exit(cmd_count, cmd->cmd);
+	}
 	free_env_array(env_array);
 	return (1);
 }
@@ -178,6 +181,7 @@ void	execute_cmd(t_shell *mini)
 	t_cmd	*cmd;
 	char	*expanded_cmd;
 	int		i;
+	int		status;
 
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)

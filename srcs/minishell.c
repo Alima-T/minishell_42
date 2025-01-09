@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 18:34:49 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:08:08 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,3 @@ int	main(int ac, char **av, char **envp)
 	free_shell_mem(mini);
 	return (0);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:26:24 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 14:35:59 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:33:18 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void				ft_putnbr_fd(int n, int fd);
 char				*ft_strjoin_con(char const *s1, char *connector,
 						char const *s2);
 char				*ft_strjoin_char(char *str, char c);
+int					ft_isnum(const char *str);
 // // bonus_functions
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
