@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 14:43:14 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:57:50 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ char						*copy_key(char *env_part);
 void						envl_lstadd_back(t_env **list, t_env *new);
 t_env						*envl_lstnew(char *env_str);
 t_env						*copy_envp(char **envp);
-/***  pars_special_chars.c ***/
+/***  parse_special_chars.c ***/
 char						*parse_special_chars(char *input, t_env *env_dup);
 /*** parse_utils.c    ***/
 int							skip_space_tab(char *inp, int i);

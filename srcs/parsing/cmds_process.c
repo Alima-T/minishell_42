@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 15:53:08 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:08:58 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ t_cmd	*process_cmds(t_shell *mini)
 	}
 	// After the loop, create a command for the last segment of arguments
 	add_cmd_lst_end(&mini->cmds, create_cmds_list(cmd_begin));
+	//TODO mem_free
 	return (mini->cmds); // Return the list of commands created
 }
