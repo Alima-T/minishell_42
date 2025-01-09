@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 17:52:48 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:01:46 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	split_input(char *input, t_arg **args, t_shell *mini)
 			add_arg_end(args, new_arg(ft_substr(input, start, end - start), mini));// Add the token to the args list
 	}
 }
-
 
 /**
  * Checks if the given argument is a redirection operator.

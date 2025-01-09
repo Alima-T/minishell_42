@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 17:10:21 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:05:42 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void						cmd_destroy(t_cmd **list);
 void						init(t_shell *mini);
 void						*mem_allocator(size_t size);
 void						free_shell_mem(t_shell *mini);
+void 						free_array (char **array);
 
 /* level_change.c */
 void						shell_level_down(t_shell *shell_context);
@@ -154,13 +155,17 @@ char						*copy_key(char *env_part);
 void						envl_lstadd_back(t_env **list, t_env *new);
 t_env						*envl_lstnew(char *env_str);
 t_env						*copy_envp(char **envp);
-
 /*** parse_utils.c    ***/
 int							skip_space_tab(char *inp, int i);
 int							open_fd(char *path, char flag);
 void						set_redir(t_cmd *cmds);
 /***  parser.c     ***/
 void						parser(t_shell *mini, t_env *env_dup);
+/*** path_process.c  ***/
+char						**get_paths(t_shell *mini);
+int							is_path(char *str);
+char						*path_process(t_shell *mini, char *cmd_name);
+
 /***  quotes_process.c  ***/
 char						*combine_subs(char *input, int start, int end);
 char						*is_quote(char *input, int *i);
@@ -168,8 +173,7 @@ char						*is_double_quote(char *input, int *i,
 								t_env *env_dup);
 /*** PRINTING  ***/
 /* print_msgs.c*/
-int							print_msg(int return_val, char *message,
-								int exit_stat);
+int							print_msg(int return_val, char *msg, int exit_stat);
 /*** VALIDATION ***/
 /*** validator.c ***/
 int							start_check(char *input, int i);

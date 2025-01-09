@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 15:03:26 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:25:32 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,26 @@ O_WRONLY: Открывает файл только для записи.
 O_TRUNC: Усекает (очищает) файл, если он существует.
 O_APPEND: Добавляет к файлу (сохраняет существующее содержимое)
 0644: Устанавливает права доступа к файлу (чтение/запись для владельца, только чтение для остальных).
+if (fd == -1)// Handle errors during file opening
 */
 
 int	open_fd(char *path, char flag)
 {
-	int	fd = -1;
-
+	int	fd;
+	
+	fd = -1;
 	// Open file based on the flag
 	if (flag == 'I') // Read-only mode
 		fd = open(path, O_RDONLY);
-	else if (flag == 'O') // Write-only, truncate
+	else if (flag == 'O') 
 		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (flag == 'A') // Write-only, append
+	else if (flag == 'A') 
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (fd == -1)// Handle errors during file opening
+	if (fd == -1)
 	{
-		print_msg(1, strerror(errno), 1);  // Print the error message
-		*get_exit_status() = 1;                    // Set global error status
-		exit(*get_exit_status());                  // Exit the program
+		print_msg(1, strerror(errno), 1);
+		*get_exit_status() = 1;
+		exit(*get_exit_status());
 	}
 	return (fd); // Return the valid file descriptor
 }

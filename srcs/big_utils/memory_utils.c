@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 18:05:57 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:07:33 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,21 @@ void	free_shell_mem(t_shell *mini)
 {
 	list_destroy(&mini->args);
 	cmd_destroy(&mini->cmds);
+}
+
+//reapeat func (Alima)
+//free arrays
+void free_array (char **array)
+{
+	int i;
+
+	i = 0;
+	while(array[i])
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	array = NULL;
 }

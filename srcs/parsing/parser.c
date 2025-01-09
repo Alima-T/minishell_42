@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 15:53:29 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:55:41 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,18 @@
 void	parser(t_shell *mini, t_env *env_dup)
 {
 	(void)env_dup;
-	// read input from the user
 	mini->input = readline(BEGIN(49, 32) "[minishell ]$ " CLOSE);
-	if (mini->input == NULL) // Check if readline returned NULL
-	{
-		if (mini->input == NULL && *mini->input == '\0')
-			// Check for empty input
-		{
-			printf("Exiting shell.\n");
-			exit(EXIT_SUCCESS); // Exit gracefully on EOF
-		}
-		perror("Error reading input"); // Print error message
-		exit(EXIT_FAILURE);            // Exit on error
-	}
+	if (mini->input == NULL && *mini->input == '\0')
+		exit(*get_exit_status());
+	// {
+	// 	if (mini->input == NULL && *mini->input == '\0')
+	// 	{
+	// 		printf("Exiting shell.\n");
+	// 		exit(EXIT_SUCCESS); 
+	// 	}
+	// 	perror("Error reading input");
+	// 	exit(EXIT_FAILURE);
+	// }
 	if (*mini->input)
 		add_history(mini->input);
 	if (validator(mini->input) == 0)

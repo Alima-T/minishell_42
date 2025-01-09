@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:20:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 18:18:18 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:03:55 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int is_path(char *str)
 	int i;
 
 	i = 0;
-	while((str[i] != '\0') && (!ft_isalnum (str[i])))
+	while((str[i]) && (!ft_isalnum (str[i])))
 	{
 		if(str[i] == '/')
 			return (1);
@@ -40,21 +40,6 @@ int is_path(char *str)
 	return (0);	
 }
 
-//reapeat func (Alima)
-void free_array (char **array)
-{
-	int i;
-
-	i = 0;
-	while(array[i] != '\0')
-	{
-		free(array[i]);
-		array[i] = NULL;
-		i++;
-	}
-	free(array);
-	array = NULL;
-}
 /*
 Resolves the full executable path for a given command by:
 Returning the command directly if it already includes an executable path.
