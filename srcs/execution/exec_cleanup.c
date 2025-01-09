@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cleanup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:56:52 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 19:19:23 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:05:18 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_builtin_cmds(t_builtin_cmd *builtin_cmds)
 		current = next;
 	}
 }
-
+//Repeat func (Alima)
 // function to free the array of env vars
 void	free_env_array(char **envp)
 {
@@ -41,7 +41,7 @@ void	free_env_array(char **envp)
 	}
 	free(envp);
 }
-
+//Repeat func (Alima)
 void	free_split(char **split)
 {
 	int	i;
