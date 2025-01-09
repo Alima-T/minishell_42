@@ -6,7 +6,7 @@
 #    By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 14:27:44 by aokhapki          #+#    #+#              #
-#    Updated: 2025/01/09 14:35:44 by tbolsako         ###   ########.fr        #
+#    Updated: 2025/01/09 18:33:46 by tbolsako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME	= libft.a
 SOURCE			=	ft_atoi.c \
 					ft_isalpha.c \
 					ft_isdigit.c \
+					ft_isnum.c \
 					ft_isalnum.c \
 					ft_isascii.c \
 					ft_isprint.c \

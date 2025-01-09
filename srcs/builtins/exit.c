@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 15:03:26 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:32:45 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,27 @@
 // function to terminate the shell
 int	builtin_exit(int ac, char *av[])
 {
-	int	get_exit_status;
+	int	exit_status;
 
-	get_exit_status = 0;
-	if (ac > 1)
-		get_exit_status = ft_atoi(av[1]);
-	// exit the shell with a status code of 0 (indicating success)
-	exit(get_exit_status);
+	if (ac > 2)
+	{
+		// too many args
+		printf("exit: too many arguments\n");
+		return (1);
+	}
+	if (ac == 2)
+	{
+		if (!ft_isnum(av[1]))
+		{
+			// Non-numeric argument
+			printf("exit: %s: numeric argument required\n", av[1]);
+			exit(255);
+		}
+		exit_status = ft_atoi(av[1]);
+	}
+	else
+		exit_status = *get_exit_status();
+	// print exit message and exit the shell with the provided status code
+	printf("exit\n");
+	exit(exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 14:17:18 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:20:09 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	builtin_cd(int ac, char *av[])
 
 	// too many args
 	if (ac > 2)
-		return (0);
+	{
+		write(STDERR_FILENO, "cd: too many arguments\n", 23);
+		return (1);
+	}
 	// ensure PWD and OLDPWD are set
 	handle_missing_env_vars();
 	path = get_cd_path(ac, av);
