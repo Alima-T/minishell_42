@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/09 18:20:09 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/13 11:19:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,6 @@
 // retrieves the value of an env variable
 static char	*get_env_var(const char *var_name)
 {
-	// char	**env;
-	// int		i;
-	// size_t	len;
-	// env = *env_vars();
-	// i = 0;
-	// len = ft_strlen(var_name);
-	// while (env[i])
-	// {
-	// 	if (ft_strncmp(env[i], var_name, len) == 0 && env[i][len] == '=')
-	// 		return (env[i] + len + 1);
-	// 	i++;
-	// }
 	return (getenv(var_name));
 }
 
@@ -38,12 +26,12 @@ static void	handle_missing_env_vars(void)
 	if (!get_env_var("PWD") && getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		if (setenv("PWD", cwd, 1) != 0)
-			perror("cd: failed to upd env variable");
+			perror("cd: failed to update env variable");
 	}
 	if (!get_env_var("OLDPWD") && getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		if (setenv("OLDPWD", cwd, 1) != 0)
-			perror("cd: failed to upd env variable");
+			perror("cd: failed to update env variable");
 	}
 }
 
