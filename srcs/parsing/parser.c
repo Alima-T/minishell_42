@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 18:55:41 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:35:30 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 void	parser(t_shell *mini, t_env *env_dup)
 {
 	(void)env_dup;
-	mini->input = readline(BEGIN(49, 32) "[minishell ]$ " CLOSE);
+	mini->input = readline(BEGIN(49, 32) "minishell$ " CLOSE);
 	if (mini->input == NULL && *mini->input == '\0')
 		exit(*get_exit_status());
 	// {

@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 19:06:11 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:15:03 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	print_msg(int return_val, char *msg, int exit_stat)
 	// special formatting.
 	// 49: Default background color (terminal's default background).
 	// 32: Green text color (foreground).
-	ft_putstr_fd(BEGIN(49, 32) "[minishell ]$ " CLOSE, STDERR_FILENO);
+	ft_putstr_fd(BEGIN(49, 32) "minishell$ " CLOSE, STDERR_FILENO);
 	// Print the provided message to stderr
 	ft_putendl_fd(msg, STDERR_FILENO);
 	*get_exit_status() = exit_stat;
@@ -50,7 +50,7 @@ void	error_msg(char *message)
 
 void	no_such_message(char *message)
 {
-	ft_putstr_fd(BEGIN(49, 32) "[minishell ]$ " CLOSE, STDERR_FILENO);
+	ft_putstr_fd(BEGIN(49, 32) "minishell$ " CLOSE, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);
