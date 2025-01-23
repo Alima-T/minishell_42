@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:55:59 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 14:43:01 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:26:58 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,16 @@ int	is_valid_var_name(const char *name)
 		i++;
 	}
 	return (1);
+}
+
+// function to print detailed error messages
+void	ft_perror(const char *prefix, const char *arg, const char *suffix)
+{
+	if (prefix)
+		write(STDERR_FILENO, prefix, ft_strlen(prefix));
+	if (arg)
+		write(STDERR_FILENO, arg, ft_strlen(arg));
+	if (suffix)
+		write(STDERR_FILENO, suffix, ft_strlen(suffix));
+	write(STDERR_FILENO, "\n", 1);
 }

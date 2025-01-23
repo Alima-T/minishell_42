@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/13 14:11:30 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:50:13 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	{
 		printf("minishell: %s: command not found\n", cmd->cmd[0]);
 		free_env_array(envp);
-		// return 127 for command not found
-		exit (127);
+		// exit 127 for command not found
+		exit(127);
 	}
 	execve(executable, cmd->cmd, envp);
 	perror("execve");
@@ -43,7 +43,7 @@ int	execute_builtin(t_cmd *cmd, t_shell *mini)
 	cmd_count = count_args(cmd->cmd);
 	env_array = env_list_to_array(mini->env_dup);
 	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		return (builtin_cd(cmd_count, cmd->cmd));
+		return (builtin_cd(cmd_count, cmd->cmd, &mini->env_dup));
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
 		return (builtin_pwd());
 	else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
