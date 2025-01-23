@@ -6,25 +6,11 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 19:01:46 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:01:01 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-/*
-Summary of Functions:
-1. find_end:
-This function identifies the end position of a token in the input string, handling quoted strings and checking for redirection or pipe characters. It updates the flag to indicate if a special operator was found.
-split_input:
-This function splits the input string into individual arguments, handling special operators and whitespace. It uses find_end to determine the boundaries of each token and adds them to the argument list.
-is_redir:
-This function checks if a given argument is a redirection operator (e.g., >, >>, <, <<). It returns 1 if it is a redirection operator and 0 otherwise.
-4. mark_redirect:
-This function traverses the argument list and sets flags for redirection operators. It marks the operator with a redir_flag of 1 and the following argument with a redir_flag of 2.
-5. process_args:
-This function orchestrates the processing of arguments by calling split_input to parse the input string and mark_redirect to set the appropriate flags. It returns the list of processed arguments.
-This code is part of a parser for a shell-like environment, responsible for interpreting command-line input, handling arguments, and managing redirection operators.
-*/
 /*
 int *flag:
 Указатель на целое число, которое будет обновлено для указания условий анализа:
@@ -62,23 +48,23 @@ int	find_end(char *input, int pos, int *flag)
 
 /**
  * Splits the input string into arguments and handles special operators.
- *
  * @param input The input string to be split.
  * @param args A double pointer to the list of arguments.
+ * int	flag; - special handling for operators or redirs
  * @param mini A pointer to the shell structure.
  */
 void	split_input(char *input, t_arg **args, t_shell *mini)
 {
 	int		i;
-	int		start;						// beginning of the current argument
-	int		end;						// end of the current argument
-	int		flag;						// special handling for operators or redirs
-	char	*tmp;						// temp storage for the current substring
+	int		start;
+	int		end;
+	int		flag;
+	char	*tmp;
 	i = 0;
 	flag = 0;
 	while (input[i] != '\0')
 	{
-		i = skip_space_tab(input, i);	// Skip any leading whitespaces
+		i = skip_space_tab(input, i);
 		start = i;						// Set the starting index of the current token
 		if (input[i] == '\0')			// If the end of the string is reached, exit
 			return ;
@@ -118,7 +104,6 @@ int	is_redir(char *arg)
 	return (0);
 }
 
-
 /**
  * Marks redirection flags in the argument list.
  * Sets the redir_flag for redirection operators and their following arguments.
@@ -151,4 +136,3 @@ t_arg	*process_args(t_shell *mini)
 	mark_redirect(mini->args);
 	return (mini->args);
 }
-

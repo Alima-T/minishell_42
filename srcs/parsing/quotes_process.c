@@ -10,23 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-Summary of Functions:
-1. copy_value:
-This function duplicates the value part of an environment variable string (in the format KEY=VALUE). It returns the duplicated value or NULL if no value exists.
-copy_key:
-This function duplicates the key part of an environment variable string. It returns the duplicated key.
-3. envl_lstnew:
-This function creates a new environment variable node. It allocates memory for the node, duplicates the entire environment variable string, extracts the key and value, and initializes the node's fields.
-4. envl_lstadd_back:
-This function adds a new environment variable node to the end of a linked list. It checks if the list is empty and either sets the new node as the head or traverses to the end of the list and links the new node there.
-copy_envp:
-This function copies the environment variables from an array into a linked list. It iterates through the array, creating new nodes for each environment variable and adding them to the linked list.
-This code is part of a system for managing environment variables in a shell-like environment, allowing for the storage and retrieval of key-value pairs representing environment settings. It ensures proper memory management and linked list operations for the environment variables.
-*/
 
 #include "../../minishell.h"
 
+
+
+/* my code*/
 /**
  * function processes a substring of the input string by extracting parts before,
  * between,  and after specified indices (start and end). It frees the original input
