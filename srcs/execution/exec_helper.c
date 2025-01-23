@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:45:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 18:17:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:51:09 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,22 +106,28 @@ char	**env_list_to_array(t_env *env_dup)
  */
 char	*find_executable(char *cmd)
 {
-	char	*path;
 	char	**paths;
+	char	*path;
 	char	*full_path;
 	int		i;
 
-	path = getenv("PATH");
-	if (!path)
-		return (NULL);
-	paths = ft_split(path, ':');
+	if (ft_strchr(cmd, '/') != NULL)
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		else
+			return (NULL);
+	}
+	paths = ft_split(getenv("PATH"), ':');
 	if (!paths)
 		return (NULL);
+
 	i = 0;
 	while (paths[i])
 	{
-		full_path = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin(full_path, cmd);
+		path = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(path, cmd);
+		free(path);
 		if (access(full_path, X_OK) == 0)
 		{
 			free_array(paths);

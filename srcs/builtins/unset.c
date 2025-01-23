@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 18:03:07 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:04:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	builtin_unset(int ac, char *av[], char ***env)
 
 	if (ac < 2)
 	{
-		write(STDERR_FILENO, "unset: missing argument\n", 24));
+		write(STDERR_FILENO, "unset: missing argument\n", 24);
 		return (1);
 	}
 	exit_code = 0;

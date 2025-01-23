@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 18:16:32 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:50:48 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	char	*executable;
 
 	envp = env_list_to_array(mini->env_dup);
+	if (!envp)
+	{
+		perror("env_list_to_array");
+		exit(1);
+	}
 	executable = find_executable(cmd->cmd[0]);
 	if (!executable)
 	{
-		printf("minishell: %s: command not found\n", cmd->cmd[0]);
+		ft_perror("minishell: ", cmd->cmd[0], ": command not found");
 		free_array(envp);
 		// exit 127 for command not found
 		exit(127);
@@ -53,7 +58,7 @@ int	execute_builtin(t_cmd *cmd, t_shell *mini)
 	cmd_count = count_args(cmd->cmd);
 	env_array = env_list_to_array(mini->env_dup);
 	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		return (builtin_cd(cmd_count, cmd->cmd, &mini->env_dup));
+		return (builtin_cd(cmd_count, cmd->cmd));
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
 		return (builtin_pwd());
 	else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
@@ -180,7 +185,7 @@ int	execute_multiple_cmds(t_shell *mini)
 				close(mini->input_fd);
 			if (mini->output_fd != STDOUT_FILENO)
 				close(mini->output_fd);
-			mini->input_fd = pipe_fd[0];
+				mini->input_fd = pipe_fd[0];
 		}
 		cmd = cmd->next;
 	}
@@ -200,8 +205,8 @@ void	execute_cmd(t_shell *mini)
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
 	{
-		perror("Failed to initialize built-in commands");
-		return ;
+		perror("init_builtin_cmds");
+		exit(EXIT_FAILURE);
 	}
 	cmd = mini->cmds;
 	while (cmd)

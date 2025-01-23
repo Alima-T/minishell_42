@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 18:17:11 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:22:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	free_shell_mem(t_shell *mini)
 	cmd_destroy(&mini->cmds);
 }
 
-//reapeat func (Alima)
 //free arrays
 void	free_array(char **array)
 {

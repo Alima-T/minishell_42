@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 18:17:44 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:03:47 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,6 @@ t_env						*envl_lstnew(char *env_str);
 t_env						*copy_envp(char **envp);
 /*** parse_utils.c    ***/
 int							skip_space_tab(char *inp, int i);
-int							open_fd(char *path, char flag);
-void						set_redir(t_cmd *cmds);
 /***  parser.c     ***/
 void						parser(t_shell *mini, t_env *env_dup);
 /*** path_process.c  ***/
@@ -197,7 +195,7 @@ t_redir						*redir_new(char *type, char *name);
 
 // builtins
 
-int							builtin_cd(int ac, char *av[], t_env **env);
+int							builtin_cd(int ac, char *av[]);
 int							builtin_echo(char **args);
 int							builtin_pwd(void);
 int							builtin_export(int ac, char *av[], char **env);
@@ -230,6 +228,8 @@ int							is_builtin(const char *cmd,
 char						**env_list_to_array(t_env *env_dup);
 char						*find_executable(char *cmd);
 char						*expand_env_vars(char *str);
+int							open_fd(char *path, char flag);
+void						set_redir(t_cmd *cmds);
 
 // execution cleanup
 
