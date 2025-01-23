@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 15:28:43 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:17:44 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,8 +234,6 @@ char						*expand_env_vars(char *str);
 // execution cleanup
 
 void						free_builtin_cmds(t_builtin_cmd *builtin_cmds);
-void						free_env_array(char **envp);
-void						free_split(char **split);
 
 // fake_global
 

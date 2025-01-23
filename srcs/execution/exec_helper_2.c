@@ -6,13 +6,17 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:09:43 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/09 14:43:08 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:14:20 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to expand env vars
+/**
+ * Expands environment variables.
+ * @param str
+ * @return
+ */
 char	*expand_env_vars(char *str)
 {
 	char	*result;

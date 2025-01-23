@@ -6,20 +6,24 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 15:06:27 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:56:08 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// prints the provided args to the standard output
+/**
+ * Prints the provided arguments to the standard output.
+ * @param args
+ * @return
+ */
 int	builtin_echo(char **args)
 {
-	int	i;
-	int	j;
-	// flag to suppress newline
-	bool newline;
+	int		i;
+	int		j;
+	bool	newline;
 
+	// flag to suppress newline
 	// start from the 1st arg
 	i = 1;
 	newline = false;

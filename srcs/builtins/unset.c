@@ -6,13 +6,18 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 15:33:43 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:03:07 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to remove an env var from a local env list
+/**
+ * Removes an environment variable from a local environment list.
+ * @param env
+ * @param name
+ * @return
+ */
 static int	remove_env_var(char **env, const char *name)
 {
 	int	len;
@@ -42,7 +47,13 @@ static int	remove_env_var(char **env, const char *name)
 	return (1);
 }
 
-// function to remove an env variable
+/**
+ * Unsets an environment variable.
+ * @param ac
+ * @param av
+ * @param env
+ * @return
+ */
 int	builtin_unset(int ac, char *av[], char ***env)
 {
 	int	i;

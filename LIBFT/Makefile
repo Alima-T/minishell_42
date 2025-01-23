@@ -6,7 +6,7 @@
 #    By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/11 14:27:44 by aokhapki          #+#    #+#              #
-#    Updated: 2025/01/09 18:33:46 by tbolsako         ###   ########.fr        #
+#    Updated: 2025/01/23 18:05:58 by tbolsako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ SOURCE			=	ft_atoi.c \
 					ft_striteri.c \
 					ft_strjoin_char.c \
 					ft_strjoin_con.c\
-					ft_split.c 
+					ft_split.c \
+					ft_strcspn.c
 OBJS			=	$(SOURCE:.c=.o)
 BONUS			=	ft_lstadd_front.c \
 					ft_lstnew.c \

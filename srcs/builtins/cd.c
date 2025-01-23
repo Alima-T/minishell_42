@@ -6,19 +6,26 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 14:55:11 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:55:08 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// retrieves the value of an env variable
+/**
+ * Retrieves the value of an env variable.
+ * @param var_name
+ * @return
+ */
 static char	*get_env_var(const char *var_name)
 {
 	return (getenv(var_name));
 }
 
-// checks if PWD and OLDPWD are set
+/**
+ * Checks if PWD and OLDPWD are set.
+ * @param
+ */
 static void	handle_missing_env_vars(void)
 {
 	char	cwd[PATH_MAX];
@@ -35,7 +42,12 @@ static void	handle_missing_env_vars(void)
 	}
 }
 
-// determines the path to change to based on user input
+/**
+ * Determines the path to change to based on user input.
+ * @param ac
+ * @param av
+ * @return
+ */
 static char	*get_cd_path(int ac, char *av[])
 {
 	char	*home;
@@ -78,7 +90,12 @@ static char	*get_cd_path(int ac, char *av[])
 	return (av[1]);
 }
 
-// changes the current working dir to the specified path
+/**
+ * Changes the current working directory to the specified path.
+ * @param ac
+ * @param av
+ * @return
+ */
 int	builtin_cd(int ac, char *av[])
 {
 	char	*path;

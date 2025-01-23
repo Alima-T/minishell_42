@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cleanup.c                                     :+:      :+:    :+:   */
+/*   ft_strcspn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 15:56:52 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 18:17:35 by tbolsako         ###   ########.fr       */
+/*   Created: 2025/01/23 18:04:00 by tbolsako          #+#    #+#             */
+/*   Updated: 2025/01/23 18:04:34 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-/**
- * Frees the linked list of built-in commands.
- * @param builtin_cmds
- */
-void	free_builtin_cmds(t_builtin_cmd *builtin_cmds)
+size_t	ft_strcspn(const char *s, const char *reject)
 {
-	t_builtin_cmd	*current;
-	t_builtin_cmd	*next;
+	int	i;
+	int	j;
 
-	current = builtin_cmds;
-	while (current)
+	i = 0;
+	while (s[i])
 	{
-		next = current->next;
-		free(current->cmd);
-		free(current);
-		current = next;
+		j = 0;
+		while (reject[j])
+		{
+			if (s[i] == reject[j])
+				return (i);
+			j++;
+		}
+		i++;
 	}
+	return (i);
 }

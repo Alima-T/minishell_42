@@ -6,13 +6,18 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/09 18:32:45 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:57:38 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to terminate the shell
+/**
+ * Terminates the shell.
+ * @param ac
+ * @param av
+ * @return
+ */
 int	builtin_exit(int ac, char *av[])
 {
 	int	exit_status;

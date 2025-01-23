@@ -6,13 +6,17 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:14:03 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 15:22:49 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:57:02 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to print all env variables
+/**
+ * Prints all environment variables.
+ * @param env
+ * @return
+ */
 int	builtin_env(char **env)
 {
 	int		i;

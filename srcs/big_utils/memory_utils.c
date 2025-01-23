@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 19:07:33 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:17:11 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-//initialize a t_shell structure. TODO create another file for init and move it. Alima
+/*
+initialize a t_shell structure. TODO create another file for init and move it.
+Alima
+*/
 void	init(t_shell *mini)
 {
 	mini->input = NULL;
@@ -50,12 +53,14 @@ void	free_shell_mem(t_shell *mini)
 
 //reapeat func (Alima)
 //free arrays
-void free_array (char **array)
+void	free_array(char **array)
 {
-	int i;
+	int	i;
 
+	if (!array)
+		return ;
 	i = 0;
-	while(array[i])
+	while (array[i])
 	{
 		free(array[i]);
 		array[i] = NULL;

@@ -6,13 +6,17 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/06 15:19:50 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:00:49 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to sort env vars using bubble sort
+/**
+ * Sorts environment variables using bubble sort.
+ * @param arr
+ * @param n
+ */
 static void	bubble_sort(char **arr, int n)
 {
 	int		i;
@@ -42,7 +46,10 @@ static void	bubble_sort(char **arr, int n)
 	}
 }
 
-// function to list env vars
+/**
+ * Lists environment variables.
+ * @param env
+ */
 static void	list_env_vars(char **env)
 {
 	int		i;
@@ -73,7 +80,11 @@ static void	list_env_vars(char **env)
 	free(sorted_env);
 }
 
-// function to add or update an env var
+/**
+ * Adds or updates an environment variable.
+ * @param arg
+ * @return
+ */
 static int	add_or_upd_env_var(char *arg)
 {
 	char	*equal_sign;
@@ -121,7 +132,13 @@ static int	add_or_upd_env_var(char *arg)
 	return (0);
 }
 
-// function to list environment variables
+/**
+ * Exports environment variables.
+ * @param ac
+ * @param av
+ * @param env
+ * @return
+ */
 int	builtin_export(int ac, char *av[], char **env)
 {
 	int	i;
