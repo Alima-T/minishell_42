@@ -6,19 +6,23 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:43:15 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 14:46:47 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:01:27 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to print working directory
+/**
+ * Prints working directory.
+ * @param
+ * @return
+ */
 int	builtin_pwd(void)
 {
 	const char	*error_message;
-	// buffer to hold the current working dir
 	char		cwd[1024];
 
+	// buffer to hold the current working dir
 	// get the current working dir
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{

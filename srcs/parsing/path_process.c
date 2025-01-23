@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:20:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 19:03:55 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:30:22 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char **get_paths(t_shell *mini)
 		paths = ft_split(path, ':');
 		return (paths);
 }
+
 //Checks if the input contains an executable path by looking for the '/' character.
 int is_path(char *str)
 {

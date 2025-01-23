@@ -6,13 +6,18 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/05 16:55:03 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:04:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to remove an env var from a local env list
+/**
+ * Removes an environment variable from a local environment list.
+ * @param env
+ * @param name
+ * @return
+ */
 static int	remove_env_var(char **env, const char *name)
 {
 	int	len;
@@ -21,7 +26,6 @@ static int	remove_env_var(char **env, const char *name)
 
 	len = ft_strlen(name);
 	i = 0;
-	j = 0;
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
@@ -43,35 +47,39 @@ static int	remove_env_var(char **env, const char *name)
 	return (1);
 }
 
-// function to remove an env variable
+/**
+ * Unsets an environment variable.
+ * @param ac
+ * @param av
+ * @param env
+ * @return
+ */
 int	builtin_unset(int ac, char *av[], char ***env)
 {
-	const char	*error_message;
-	int			i;
+	int	i;
+	int	exit_code;
 
 	if (ac < 2)
 	{
-		error_message = "unset: missing argument\n";
-		write(STDERR_FILENO, error_message, ft_strlen(error_message));
+		write(STDERR_FILENO, "unset: missing argument\n", 24);
 		return (1);
 	}
+	exit_code = 0;
 	i = 1;
 	while (i < ac)
 	{
-		if (is_valid_var_name(av[i]))
+		if (!is_valid_var_name(av[i]))
 		{
-			if (remove_env_var(*env, av[i]) != 0)
-			{
-				perror("unset");
-				return (1);
-			}
+			ft_perror("minishell: unset: `", av[i],
+				"': not a valid identifier");
+			exit_code = 1;
 		}
-		else
+		else if (remove_env_var(*env, av[i]) != 0)
 		{
-			write(STDERR_FILENO, "unset: not a valid identifier\n", 30);
-			return (1);
+			perror("unset");
+			exit_code = 1;
 		}
 		i++;
 	}
-	return (0);
+	return (exit_code);
 }

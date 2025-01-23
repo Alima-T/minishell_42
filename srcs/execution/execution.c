@@ -6,35 +6,50 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/13 14:11:30 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:50:48 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// function to handle the execution of external commands
+/**
+ * Handles the execution of external commands.
+ * @param cmd
+ * @param mini
+ * @return
+ */
 int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 {
 	char	**envp;
 	char	*executable;
 
 	envp = env_list_to_array(mini->env_dup);
+	if (!envp)
+	{
+		perror("env_list_to_array");
+		exit(1);
+	}
 	executable = find_executable(cmd->cmd[0]);
 	if (!executable)
 	{
-		printf("minishell: %s: command not found\n", cmd->cmd[0]);
-		free_env_array(envp);
-		// return 127 for command not found
-		exit (127);
+		ft_perror("minishell: ", cmd->cmd[0], ": command not found");
+		free_array(envp);
+		// exit 127 for command not found
+		exit(127);
 	}
 	execve(executable, cmd->cmd, envp);
 	perror("execve");
-	free_env_array(envp);
+	free_array(envp);
 	free(executable);
 	exit(EXIT_FAILURE);
 }
 
-// function to execute a built-in command
+/**
+ * Executes a built-in command.
+ * @param cmd
+ * @param mini
+ * @return
+ */
 int	execute_builtin(t_cmd *cmd, t_shell *mini)
 {
 	int		cmd_count;
@@ -56,14 +71,19 @@ int	execute_builtin(t_cmd *cmd, t_shell *mini)
 		return (builtin_unset(cmd_count, cmd->cmd, &env_array));
 	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
 	{
-		free_env_array(env_array);
+		free_array(env_array);
 		builtin_exit(cmd_count, cmd->cmd);
 	}
-	free_env_array(env_array);
+	free_array(env_array);
 	return (1);
 }
 
-// function to execute a single command
+/**
+ * Executes a single command.
+ * @param cmd
+ * @param mini
+ * @return
+ */
 int	execute_single_cmd_with_redir(t_cmd *cmd, t_shell *mini)
 {
 	pid_t	pid;
@@ -87,6 +107,7 @@ int	execute_single_cmd_with_redir(t_cmd *cmd, t_shell *mini)
 				dup2(mini->output_fd, STDOUT_FILENO);
 				close(mini->output_fd);
 			}
+			set_redir(cmd);
 			execute_external_cmd(cmd, mini);
 		}
 		else if (pid < 0)
@@ -105,7 +126,11 @@ int	execute_single_cmd_with_redir(t_cmd *cmd, t_shell *mini)
 	return (0);
 }
 
-// function to execute multiple commands
+/**
+ * Executes multiple commands.
+ * @param mini
+ * @return
+ */
 int	execute_multiple_cmds(t_shell *mini)
 {
 	t_cmd	*cmd;
@@ -115,7 +140,6 @@ int	execute_multiple_cmds(t_shell *mini)
 
 	cmd = mini->cmds;
 	mini->input_fd = STDIN_FILENO;
-	// status = 0;
 	while (cmd)
 	{
 		if (cmd->next)
@@ -126,15 +150,9 @@ int	execute_multiple_cmds(t_shell *mini)
 				return (1);
 			}
 			mini->output_fd = pipe_fd[1];
-			// status = execute_single_cmd_with_redir(cmd, mini);
-			// close(pipe_fd[1]);
-			// mini->input_fd = pipe_fd[0];
 		}
 		else
-		{
 			mini->output_fd = STDOUT_FILENO;
-			// status = execute_single_cmd_with_redir(cmd, mini);
-		}
 		pid = fork();
 		if (pid == 0)
 		{
@@ -149,6 +167,7 @@ int	execute_multiple_cmds(t_shell *mini)
 				dup2(mini->output_fd, STDOUT_FILENO);
 				close(mini->output_fd);
 			}
+			set_redir(cmd);
 			execute_external_cmd(cmd, mini);
 		}
 		else if (pid < 0)
@@ -166,28 +185,28 @@ int	execute_multiple_cmds(t_shell *mini)
 				close(mini->input_fd);
 			if (mini->output_fd != STDOUT_FILENO)
 				close(mini->output_fd);
-			mini->input_fd = pipe_fd[0];
+				mini->input_fd = pipe_fd[0];
 		}
 		cmd = cmd->next;
 	}
-	// if (mini->input_fd != STDIN_FILENO)
-	// 	close(mini->input_fd);
 	return (status);
 }
 
-// function to handle built-in and external commands
+/**
+ * Handles built-in and external commands.
+ * @param mini
+ */
 void	execute_cmd(t_shell *mini)
 {
 	t_cmd	*cmd;
 	char	*expanded_cmd;
 	int		i;
-	// int		status;
 
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
 	{
-		perror("Failed to initialize built-in commands");
-		return ;
+		perror("init_builtin_cmds");
+		exit(EXIT_FAILURE);
 	}
 	cmd = mini->cmds;
 	while (cmd)

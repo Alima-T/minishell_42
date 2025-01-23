@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 19:05:42 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:03:47 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void						cmd_destroy(t_cmd **list);
 void						init(t_shell *mini);
 void						*mem_allocator(size_t size);
 void						free_shell_mem(t_shell *mini);
-void 						free_array (char **array);
+void						free_array(char **array);
 
 /* level_change.c */
 void						shell_level_down(t_shell *shell_context);
@@ -157,8 +157,6 @@ t_env						*envl_lstnew(char *env_str);
 t_env						*copy_envp(char **envp);
 /*** parse_utils.c    ***/
 int							skip_space_tab(char *inp, int i);
-int							open_fd(char *path, char flag);
-void						set_redir(t_cmd *cmds);
 /***  parser.c     ***/
 void						parser(t_shell *mini, t_env *env_dup);
 /*** path_process.c  ***/
@@ -208,6 +206,8 @@ int							builtin_exit(int ac, char *av[]);
 // builtins utils
 
 int							is_valid_var_name(const char *name);
+void						ft_perror(const char *prefix, const char *arg,
+								const char *suffix);
 size_t						ft_strcspn(const char *s, const char *reject);
 
 // execution
@@ -223,16 +223,17 @@ int							execute_external_cmd(t_cmd *cmd, t_shell *mini);
 
 t_builtin_cmd				*init_builtin_cmds(void);
 int							count_args(char **args);
-int							is_builtin(const char *cmd, t_builtin_cmd *builtin_cmds);
+int							is_builtin(const char *cmd,
+								t_builtin_cmd *builtin_cmds);
 char						**env_list_to_array(t_env *env_dup);
 char						*find_executable(char *cmd);
 char						*expand_env_vars(char *str);
+int							open_fd(char *path, char flag);
+void						set_redir(t_cmd *cmds);
 
 // execution cleanup
 
 void						free_builtin_cmds(t_builtin_cmd *builtin_cmds);
-void						free_env_array(char **envp);
-void						free_split(char **split);
 
 // fake_global
 
