@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 17:57:38 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:46:33 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	builtin_exit(int ac, char *av[])
 	{
 		// too many args
 		printf("exit: too many arguments\n");
-		return (1);
+		exit(1);
 	}
 	if (ac == 2)
 	{
