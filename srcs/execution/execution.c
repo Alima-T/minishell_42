@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 20:50:48 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:53:30 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,57 +137,69 @@ int	execute_multiple_cmds(t_shell *mini)
 	int		pipe_fd[2];
 	int		status;
 	pid_t	pid;
+	int		prev_fd;
 
 	cmd = mini->cmds;
-	mini->input_fd = STDIN_FILENO;
+	prev_fd = STDIN_FILENO;
+	status = 0;
 	while (cmd)
 	{
-		if (cmd->next)
+		if (cmd->next && pipe(pipe_fd) == -1)
 		{
-			if (pipe(pipe_fd) == -1)
-			{
-				perror("pipe");
-				return (1);
-			}
-			mini->output_fd = pipe_fd[1];
+			perror("pipe");
+			return (1);
 		}
-		else
-			mini->output_fd = STDOUT_FILENO;
 		pid = fork();
-		if (pid == 0)
+		if (pid == -1)
 		{
-			// Child process
-			if (mini->input_fd != STDIN_FILENO)
-			{
-				dup2(mini->input_fd, STDIN_FILENO);
-				close(mini->input_fd);
-			}
-			if (mini->output_fd != STDOUT_FILENO)
-			{
-				dup2(mini->output_fd, STDOUT_FILENO);
-				close(mini->output_fd);
-			}
-			set_redir(cmd);
-			execute_external_cmd(cmd, mini);
-		}
-		else if (pid < 0)
-		{
-			// Fork failed
 			perror("fork");
 			return (1);
 		}
-		else
+		if (pid == 0)
 		{
-			// Parent process
+			// Child process
+			if (prev_fd != STDIN_FILENO)
+			{
+				dup2(prev_fd, STDIN_FILENO);
+				close(prev_fd);
+			}
+			if (cmd->next)
+			{
+				close(pipe_fd[0]);
+				dup2(pipe_fd[1], STDOUT_FILENO);
+				close(pipe_fd[1]);
+			}
+			set_redir(cmd);
+			if (is_builtin(cmd->cmd[0], mini->builtin_cmds))
+				exit(execute_builtin(cmd, mini));
+			else
+				execute_external_cmd(cmd, mini);
+		}
+		// Parent process
+		if (prev_fd != STDIN_FILENO)
+			close(prev_fd);
+		if (cmd->next)
+		{
+			close(pipe_fd[1]);
+			prev_fd = pipe_fd[0];
+		}
+		if (!cmd->next)
+		{
 			waitpid(pid, &status, 0);
-			*get_exit_status() = WEXITSTATUS(status);
-			if (mini->input_fd != STDIN_FILENO)
-				close(mini->input_fd);
-			if (mini->output_fd != STDOUT_FILENO)
-				close(mini->output_fd);
-				mini->input_fd = pipe_fd[0];
+			if (WIFEXITED(status))
+				*get_exit_status() = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				*get_exit_status() = 128 + WTERMSIG(status);
 		}
 		cmd = cmd->next;
+	}
+	// Wait for all child processes to finish
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status))
+			*get_exit_status() = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			*get_exit_status() = 128 + WTERMSIG(status);
 	}
 	return (status);
 }
