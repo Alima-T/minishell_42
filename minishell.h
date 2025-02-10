@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 20:03:47 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:41:19 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ t_redir						*redir_new(char *type, char *name);
 
 // builtins
 
-int							builtin_cd(int ac, char *av[]);
+int							builtin_cd(int ac, char *av[], t_env **env_dup);
 int							builtin_echo(char **args);
 int							builtin_pwd(void);
 int							builtin_export(int ac, char *av[], char **env);

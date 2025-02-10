@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 17:55:08 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:34:01 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,68 @@
  */
 static char	*get_env_var(const char *var_name)
 {
-	return (getenv(var_name));
+	char	*value;
+
+	value = getenv(var_name);
+	if (!value)
+		return (NULL);
+	return (value);
+}
+
+/**
+ * Updates environment variable in env_dup list
+ */
+static void	upd_env_var(t_env **env_dup, const char *key, const char *value)
+{
+	t_env	*tmp;
+	char	*new_line;
+
+	tmp = *env_dup;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(value);
+			new_line = ft_strjoin(key, "=");
+			new_line = ft_strjoin(new_line, value);
+			free(tmp->line);
+			tmp->line = new_line;
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }
 
 /**
  * Checks if PWD and OLDPWD are set.
- * @param
+ * @param env_dup
  */
-static void	handle_missing_env_vars(void)
+static void	handle_missing_env_vars(t_env **env_dup)
 {
 	char	cwd[PATH_MAX];
+	t_env	*tmp;
 
-	if (!get_env_var("PWD") && getcwd(cwd, sizeof(cwd)) != NULL)
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		return ;
+	tmp = *env_dup;
+	while (tmp)
 	{
-		if (setenv("PWD", cwd, 1) != 0)
-			perror("cd: failed to update env variable");
+		if (ft_strcmp(tmp->key, "PWD") == 0)
+			break ;
+		tmp = tmp->next;
 	}
-	if (!get_env_var("OLDPWD") && getcwd(cwd, sizeof(cwd)) != NULL)
+	if (!tmp)
+		upd_env_var(env_dup, "PWD", cwd);
+	tmp = *env_dup;
+	while (tmp)
 	{
-		if (setenv("OLDPWD", cwd, 1) != 0)
-			perror("cd: failed to update env variable");
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+			break ;
+		tmp = tmp->next;
 	}
+	if (!tmp)
+		upd_env_var(env_dup, "OLDPWD", cwd);
 }
 
 /**
@@ -94,49 +135,38 @@ static char	*get_cd_path(int ac, char *av[])
  * Changes the current working directory to the specified path.
  * @param ac
  * @param av
+ * @param env_dup
  * @return
  */
-int	builtin_cd(int ac, char *av[])
+int	builtin_cd(int ac, char *av[], t_env **env_dup)
 {
 	char	*path;
 	char	oldpwd[PATH_MAX];
 	char	cwd[PATH_MAX];
 
-	// too many args
 	if (ac > 2)
 	{
 		write(STDERR_FILENO, "cd: too many arguments\n", 23);
 		return (1);
 	}
-	// ensure PWD and OLDPWD are set
-	handle_missing_env_vars();
+	handle_missing_env_vars(env_dup);
 	path = get_cd_path(ac, av);
 	if (!path)
-	{
-		// error in getting path
 		return (1);
-	}
 	if (getcwd(oldpwd, sizeof(oldpwd)) == NULL)
 	{
 		perror("cd: getcwd");
-		// failed to get current dir
 		return (1);
 	}
 	if (chdir(path) != 0)
 	{
 		perror("cd");
-		// change dir failed
 		return (1);
 	}
-	// upd OLDPWD and PWD
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		// set OLDPWD to the previous PWD
-		if (setenv("OLDPWD", oldpwd, 1) != 0)
-			perror("cd: failed to upd env variable");
-		// upd PWD to the current dir
-		if (setenv("PWD", cwd, 1) != 0)
-			perror("cd: failed to upd env variable");
+		upd_env_var(env_dup, "OLDPWD", oldpwd);
+		upd_env_var(env_dup, "PWD", cwd);
 	}
 	else
 		perror("cd");

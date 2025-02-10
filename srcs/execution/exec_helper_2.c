@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:09:43 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 20:51:31 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:28:04 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,75 @@ int	open_fd(char *path, char flag)
 		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (flag == 'A')
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	// if (fd == -1)
+	// {
+	// 	print_msg(1, strerror(errno), 1);
+	// 	*get_exit_status() = 1;
+	// 	exit(*get_exit_status());
+	// }
+	// Return the valid file descriptor
+	return (fd);
+}
+
+/**
+ *
+ */
+int	handle_heredoc(char *delimiter)
+{
+	char	*line;
+	int		fd;
+	char	*tmp_file;
+	int		heredoc_status;
+	pid_t	pid;
+	int		original_stdin;
+
+	tmp_file = "/tmp/.heredoc_tmp";
+	original_stdin = dup(STDIN_FILENO);
+	fd = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		print_msg(1, strerror(errno), 1);
-		*get_exit_status() = 1;
-		exit(*get_exit_status());
+		perror("heredoc");
+		return (-1);
 	}
-	// Return the valid file descriptor
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		while (1)
+		{
+			line = readline("> ");
+			if (!line)
+			{
+				close(fd);
+				exit(0);
+			}
+			if (ft_strcmp(line, delimiter) == 0)
+			{
+				free(line);
+				close(fd);
+				exit(0);
+			}
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &heredoc_status, 0);
+	signal(SIGINT, handle_sigint);
+	close(fd);
+	if (WIFSIGNALED(heredoc_status))
+	{
+		unlink(tmp_file);
+		dup2(original_stdin, STDIN_FILENO);
+		close(original_stdin);
+		*get_exit_status() = 130;
+		return (-1);
+	}
+	fd = open(tmp_file, O_RDONLY);
+	unlink(tmp_file);
+	dup2(original_stdin, STDIN_FILENO);
+	close(original_stdin);
 	return (fd);
 }
 
@@ -148,16 +210,22 @@ void	set_redir(t_cmd *cmds)
 	t_redir	*tmp;
 	int		fd;
 
-	if (cmds == NULL)
+	if (!cmds)
 		return ;
 	tmp = (t_redir *)cmds->redir;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->type, "<") == 0)
+		if (ft_strcmp(tmp->type, "<<") == 0)
+		{
+			fd = handle_heredoc(tmp->name);
+			if (fd == -1)
+				exit(*get_exit_status());
+		}
+		else if (ft_strcmp(tmp->type, "<") == 0)
 			fd = open_fd(tmp->name, 'I');
-		if (ft_strcmp(tmp->type, ">") == 0)
+		else if (ft_strcmp(tmp->type, ">") == 0)
 			fd = open_fd(tmp->name, 'O');
-		if (ft_strcmp(tmp->type, ">>") == 0)
+		else if (ft_strcmp(tmp->type, ">>") == 0)
 			fd = open_fd(tmp->name, 'A');
 		else
 		{
@@ -171,8 +239,8 @@ void	set_redir(t_cmd *cmds)
 		}
 		if (ft_strcmp(tmp->type, ">") == 0 || ft_strcmp(tmp->type, ">>") == 0)
 			dup2(fd, STDOUT_FILENO);
-		else if (ft_strcmp(tmp->type, "<") == 0)
-			dup2(fd, STDOUT_FILENO);
+		else
+			dup2(fd, STDIN_FILENO);
 		close(fd);
 		tmp = tmp->next;
 	}
