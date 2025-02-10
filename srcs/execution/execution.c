@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/02/10 17:32:29 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:51:41 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	execute_single_cmd_with_redir(t_cmd *cmd, t_shell *mini)
 		return (execute_builtin(cmd, mini));
 	else
 	{
+		// heredoc handler
+		set_heredoc(cmd);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -107,6 +109,7 @@ int	execute_single_cmd_with_redir(t_cmd *cmd, t_shell *mini)
 				dup2(mini->output_fd, STDOUT_FILENO);
 				close(mini->output_fd);
 			}
+			// redirection handler
 			set_redir(cmd);
 			execute_external_cmd(cmd, mini);
 			exit(EXIT_FAILURE);

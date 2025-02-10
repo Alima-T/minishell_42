@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/02/10 17:41:19 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:30:51 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ typedef struct s_arg
 	struct s_arg			*next;
 }							t_arg;
 
+typedef struct s_redir
+{
+	char					*type;
+	char					*name;
+	struct s_redir			*next;
+}							t_redir;
+
 typedef struct s_cmd
 {
 	char					**cmd;
@@ -84,12 +91,6 @@ typedef struct s_cmd
 	struct s_cmd			*next;
 }							t_cmd;
 
-typedef struct s_redir
-{
-	char					*type;
-	char					*name;
-	struct s_redir			*next;
-}							t_redir;
 
 /*** #ALIMA start # ***/
 
@@ -230,6 +231,8 @@ char						*find_executable(char *cmd);
 char						*expand_env_vars(char *str);
 int							open_fd(char *path, char flag);
 void						set_redir(t_cmd *cmds);
+void						set_heredoc(t_cmd *cmds);
+int							handle_heredoc(char *delimiter);
 
 // execution cleanup
 

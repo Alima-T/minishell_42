@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:33:23 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 15:21:00 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:51:08 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@
 int	redir_first(t_arg **args, t_redir **rdr)
 {
 	t_redir	*new_redirection;
+
 	// Example logic to handle the first redirection
 	if (args == NULL || *args == NULL)
 		return (-1); // Return an error if args is NULL
 	// Here you would implement logic to process the first argument
 	// and create a new redirection based on it
 	// For example:
-	new_redirection = redir_new(">", "output.txt"); // Example redirection
+	new_redirection = redir_new("<<", "a"); // Example redirection
 	if (new_redirection == NULL)
-		return (-1); // Return an error if allocation fails
+		return (-1);                     // Return an error if allocation fails
 	redir_add_end(rdr, new_redirection); // Add the new redirection to the list
-	return (0); // Return success
+	return (0);                          // Return success
 }
 
 // Function to create a new redirection
