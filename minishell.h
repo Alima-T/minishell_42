@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/02/10 20:30:51 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:35:42 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ typedef struct s_env
 {
 	char					*line;
 	char					*key;
-	char					*value;
+	char					*val;
 	struct s_env			*next;
 }							t_env;
+						
 
 typedef struct s_arg
 {
@@ -97,9 +98,9 @@ typedef struct s_cmd
 /*** BIG_UTILS  ***/
 /***  args_handle.c  ***/
 void						del_first_node(t_arg **args);
-void						del_one(t_arg *lst);
-void						list_destroy(t_arg **lst);
-void						add_arg_end(t_arg **lst, t_arg *new);
+void						del_one_arg(t_arg *lst);
+void						arglst_destroy(t_arg **lst);
+void						append_arg(t_arg **lst, t_arg *new);
 t_arg						*new_arg(char *arg_str, t_shell *mini);
 
 /* env_handle.c */
@@ -107,14 +108,14 @@ void						env_del_node(t_env *list);
 void						env_destroy(t_env **list);
 char						*find_in_env(t_env *env_dup, char *key);
 int							env_dup_size(t_env *env_dup);
-void						change_val_in_env_dup(t_env *env_dup, char *key,
+void						update_env(t_env *env_dup, char *key,
 								char *val);
 
 /* cmds_handle.c */
 void						redir_del_node(t_redir *redir_node);
 void						redir_destroy(t_redir **redir_list);
 void						cmd_del_node(t_cmd *cmd_node);
-void						cmd_destroy(t_cmd **list);
+void						cmdlst_destroy(t_cmd **list);
 
 /* mem_utils.c */
 void						init(t_shell *mini);
@@ -128,21 +129,23 @@ void						shell_level_up(t_shell *shell_context);
 
 /*** PARSING  */
 /***  args_process.c ***/
-int							find_end(char *input, int pos, int *flag);
+int							find_boundary(char *input, int pos, int *flag);
 int							is_redir(char *arg);
-void						mark_redirect(t_arg *args);
-void						split_input(char *input, t_arg **args,
+void						set_redirect(t_arg *args);
+void						tokenize_input(char *input, t_arg **args,
 								t_shell *mini);
-t_arg						*process_args(t_shell *mini);
+t_arg						*args_process(t_shell *mini);
 /*** cmds_create    ***/
 int							find_cmd(t_arg *args);
 char						**turn_cmd_to_array(t_arg *args, int lists_count);
 t_cmd						*create_cmds_list(t_arg *args);
-void						add_cmd_lst_end(t_cmd **list, t_cmd *new);
+void						append_cmd(t_cmd **list, t_cmd *new);
 /*** cmds_process.c ***/
+
 void						process_cmds_and_redirs(t_shell *mini);
+char						*is_slash(char *input, int *i);
 char						*parse_special_chars(char *input, t_env *env_dup);
-t_cmd						*process_cmds(t_shell *mini);
+t_cmd						*cmds_process(t_shell *mini);
 /***  dollar_process.c ***/
 char						*replace_env_var(char *input, int start, int end,
 								t_env *env_dup);

@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 15:38:27 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:32:26 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	free_array(char **arr)
 
 void	free_shell_mem(t_shell *mini)
 {
-	argslst_destroy(&mini->args);
-	cmdslst_destroy(&mini->cmds);
+	arglst_destroy(&mini->args);
+	cmdlst_destroy(&mini->cmds);
 }

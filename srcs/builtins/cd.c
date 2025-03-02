@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/02/10 15:34:01 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:32:46 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void	upd_env_var(t_env **env_dup, const char *key, const char *value)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
+			free(tmp->val);
+			tmp->val = ft_strdup(value);
 			new_line = ft_strjoin(key, "=");
 			new_line = ft_strjoin(new_line, value);
 			free(tmp->line);

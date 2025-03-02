@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:45:15 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 15:14:45 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:31:42 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 redir_del_node: Deletes a redirection node, frees its memory, and sets pointers to NULL.
 redir_destroy: Destroys the redirection list by deleting each node and setting the list pointer to NULL.
 cmd_del_node: Deletes a command node, frees its memory, and sets pointers to NULL.
-cmd_destroy: Destroys the command list by deleting each node and setting the list pointer to NULL.
+cmdlst_destroy: Destroys the command list by deleting each node and setting the list pointer to NULL.
 redir_del_node: Удаляет узел редиректа и освобождает память.
 redir_destroy: Уничтожает весь список редиректов.
 cmd_del_node: Удаляет узел команды и освобождает память.
-cmd_destroy: Уничтожает весь список команд.
+cmdlst_destroy: Уничтожает весь список команд.
 */
 /**
  * Deletes a single redirection node and frees its memory.
@@ -92,7 +92,7 @@ void	cmd_del_node(t_cmd *cmdnode)
  * Destroys the entire command list and frees all allocated memory.
  * @param cmd_list A double ptr to the head of the command list.
  */
-void	cmd_destroy(t_cmd **list)
+void	cmdlst_destroy(t_cmd **list)
 {
 	t_cmd	*temp;
 

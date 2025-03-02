@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 15:14:30 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:37:05 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 2. append_arg: Adds a new node to the end of the linked list of argument nodes.
 3. del_first_node: Deletes the first node in the list and frees its memory.
 4. del_one_arg: Deletes a specific node and frees its memory.
-5. list_destroy: Deletes all nodes in the list, freeing all allocated memory.
+5. arglst_destroy: Deletes all nodes in the list, freeing all allocated memory.
 This code is part of a linked list implementation for managing command-line arguments in a shell-like environment.
 
 1. new_arg: Создает новый узел аргумента, дублирует строку аргумента и инициализирует узел.
 2. append_arg: Добавляет новый узел в конец связанного списка узлов аргументов.
 3. del_first_node: Удаляет первый узел в списке и освобождает его память.
 4. del_one_arg: Удаляет конкретный узел и освобождает его память.
-5. list_destroy: Удаляет все узлы в списке, освобождая всю выделенную память.
+5. arglst_destroy: Удаляет все узлы в списке, освобождая всю выделенную память.
 Этот код является частью реализации связанного списка для управления аргументами командной строки в окружении, похожем на shell.
-
+*/
 /**
  * Удаляет первый узел в списке аргументов.
  * Освобождает память, выделенную для строки аргумента и самого узла.
@@ -70,7 +70,7 @@ void	del_one_arg(t_arg *lst)
  * Освобождает всю выделенную память для строк аргументов и узлов.
  * @param lst A double ptr to the head of the argument list.
  */
-void	list_destroy(t_arg **lst)
+void	arglst_destroy(t_arg **lst)
 {
 	t_arg	*tmp;	// Temporary pointer to hold the next node
 

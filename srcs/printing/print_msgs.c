@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/14 18:15:03 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:37:52 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	print_env_dup(t_env *env_dup)
 	while (env_dup)
 	{
 		printf("%s\n", env_dup->line);
-		printf("%s=%s\n", env_dup->key, env_dup->value);
+		printf("%s=%s\n", env_dup->key, env_dup->val);
 		env_dup = env_dup->next;
 	}
 }
