@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:22:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 16:50:48 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 16:55:13 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ This code is part of a parser for a shell-like environment, responsible for vali
  */
 int	start_check(char *input, int i)
 {
-	// Check for double pipe '||' at the start
 	if (input[i] == '|' && input[i + 1] == '|')
 		return (print_msg(1, "syntax error - token `||'", 258));
 	if (input[i] == '|')
@@ -53,8 +52,8 @@ int	validator(char *input)
 {
 	int	i; // Index variable for traversing the input string
 
-	if (!input) // Check if the input is NULL
-		return (1); // Return 1 indicating an error
+	if (!input)
+		return (1);
 	i = skip_space_tab(input, 0);
 	// Check for invalid tokens at the start
 	if (input[i] == '|' || input[i] == ';')
