@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:45:15 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 17:50:40 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 15:14:45 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,65 +27,65 @@ cmd_destroy: Уничтожает весь список команд.
  * Frees the dynamically allocated type and name strings,
  * and after each delation set ptr to NULL. 
  * Finaly frees node itself and sets ptr to NULL
- * @param redir_node A pointer to the redirection node to delete.
+ * @param rdrnode A pointer to the redirection node to delete.
  */
-void	redir_del_node(t_redir *redir_node)
+void	redir_del_node(t_redir *rdrnode)
 {
-	if (!redir_node)
+	if (!rdrnode)
 		return ;
-	free(redir_node->type);
-	redir_node->type = NULL;
-	free(redir_node->name);
-	redir_node->name = NULL;
-	free(redir_node);
-	redir_node = NULL;
+	free(rdrnode->type);
+	rdrnode->type = NULL;
+	free(rdrnode->name);
+	rdrnode->name = NULL;
+	free(rdrnode);
+	rdrnode = NULL;
 }
 
 /**
  * Destroys the entire redirection list and frees all allocated memory.
- * @param redir_list A double ptr to the head of the redirection list.
+ * @param rdrlist A double ptr to the head of the redirection list.
  */
-void	redir_destroy(t_redir **redir_list)
+void	redir_destroy(t_redir **rdrlist)
 {
 	t_redir	*temp;	// Temp ptr to hold the next node
 
-	if (!redir_list)
+	if (!rdrlist)
 		return ;
-	while (*redir_list)
+	while (*rdrlist)
 	{
-		temp = (*redir_list)->next;
-		redir_del_node(*redir_list);
-		*redir_list = temp;
+		temp = (*rdrlist)->next;
+		redir_del_node(*rdrlist);
+		*rdrlist = temp;
 	}
-	*redir_list = NULL;
+	*rdrlist = NULL;
 }
 
 /**
  * Deletes a single command node and frees its memory.
- * @param cmd_node A pointer to the command node to delete.
+ * @param cmdnode A pointer to the command node to delete.
  */
-void	cmd_del_node(t_cmd *cmd_node)
+void	cmd_del_node(t_cmd *cmdnode)
 {
 	t_redir	*temp;
 	int		i;
 
 	i = 0;
-	if (!cmd_node)
+	if (!cmdnode)
 		return ;
-	while (cmd_node->cmd[i])
+	while (cmdnode->cmd[i])
 	{
-		if (cmd_node->cmd == NULL)
+		if (cmdnode->cmd == NULL)
 			break ;
-		free(cmd_node->cmd[i]);
-		cmd_node->cmd[i] = NULL;
+		free(cmdnode->cmd[i]);
+		cmdnode->cmd[i] = NULL;
 		i++;
 	}
-	free(cmd_node->cmd);
-	cmd_node->cmd = NULL;
-	temp = (t_redir *)cmd_node->redir;
+	free(cmdnode->cmd);
+	cmdnode->cmd = NULL;
+	temp = (t_redir *)cmdnode->redir;
 	redir_destroy(&temp);
-	free(cmd_node);
-	cmd_node = NULL;
+	free(cmdnode);
+	cmdnode = NULL;
 }
 
 /**
@@ -105,4 +105,19 @@ void	cmd_destroy(t_cmd **list)
 		*list = temp;
 	}
 	*list = NULL;
+}
+
+int	get_cmd_size(t_cmd *cmdslst) //TO DO delete if do not use
+{
+	int	i;
+
+	if (!cmdslst)
+		return (0);
+	i = 0;
+	while (cmdslst)
+	{
+		cmdslst = cmdslst->next;
+		i++;
+	}
+	return (i);
 }

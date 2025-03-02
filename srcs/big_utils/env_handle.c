@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 17:46:38 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 15:26:33 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ The env_handle.c file manages environment variables in a shell-like environment.
 It provides functions for searching, deleting, counting, and updating environment variables stored in a linked list.
 
 Function explanations:
-find_in_env: searches for a key in the list and returns the value or NULL.
-env_del_node: deletes a node, freeing memory for the key, value, and the node itself.
+find_in_env: searches for a key in the list and returns the val or NULL.
+env_del_node: deletes a node, freeing memory for the key, val, and the node itself.
 env_destroy: destroys the entire list by removing nodes and setting the list pointer to NULL.
 env_dup_size: counts the number of nodes in the list or returns -1 if the list is empty.
-change_val_in_env_dup: updates the value of an environment variable in the list, creating a new string for the variable.
+update_env: updates the val of an environment variable in the list, creating a new string for the variable.
 
 Файл env_handle.c управляет переменными окружения в оболочке. 
 Он предоставляет функции для поиска, удаления, подсчета и обновления переменных в связанном списке.
@@ -31,7 +31,7 @@ find_in_env: ищет ключ в списке и возвращает знач�
 env_del_node: удаляет узел, освобождает память для ключа, значения и самого узла.
 env_destroy: уничтожает весь список, удаляя узлы и устанавливая указатель на NULL.
 env_dup_size: подсчитывает количество узлов в списке или возвращает -1, если список пуст.
-change_val_in_env_dup: обновляет значение переменной окружения в списке, создав новую строку для переменной.
+update_env: обновляет значение переменной окружения в списке, создав новую строку для переменной.
 */
 
 /**
@@ -48,7 +48,7 @@ char	*find_in_env(t_env *env_dup, char *key)
 	while (env_dup)
 	{
 		if (!ft_strcmp(env_dup->key, key))
-			return (env_dup->value);// Возврат значения, если ключ совпадает
+			return (env_dup->val);// Возврат значения, если ключ совпадает
 		env_dup = env_dup->next;
 	}
 	return (NULL);
@@ -69,31 +69,10 @@ void	env_del_node(t_env *list)
 	list->line = NULL;
 	free(list->key);
 	list->key = NULL;
-	free(list->value);
-	list->value = NULL;
+	free(list->val);
+	list->val = NULL;
 	free(list);
 	list = NULL;
-}
-
-/**
- * Destroys the entire environment variable linked list.Уничтожает весь связанный список переменных окружения.
- * It iterates through the list and deletes each node.Проходит по списку и удаляет каждый узел.
- * @param list A double pointer to the head of the environment variable list.
- * 	*list = NULL;	// Set the head of the list to NULL (list is now empty)
- */
-void	env_destroy(t_env **list)
-{
-	t_env	*temp;
-
-	if (!list)
-		return ;
-	while (*list)
-	{
-		temp = (*list)->next;
-		env_del_node(*list);
-		*list = temp;
-	}
-	*list = NULL;
 }
 
 /**
@@ -126,7 +105,7 @@ int	env_dup_size(t_env *env_dup)
  * @param key Ключ переменной окружения для изменения.
  * @param val Новое значение для переменной окружения.
  */
-void	change_val_in_env_dup(t_env *env_dup, char *key, char *val)
+void	update_env(t_env *env_dup, char *key, char *val)
 {
 	if (!env_dup || !key || !val)
 		return ;
@@ -137,11 +116,32 @@ void	change_val_in_env_dup(t_env *env_dup, char *key, char *val)
 			if (env_dup->line)
 				free(env_dup->line);
 			env_dup->line = ft_strjoin_con(key, "=", val);
-			if (env_dup->value)
-				free(env_dup->value);
-			env_dup->value = ft_strdup(val);
+			if (env_dup->val)
+				free(env_dup->val);
+			env_dup->val = ft_strdup(val);
 			return ;
 		}
 		env_dup = env_dup->next;
 	}
+}
+
+/**
+ * Destroys the entire environment variable linked list.Уничтожает весь связанный список переменных окружения.
+ * It iterates through the list and deletes each node.Проходит по списку и удаляет каждый узел.
+ * @param list A double pointer to the head of the environment variable list.
+ * 	*list = NULL;	// Set the head of the list to NULL (list is now empty)
+ */
+void	env_destroy(t_env **list)
+{
+	t_env	*temp;
+
+	if (!list)
+		return ;
+	while (*list)
+	{
+		temp = (*list)->next;
+		env_del_node(*list);
+		*list = temp;
+	}
+	*list = NULL;
 }

@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   args_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/05 14:11:46 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/02 15:14:30 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+/**
+1. new_arg: Creates a new argument node, duplicates the argument string, and initializes the node.
+2. append_arg: Adds a new node to the end of the linked list of argument nodes.
+3. del_first_node: Deletes the first node in the list and frees its memory.
+4. del_one_arg: Deletes a specific node and frees its memory.
+5. list_destroy: Deletes all nodes in the list, freeing all allocated memory.
+This code is part of a linked list implementation for managing command-line arguments in a shell-like environment.
+
+1. new_arg: Создает новый узел аргумента, дублирует строку аргумента и инициализирует узел.
+2. append_arg: Добавляет новый узел в конец связанного списка узлов аргументов.
+3. del_first_node: Удаляет первый узел в списке и освобождает его память.
+4. del_one_arg: Удаляет конкретный узел и освобождает его память.
+5. list_destroy: Удаляет все узлы в списке, освобождая всю выделенную память.
+Этот код является частью реализации связанного списка для управления аргументами командной строки в окружении, похожем на shell.
 
 /**
  * Удаляет первый узел в списке аргументов.
@@ -37,7 +52,7 @@ void	del_first_node(t_arg **args)
  * Удаляет конкретный узел аргумента и освобождает его память.
  * @param lst A pointer to the argument node to be deleted.
  */
-void	del_one(t_arg *lst)
+void	del_one_arg(t_arg *lst)
 {
 	if (!lst)
 		return ;
@@ -64,27 +79,13 @@ void	list_destroy(t_arg **lst)
 	while (*lst)	// While there are nodes in the list
 	{
 		tmp = (*lst)->next;	// Store the next node
-		del_one(*lst);	// Delete the current node
+		del_one_arg(*lst);	// Delete the current node
 		*lst = tmp;	// Move to the next node
 	}
 	*lst = NULL;	// Set the head of the list to NULL (list is now empty)
 }
 
-/**
-1. new_arg: Creates a new argument node, duplicates the argument string, and initializes the node.
-2. add_arg_end: Adds a new node to the end of the linked list of argument nodes.
-3. del_first_node: Deletes the first node in the list and frees its memory.
-4. del_one: Deletes a specific node and frees its memory.
-5. list_destroy: Deletes all nodes in the list, freeing all allocated memory.
-This code is part of a linked list implementation for managing command-line arguments in a shell-like environment.
-
-1. new_arg: Создает новый узел аргумента, дублирует строку аргумента и инициализирует узел.
-2. add_arg_end: Добавляет новый узел в конец связанного списка узлов аргументов.
-3. del_first_node: Удаляет первый узел в списке и освобождает его память.
-4. del_one: Удаляет конкретный узел и освобождает его память.
-5. list_destroy: Удаляет все узлы в списке, освобождая всю выделенную память.
-Этот код является частью реализации связанного списка для управления аргументами командной строки в окружении, похожем на shell.
-
+/*
  * Создает новый узел аргумента с заданной строкой аргумента.
  * Выделяет память для нового узла и дублирует строку аргумента.
  * @param arg_str Строка аргумента, которая будет сохранена в новом узле.
@@ -115,10 +116,10 @@ t_arg	*new_arg(char *arg_str, t_shell *mini)
  * @param lst A double pointer to the head of the list.
  * @param new A pointer to the new argument node, which must to be added.
  */
-void	add_arg_end(t_arg **lst, t_arg *new)
+void	append_arg(t_arg **lst, t_arg *new)
 {
 	t_arg	*last;	// Pointer to traverse the list
-
+	printf("the arg is: %s\n", new->arg_val); //TO DO delete, added foe debagging
 	if (!lst || !new)	// Check for NULL
 		exit(EXIT_FAILURE);	// Exit if either is NULL
 	if (*lst)	// If the list is not empty

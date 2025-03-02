@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 19:22:16 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/02 15:38:27 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/*
-initialize a t_shell structure. TODO create another file for init and move it.
-Alima
-*/
-void	init(t_shell *mini)
-{
-	mini->input = NULL;
-	mini->env_dup = NULL;
-	mini->cmds = NULL;
-	mini->args = NULL;
-}
 
 /*
 function to safely allocate memory using malloc. 
@@ -41,30 +29,29 @@ void	*mem_allocator(size_t size)
 	return (allocated_mem);
 }
 
-/*
-Frees the list of args and the list or structure of cmds
-*/
-
-void	free_shell_mem(t_shell *mini)
-{
-	list_destroy(&mini->args);
-	cmd_destroy(&mini->cmds);
-}
-
-//free arrays
-void	free_array(char **array)
+//frees arrays
+void	free_array(char **arr)
 {
 	int	i;
 
-	if (!array)
+	if (!arr)
 		return ;
 	i = 0;
-	while (array[i])
+	while (arr[i])
 	{
-		free(array[i]);
-		array[i] = NULL;
+		free(arr[i]);
+		arr[i] = NULL;
 		i++;
 	}
-	free(array);
-	array = NULL;
+	free(arr);
+	arr = NULL;
+}
+
+
+// Frees the list of args and the list or structure of cmds
+
+void	free_shell_mem(t_shell *mini)
+{
+	argslst_destroy(&mini->args);
+	cmdslst_destroy(&mini->cmds);
 }
