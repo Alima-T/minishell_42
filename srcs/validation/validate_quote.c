@@ -6,16 +6,22 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 16:15:14 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 16:38:31 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 16:52:15 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h" 
 
+/* 
+1. count_pipe_delim:
+This function counts the number of pipe delimiters in the input string and checks for syntax errors related to their usage. It checks for single and double pipes (|, ||) and single and double semicolons (;, ;;), reporting errors as necessary.
+2. count_quote:
+This function counts the number of quotes in the input string and checks for unclosed quotes. It reports a syntax error if it finds an unclosed quote.
+*/ 
 /**
  * Counts the number of pipe delimiters in the input string.
  * It checks for syntax errors related to pipe usage.
- *Report error for ||, |, ;;
+ * Report error for ||, |, ;;, ;
  * @param input The input string to be validated.
  * @param i The current index in the input string.
  * @return An integer indicating success (0) or an error code (non-zero).

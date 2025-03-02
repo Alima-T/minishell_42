@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:22:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 16:44:50 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 16:50:48 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,9 @@
 
 /*
 Summary of Functions:
-start_check:
+1. start_check:
 This function checks the beginning of the input string for syntax errors related to command tokens. It verifies if there are any invalid tokens (like |, ;, ||, ;;) at the start of the command and reports errors if found.
-2. 
-3. count_pipe_delim:
-This function counts the number of pipe delimiters in the input string and checks for syntax errors related to their usage. It checks for single and double pipes (|, ||) and single and double semicolons (;, ;;), reporting errors as necessary.
-count_quote:
-This function counts the number of quotes in the input string and checks for unclosed quotes. It reports a syntax error if it finds an unclosed quote.
-5. validator:
+2. validator:
 This function validates the entire input string for syntax errors. It checks for invalid tokens at the start and end, validates pipes, quotes, and redirection operators throughout the input, and returns an error code if any issues are found.
 This code is part of a parser for a shell-like environment, responsible for validating command-line input for syntax errors related to commands and redirections. It ensures that the input adheres to the expected syntax rules and reports errors appropriately.*/
 
