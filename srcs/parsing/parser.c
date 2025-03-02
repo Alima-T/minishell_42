@@ -6,11 +6,14 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/14 18:35:30 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/02/26 09:46:17 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+
+
 
 // /**
 //  * Validates the input string for the shell.
@@ -38,8 +41,8 @@ void	parser(t_shell *mini, t_env *env_dup)
 		add_history(mini->input);
 	if (validator(mini->input) == 0)
 	{
-		mini->args = process_args(mini);
-		mini->cmds = process_cmds(mini);
+		mini->args = args_process(mini);
+		mini->cmds = cmds_process(mini);
 		// execute_cmd(mini); // Call the function to execute the command
 	}
 	free(mini->input);

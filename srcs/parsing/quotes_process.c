@@ -6,14 +6,43 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2024/12/23 14:27:45 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:20:27 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../minishell.h"
 
+// char *gap(char *str, int i)
+// {
+// 	int j = i;
+// 	char *tmp;
+// 	char *tmp2;
+// 	char *tmp3;
+	
+// 	while(str[++i])
+// 		if(str[i] == '\'')
+// 			break;
+// 	tmp = ft_substr(str, 0, j-1);
+// 	tmp = ft_substr(str, j + 1, i - j - 1);
+// 	tmp3 = ft_strdup(str + j + 1);
+// 	tmp = ft_strjoin(tmp, tmp2);
+// 	tmp = ft_strjoin(tmp, tmp3);
+// 	printf("tmp = %s\n", tmp);
+// 	free(str);
+// 	return(tmp);
+// }
 
+// void pars(char *str)
+// {
+// 	int i;
+// 	i = -1;
+// 	while(str[++i])
+// 	{
+// 		if(str[i] == '\'')
+// 			gap(str, i);
+// 	}
+// }
 
 /* my code*/
 /**
@@ -89,7 +118,10 @@ char	*is_double_quote(char *input, int *i, t_env *env_dup)
 	start = *i; // Store the starting index of the double quote.
 	while (input[++(*i)])
 		// Increment the index until a closing double quote is found.
-	{
+	{		/* в двойных кавычках отрабатывает \, если после него идет ", $ или \ */
+		if (input[*i] == '\\' && (input[*i + 1] == '\"' \
+				|| input[*i + 1] == '$' || input[*i + 1] == '\\'))
+			input = is_slash(input, i);
 		if (input[*i] == '$')
 			// Check for dollar sign for variable substitution.
 			input = is_dollar(input, i, env_dup);

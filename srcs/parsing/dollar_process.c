@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/06 16:12:48 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/02/26 09:44:22 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 /*
 Summary of the Function:
-Purpose: The process_cmds function processes a linked list of arguments from a shell structure (t_shell *mini) and creates a list of commands (t_cmd) based on the presence of pipe characters (|).
+Purpose: The cmds_process function processes a linked list of arguments from a shell structure (t_shell *mini) and creates a list of commands (t_cmd) based on the presence of pipe characters (|).
 Logic:
 It first checks if there are any arguments. If not, it returns NULL.
 It initializes pointers to traverse the argument list and to mark the beginning of each command.

@@ -6,36 +6,32 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/21 14:10:38 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:23:17 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /**
- * Parses special characters in the input string, handling quotes, escape characters,
- * and variable expansions.
- * @param input The original input string to be parsed.
- * @param env_dup A pointer to the environment variables (used for variable expansion).
- * @return The modified input string after processing special characters.
+ * Adds a new command structure to the end of the command list.
+ * @param list A double pointer to the head of the command list.
+ * @param new A pointer to the new command structure to be added.
  */
-// "", '', $, |, $?, <, >, <<, >>
-
-char	*parse_special_chars(char *input, t_env *env_dup)
+void	append_cmd(t_cmd **list, t_cmd *new) 
 {
-	int i;
-	i = 0;
-	while(input[i])
+	t_cmd	*last; // Pointer to traverse the command list
+
+	if (!list || !new) // Check if the list or new command is NULL
+		exit(EXIT_FAILURE); // Exit if either is NULL
+	if (*list) // If the command list is not empty
 	{
-		if(input[i] == '\'')
-			input = is_quote(input, &i);
-		if(input[i] == '\"')
-			input = is_double_quote(input, &i, env_dup);
-		if(input[i] == '$')
-			input = is_dollar(input, &i, env_dup);
-		i++;
+		last = *list; // Start from the head of the list
+		while (last->next) // Traverse to the end of the list
+			last = last->next; // Move to the next command
+		last->next = new; // Link the new command at the end
 	}
-	return (input);
+	else
+		*list = new; // If the list is empty, set the new command as the head
 }
 
 /*process_cmds_and_redirs проходит по всем командам (cmd) и перенаправлениям (rdr) в структуре данных оболочки 
@@ -77,8 +73,8 @@ void process_cmds_and_redirs(t_shell *mini)
 /*
 Summary of the Function:
 t_arg	*tmp; // Temporary pointer to traverse the linked list of arguments
-t_arg	*cmd_begin; // Pointer to mark the beginning of a command
-Purpose: The process_cmds function processes a linked list of arguments from a shell structure (t_shell *mini) and creates a list of commands (t_cmd) based on the presence of pipe characters (|).
+t_arg	*cmd_start; // Pointer to mark the beginning of a command
+Purpose: The cmds_process function processes a linked list of arguments from a shell structure (t_shell *mini) and creates a list of commands (t_cmd) based on the presence of pipe characters (|).
 Logic:
 It first checks if there are any arguments. If not, it returns NULL.
 It initializes pointers to traverse the argument list and to mark the beginning of each command.
@@ -87,15 +83,15 @@ After the loop, it ensures that the last segment of arguments is also processed 
 Return Value: The function returns a linked list of commands created from the input arguments.
 */
 
-t_cmd	*process_cmds(t_shell *mini)
+t_cmd	*cmds_process(t_shell *mini)
 {
 	t_arg	*tmp;
-	t_arg	*cmd_begin;
+	t_arg	*cmd_start;
 
 	if (mini->args == NULL)
 		return (NULL);
 	tmp = mini->args;
-	cmd_begin = tmp;
+	cmd_start = tmp;
 	// Check if the first argument is a pipe; if so, move to the next argument
 	if ((ft_strcmp(tmp->arg_val, "|")) == 0)
 		tmp = tmp->next;
@@ -105,13 +101,13 @@ t_cmd	*process_cmds(t_shell *mini)
 		if ((ft_strcmp(tmp->arg_val, "|")) == 0)
 		{
 			// If a pipe is found, create a command from the arguments collected so far
-			add_cmd_lst_end(&mini->cmds, create_cmds_list(cmd_begin));
-			cmd_begin = tmp->next; // Update the command beginning pointer to the next argument
+			append_cmd(&mini->cmds, create_cmds_list(cmd_start));
+			cmd_start = tmp->next; // Update the command beginning pointer to the next argument
 		}
 		tmp = tmp->next;
 	}
 	// After the loop, create a command for the last segment of arguments
-	add_cmd_lst_end(&mini->cmds, create_cmds_list(cmd_begin));
+	append_cmd(&mini->cmds, create_cmds_list(cmd_start));
 	process_cmds_and_redirs(mini);
 	return (mini->cmds);
 }

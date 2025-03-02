@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:35:35 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/21 13:58:39 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:37:34 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ t_env	*envl_lstnew(char *env_str)
 	newnode->key = copy_key(env_str); // Extract and duplicate the key
 	// If the key is "OLDPWD", set the value to NULL; otherwise, copy the value
 	if (ft_strcmp(newnode->key, "OLDPWD") == 0)
-		newnode->value = NULL;
+		newnode->val = NULL;
 	else
-		newnode->value = copy_value(env_str);
+		newnode->val = copy_value(env_str);
 	newnode->next = NULL;
 	return (newnode);
 }
