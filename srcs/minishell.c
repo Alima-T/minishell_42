@@ -3,22 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/09 17:08:08 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/02 15:46:01 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// initialize a t_shell structure
+
+void	init(t_shell *mini)
+{
+	mini->input = NULL;
+	mini->env_dup = NULL;
+	mini->cmds = NULL;
+	mini->args = NULL;
+}
 /**
  * t_shell	*mini; // Declare a pointer to a shell structure
  * 'av & av' is not used, so it's explicitly ignored
  * rl_outstream = stderr; // Redirect the output stream of the readline library to standard error
  */
 
-// new main
 
 int	main(int ac, char **av, char **envp)
 {
