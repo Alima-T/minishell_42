@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:35:35 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:37:34 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:36:55 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ Summary of Functions:
 1. copy_value: duplicates the value part of an environment variable string (in the format KEY=VALUE). 
 Returns the duplicated value or NULL if no value exists.
 2. copy_key: duplicates the key part of an environment variable string. Returns the duplicated key.
-3. envl_lstnew: creates a new environment variable node. It allocates memory for the node, duplicates the entire environment variable string, extracts the key and value, and initializes the node's fields.
-4. envl_lstadd_back: adds a new environment variable node to the end of a linked list. It checks if the list is empty and either sets the new node as the head or traverses to the end of the list and links the new node there.
+3. new_env: creates a new environment variable node. It allocates memory for the node, duplicates the entire environment variable string, extracts the key and value, and initializes the node's fields.
+4. append_env: adds a new environment variable node to the end of a linked list. It checks if the list is empty and either sets the new node as the head or traverses to the end of the list and links the new node there.
 5. copy_envp: copies the environment variables from an array into a linked list. It iterates through the array, creating new nodes for each environment variable and adding them to the linked list.
 This code is part of a system for managing environment variables in a shell-like environment, allowing for the storage and retrieval of key-value pairs representing environment settings. It ensures proper memory management and linked list operations for the environment variables.
  * Duplicates the value part of an environment variable string.
@@ -65,26 +65,26 @@ char	*copy_key(char *env_part)
  * Creates a new environment variable node.
  * Allocates memory for the node and initializes its fields.
  * @param env_str The environment variable string to process.
- * t_env	*newnode; - Pointer to the new environment variable node
+ * t_env	*node; - Pointer to the new environment variable node
  * If the key is "OLDPWD", set the value to NULL; otherwise, copy the value
  * @return A pointer to the newly created environment variable node.
  */
-t_env	*envl_lstnew(char *env_str)
+t_env	*new_env(char *env_str)
 {
-	t_env	*newnode;
+	t_env	*node;
 
-	newnode = (t_env *)malloc(sizeof(t_env));
-	if (!newnode)
+	node = (t_env *)malloc(sizeof(t_env));
+	if (!node)
 		return (NULL);
-	newnode->line = ft_strdup(env_str); // Duplicate the entire environment variable string
-	newnode->key = copy_key(env_str); // Extract and duplicate the key
+	node->line = ft_strdup(env_str); // Duplicate the entire environment variable string
+	node->key = copy_key(env_str); // Extract and duplicate the key
 	// If the key is "OLDPWD", set the value to NULL; otherwise, copy the value
-	if (ft_strcmp(newnode->key, "OLDPWD") == 0)
-		newnode->val = NULL;
+	if (ft_strcmp(node->key, "OLDPWD") == 0)
+		node->val = NULL;
 	else
-		newnode->val = copy_value(env_str);
-	newnode->next = NULL;
-	return (newnode);
+		node->val = copy_value(env_str);
+	node->next = NULL;
+	return (node);
 }
 
 /**
@@ -92,7 +92,7 @@ t_env	*envl_lstnew(char *env_str)
  * @param list A double pointer to the head of the environment variable list.
  * @param new A pointer to the new environment variable node to be added.
  */
-void	envl_lstadd_back(t_env **list, t_env *new)
+void	append_env(t_env **list, t_env *new)
 {
 	t_env	*last;
 
@@ -124,7 +124,7 @@ t_env	*copy_envp(char **envp)
 	envp_copy = NULL;
 	while (envp[i])
 	{
-		envl_lstadd_back(&envp_copy, envl_lstnew(envp[i]));
+		append_env(&envp_copy, new_env(envp[i]));
 		i++;
 	}
 	return (envp_copy);

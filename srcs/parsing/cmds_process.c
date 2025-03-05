@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:23:17 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:40:11 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ t_cmd	*cmds_process(t_shell *mini)
 		if ((ft_strcmp(tmp->arg_val, "|")) == 0)
 		{
 			// If a pipe is found, create a command from the arguments collected so far
-			append_cmd(&mini->cmds, create_cmds_list(cmd_start));
+			append_cmd(&mini->cmds, create_cmds_lst(cmd_start));
 			cmd_start = tmp->next; // Update the command beginning pointer to the next argument
 		}
 		tmp = tmp->next;
 	}
 	// After the loop, create a command for the last segment of arguments
-	append_cmd(&mini->cmds, create_cmds_list(cmd_start));
+	append_cmd(&mini->cmds, create_cmds_lst(cmd_start));
 	process_cmds_and_redirs(mini);
 	return (mini->cmds);
 }

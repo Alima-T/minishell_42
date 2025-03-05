@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/02/26 09:44:22 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 22:36:29 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,11 @@ It loops through the arguments, checking for pipe characters. When a pipe is fou
 After the loop, it ensures that the last segment of arguments is also processed into a command.
 Return Value: The function returns a linked list of commands created from the input arguments.
 */
-// Check if a character is a valid key character (underscore or alphanumeric).
-char	is_valid_char(char c)
-{
-	if (c == '_' || ft_isalnum(c)) // Check if the character is an underscore or alphanumeric
-		return (1); // Return 1 (true) if valid
-	return (0); // Return 0 (false) if not valid
-}
 
 // Replaces an environment variable in the input string with its corresponding value.
 // It extracts the key from the input, retrieves its value from the environment,
 // and constructs a new string with the substituted value.
-char	*replace_env_var(char *input, int start, int end, t_env *env_dup)
+char	*replace_env(char *input, int start, int end, t_env *env_dup)
 {
 	char	*tmp1; // Temporary string for the part before the variable
 	char	*tmp2; // Temporary string for the value of the variable
@@ -67,7 +60,7 @@ char	*replace_env_var(char *input, int start, int end, t_env *env_dup)
 // It retrieves the current value of g_ext_stats,
 // constructs a new string with this value,
 // and resets g_ext_stats to 0.
-char	*question_handle(char *input, int begin, int *i)
+char	*question_handle(char *input, int start, int *i)
 {
 	char	*line_new; // New string to hold the modified input
 	char	*tmp_1; // Temporary string for the part before the question mark
@@ -76,7 +69,7 @@ char	*question_handle(char *input, int begin, int *i)
 	char	*tail; // Part of the input string after the question mark
 
 	nbr_val = ft_itoa(*get_exit_status()); // Convert the exit status to a string
-	tmp_1 = ft_substr(input, 0, begin); // Get the part before the question mark
+	tmp_1 = ft_substr(input, 0, start); // Get the part before the question mark
 	tmp_2 = ft_strjoin(tmp_1, nbr_val); // Concatenate the part before with the exit status
 	tail = ft_strdup(&input[*i]); // Get the part of the input after the question mark
 	line_new = ft_strjoin(tmp_2, tail); // Concatenate the exit status with the tail
@@ -89,27 +82,35 @@ char	*question_handle(char *input, int begin, int *i)
 	return (line_new); // Return the new input string with the exit status
 }
 
+// If a char is a valid (underscore or alphanumeric). Returns 0 - if not valid
+char	is_valid_char(char c)
+{
+	if (c == '_' || ft_isalnum(c))
+		return (1);
+	return (0);
+}
+
 // Check for dollar in the input string and determines if they represent
 // an environment variable or a special case ("?"). Updates the iterator
 // and calls the appropriate handler function to process the input.
 char	*is_dollar(char *input, int *i, t_env *env_dup)
 {
-	int	begin; // Variable to store the starting position of the dollar sign
+	int	start;
 
-	begin = *i; // Set the beginning position to the current index
-	if (ft_strchr("?", input[begin + 1])) // Check if the next character is a question mark
+	start = *i; // Set the begin to current index
+	if (ft_strchr("?", input[start + 1]))
 	{
-		*i += 2; // Move the index past the dollar and the question mark
-		return (question_handle(input, begin, i)); // Handle the question mark case
+		*i += 2; 
+		return (question_handle(input, start, i)); 
 	}
 	while (input[++(*i)]) // Loop to find the end of the variable name
 	{
-		if (!is_valid_char(input[*i])) // Check if the character is not valid
-			break; // Exit the loop if an invalid character is found
+		if (!is_valid_char(input[*i]))
+			break;
 	}
-	if (*i == begin + 1) // If no valid variable name was found
+	if (*i == start + 1) // If no valid variable name was found
 		return (input); // Return the original input string
-	input = replace_env_var(input, begin, *i, env_dup); // Replace the environment variable in the input
-	return (input); // Return the modified input string
+	input = replace_env(input, start, *i, env_dup); // Replace the environment variable in the input
+	return (input); 
 }
 

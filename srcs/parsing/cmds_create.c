@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_create.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:21:55 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:40:11 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	find_cmd(t_arg *args)
  * t_cmd *cmd; // Pointer to the command structure
  * @return A pointer to the created command structure or NULL if allocation fails.
  */
-t_cmd	*create_cmds_list(t_arg *args)
+t_cmd	*create_cmds_lst(t_arg *args)
 {
 	int lists_count;
 	t_cmd *cmd;

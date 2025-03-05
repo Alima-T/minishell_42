@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/02/10 20:51:41 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:14:13 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	executable = find_executable(cmd->cmd[0]);
 	if (!executable)
 	{
-		ft_perror("minishell: ", cmd->cmd[0], ": command not found");
+		ft_perror("msh-1.0: ", cmd->cmd[0], ": command not found");
 		free_array(envp);
 		// exit 127 for command not found
 		exit(127);

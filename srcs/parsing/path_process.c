@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   path_process.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 17:20:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 17:30:22 by tbolsako         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../minishell.h"
 
@@ -52,21 +42,21 @@ If a match is found (exists and is executable), it returns the full path; otherw
 Если совпадение найдено (существует и является исполняемым), возвращается полный путь; в противном случае возвращается NULL.
 */
 
-char *path_process(t_shell *mini, char *cmd_name)
+char *path_process(t_shell *mini, char *cmd)
 {
 	char *path;
 	char **paths;
 	int	i;
 	
 	i = 0;
-	if (is_path(cmd_name))
-		return (cmd_name);
+	if (is_path(cmd))
+		return (cmd);
 	paths = get_paths(mini);
 	if(!paths)
 		return (NULL);
 	while(paths[i])
 	{
-		path = ft_strjoin_con(paths[i], "/", cmd_name);
+		path = ft_strjoin_con(paths[i], "/", cmd);
 		if(!access(path, F_OK | X_OK))
 		{
 			free_array(paths);

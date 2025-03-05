@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:20:53 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:23:55 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*parse_special_chars(char *input, t_env *env_dup) // "", '', \, $, ;, |, >,
 		if (input[i] == '\\')
 			input = is_slash(input, &i);
 		if (input[i] == '\"')
-			input = is_double_quote(input, &i, env_dup);
+			input = is_db_quote(input, &i, env_dup);
 		if (input[i] == '$')
 			input = is_dollar(input, &i, env_dup);
 	}

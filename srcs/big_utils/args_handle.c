@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:37:05 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:39:18 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,17 @@ void	arglst_destroy(t_arg **lst)
 
 t_arg	*new_arg(char *arg_str, t_shell *mini)
 {
-	t_arg	*el;	// Pointer to the new argument node
+	t_arg	*node;	// Pointer to the new argument node
 
 	(void)mini;	// Ignore the mini parameter as it's not used
-	el = (t_arg *)malloc(sizeof(t_arg));	// Allocate memory for the new node
-	if (!el)	// Check if memory allocation failed
+	node = (t_arg *)malloc(sizeof(t_arg));	// Allocate memory for the new node
+	if (!node)	// Check if memory allocation failed
 		return (NULL);	// Return NULL if allocation fails
-	el->arg_val = ft_strdup(arg_str);	// Duplicate the argument string
-	el->redir_flag = 0;	// Initialize the redirection flag to 0
-	el->next = NULL;	// Set the next pointer to NULL (end of the list)
+	node->arg_val = ft_strdup(arg_str);	// Duplicate the argument string
+	node->redir_flag = 0;	// Initialize the redirection flag to 0
+	node->next = NULL;	// Set the next pointer to NULL (end of the list)
 	free(arg_str);	// Free the original argument string
-	return (el);	// Return the newly created node
+	return (node);	// Return the newly created node
 }
 
 /**

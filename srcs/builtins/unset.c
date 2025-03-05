@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 20:04:16 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:14:11 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	builtin_unset(int ac, char *av[], char ***env)
 	{
 		if (!is_valid_var_name(av[i]))
 		{
-			ft_perror("minishell: unset: `", av[i],
+			ft_perror("msh-1.0: unset: `", av[i],
 				"': not a valid identifier");
 			exit_code = 1;
 		}

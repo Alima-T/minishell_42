@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+         #
+#    By: alima <alima@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 18:05:01 by aokhapki          #+#    #+#              #
-#    Updated: 2025/01/06 14:46:09 by aokhapki         ###   ########.fr        #
+#    Updated: 2025/03/04 22:31:59 by alima            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,20 +17,24 @@ LIB_DIR     = LIBFT
 SRCS        = ${shell find ./srcs -name "*.c"}
 OBJS        = $(patsubst %.c,%.o,$(SRCS))
 
-CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror
-RM          = rm -f
+CC			=	gcc
+CFLAGS		=	-Wall -Wextra -Werror -I$(RDL_DIR)/include
+RDL_DIR		=	/opt/homebrew/opt/readline
+RDL			=	-lreadline -L$(RDL_DIR)/lib
+
+RM			=	rm -f
 
 all:        $(NAME)
 
-$(NAME):    $(OBJS)
-			@echo "\033[0;34m---- Compiling Minishell Project ----\033[0m"
-			@make -C $(LIB_DIR) || { echo "Failed to build libft"; exit 1; }
-			@$(CC) $(CFLAGS) $(OBJS) $(LIB_DIR)/libft.a -o $(NAME) -lreadline
-			@echo "\033[0;32mMinishell is ready to run!\033[0m"
+$(NAME):	$(OBJS) 
+			@echo "\033[0;32m----Compiling project----\033[0m"
+			@make -C $(LIB_DIR)
+			@$(CC) $(CFLAGS) $(OBJS) $(LIB_DIR)/libft.a -o $(NAME) $(RDL)
+			@echo "\033[0;33mType \033[1;32m./minishell\033[0;33m to go into minishell!\033[0m"
+
 
 %.o:        %.c
-			@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER)
+			@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 			@make clean -C $(LIB_DIR)

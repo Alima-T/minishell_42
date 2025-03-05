@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:50:22 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 22:48:14 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ int	find_boundary(char *input, int pos, int *fl)
 
 	while (input[pos])
 	{
-		if (input[pos] == '\'' || input[pos] == '\"') // проверяет наличие ', " 
+		if (input[pos] == '\'' || input[pos] == '\"')
 		{
 			quote = input[pos]; // Переменная quote устанавливается на текущий символ кавычки (' или ").
 			pos++; // Увеличивается pos, чтобы выйти за пределы открывающей кавычки.
-			while (input[pos] != '\0' && input[pos] != quote) //move pos до тех пор, пока не найдет закрывающую кавычку или конец строки.
+			while (input[pos] && input[pos] != quote) //move pos до тех пор, пока не найдет закрывающую кавычку или конец строки.
 				pos++;
 				//Это гарантирует, что заключенные в кавычки подстроки будут рассматриваться как единое целое, 
 				//даже если они содержат специальные символы, такие как пробелы или символы перенаправления ( <, >, |).
@@ -90,7 +90,7 @@ int	find_boundary(char *input, int pos, int *fl)
  * int	fl; - special handling for operators or redirs
  * @param mini A pointer to the shell structure.
  */
-void	tokenize_input(char *input, t_arg **args, t_shell *mini)
+void	lex_input(char *input, t_arg **args, t_shell *mini)
 {
 	int		i;
 	int		start;
@@ -134,7 +134,7 @@ void	tokenize_input(char *input, t_arg **args, t_shell *mini)
  */
 t_arg	*args_process(t_shell *mini)
 {
-	tokenize_input(mini->input, &(mini->args), mini);
+	lex_input(mini->input, &(mini->args), mini);
 	set_redirect(mini->args);
 	return (mini->args);
 }

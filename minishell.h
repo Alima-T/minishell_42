@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:35:42 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/04 22:25:00 by alima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@
 # define CLOSE "\001\033[0m\002"
 // close (escape) any applied text formatting
 # define BOLD "\001\033[1m\002" // bold formatting
-# define BEGIN(x, y) "\001\033[" #x ";" #y "m\002"
+// # define BEGIN(x, y) "\001\033[" #x ";" #y "43m\002"
 // apply both x: background y : foreground colors to the text.
+#define BEGIN "\001\033[1;32;40m\002"
 
 typedef struct s_builtin_cmd
 {
@@ -110,15 +111,17 @@ char						*find_in_env(t_env *env_dup, char *key);
 int							env_dup_size(t_env *env_dup);
 void						update_env(t_env *env_dup, char *key,
 								char *val);
-
 /* cmds_handle.c */
 void						redir_del_node(t_redir *redir_node);
 void						redir_destroy(t_redir **redir_list);
 void						cmd_del_node(t_cmd *cmd_node);
 void						cmdlst_destroy(t_cmd **list);
 
+/* descriptor_handle.c*/
+int							setup_redirections(t_cmd *cmds);
+
 /* mem_utils.c */
-void						init(t_shell *mini);
+
 void						*mem_allocator(size_t size);
 void						free_shell_mem(t_shell *mini);
 void						free_array(char **array);
@@ -132,14 +135,15 @@ void						shell_level_up(t_shell *shell_context);
 int							find_boundary(char *input, int pos, int *flag);
 int							is_redir(char *arg);
 void						set_redirect(t_arg *args);
-void						tokenize_input(char *input, t_arg **args,
-								t_shell *mini);
+void						lex_input(char *input, t_arg **args, t_shell *mini);
 t_arg						*args_process(t_shell *mini);
 /*** cmds_create    ***/
 int							find_cmd(t_arg *args);
 char						**turn_cmd_to_array(t_arg *args, int lists_count);
-t_cmd						*create_cmds_list(t_arg *args);
 void						append_cmd(t_cmd **list, t_cmd *new);
+t_cmd						*create_cmds_lst(t_arg *args);
+
+
 /*** cmds_process.c ***/
 
 void						process_cmds_and_redirs(t_shell *mini);
@@ -147,7 +151,7 @@ char						*is_slash(char *input, int *i);
 char						*parse_special_chars(char *input, t_env *env_dup);
 t_cmd						*cmds_process(t_shell *mini);
 /***  dollar_process.c ***/
-char						*replace_env_var(char *input, int start, int end,
+char						*replace_env(char *input, int start, int end,
 								t_env *env_dup);
 char						is_valid_char(char c);
 char						*find_in_env(t_env *env_dup, char *key);
@@ -156,8 +160,8 @@ char						*is_dollar(char *input, int *i, t_env *env_dup);
 /***  envp_prosess.c ***/
 char						*copy_value(char *env_part);
 char						*copy_key(char *env_part);
-void						envl_lstadd_back(t_env **list, t_env *new);
-t_env						*envl_lstnew(char *env_str);
+void						append_env(t_env **list, t_env *new);
+t_env						*new_env(char *env_str);
 t_env						*copy_envp(char **envp);
 /*** parse_utils.c    ***/
 int							skip_space_tab(char *inp, int i);
@@ -167,15 +171,24 @@ void						parser(t_shell *mini, t_env *env_dup);
 char						**get_paths(t_shell *mini);
 int							is_path(char *str);
 char						*path_process(t_shell *mini, char *cmd_name);
-
 /***  quotes_process.c  ***/
 char						*combine_subs(char *input, int start, int end);
 char						*is_quote(char *input, int *i);
-char						*is_double_quote(char *input, int *i,
-								t_env *env_dup);
-/*** PRINTING  ***/
-/* print_msgs.c*/
-int							print_msg(int return_val, char *msg, int exit_stat);
+char						*is_db_quote(char *input, int *i, t_env *env_dup);
+/*** redirect_process.c  ***/
+int							redir_first(t_arg **args, t_redir **rdr);
+void						redir_add_end(t_redir **list, t_redir *new);
+t_redir						*redirect_process(t_arg **args);
+t_redir						*redir_new(char *type, char *name);
+
+// handle_signals.c
+
+void						sig_interact_ctrl_c(int signal);
+void						sigs_interact_shell(void);
+void						sig_non_interact_quit(int signal);
+void						sig_non_interact_ctrl_c(int signal);
+void						sigs_non_interact_shell(void);
+
 /*** VALIDATION ***/
 /*** validator.c ***/
 int							start_check(char *input, int i);
@@ -187,12 +200,17 @@ int							validator(char *input);
 int							redir_reading(char *input, int *i);
 int							redir_writing(char *input, int *i);
 int							redir_counting(char *input, int *i, char redir);
-/*** redirect_process.c  ***/
-int							redir_first(t_arg **args, t_redir **rdr);
-void						redir_add_end(t_redir **list, t_redir *new);
-t_redir						*redirect_process(t_arg **args);
-t_redir						*redir_new(char *type, char *name);
 
+/*** PRINTING  ***/
+/* print_msgs.c */
+int							print_msg(int return_val, char *msg, int exit_stat);
+void						print_cmds(t_cmd *cmds);
+void						print_args(t_arg *args);
+void						print_env_copy(t_env *env_dup);
+void						print_redir(t_cmd *cmds);
+/* print_errmsg.c */
+void						cmd_not_found_msg(char *message);
+void						errmsg(char *message);
 /*** # ALIMA end # ***/
 
 /*** # TANJA start # ***/
@@ -241,17 +259,13 @@ int							handle_heredoc(char *delimiter);
 
 void						free_builtin_cmds(t_builtin_cmd *builtin_cmds);
 
-// fake_global
-
+// fake_global.c
 int							*get_exit_status(void);
 
-// handle_signals.c
+// minishell.c
+void						init(t_shell *mini);
 
-void						sig_interact_ctrl_c(int signal);
-void						sigs_interact_shell(void);
-void						sig_non_interact_quit(int signal);
-void						sig_non_interact_ctrl_c(int signal);
-void						sigs_non_interact_shell(void);
+
 
 /*** # TANJA end # ***/
 #endif
