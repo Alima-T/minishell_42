@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/04 14:39:18 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:36:49 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 4. del_one_arg: Deletes a specific node and frees its memory.
 5. arglst_destroy: Deletes all nodes in the list, freeing all allocated memory.
 This code is part of a linked list implementation for managing command-line arguments in a shell-like environment.
-
 1. new_arg: Создает новый узел аргумента, дублирует строку аргумента и инициализирует узел.
 2. append_arg: Добавляет новый узел в конец связанного списка узлов аргументов.
 3. del_first_node: Удаляет первый узел в списке и освобождает его память.

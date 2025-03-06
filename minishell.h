@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/04 22:25:00 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:36:38 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@
 # include <termios.h>
 
 # define CLOSE "\001\033[0m\002"
-// close (escape) any applied text formatting
-# define BOLD "\001\033[1m\002" // bold formatting
-// # define BEGIN(x, y) "\001\033[" #x ";" #y "43m\002"
-// apply both x: background y : foreground colors to the text.
+# define BOLD "\001\033[1m\002"
 #define BEGIN "\001\033[1;32;40m\002"
 
 typedef struct s_builtin_cmd
@@ -142,7 +139,6 @@ int							find_cmd(t_arg *args);
 char						**turn_cmd_to_array(t_arg *args, int lists_count);
 void						append_cmd(t_cmd **list, t_cmd *new);
 t_cmd						*create_cmds_lst(t_arg *args);
-
 
 /*** cmds_process.c ***/
 
@@ -256,7 +252,6 @@ void						set_heredoc(t_cmd *cmds);
 int							handle_heredoc(char *delimiter);
 
 // execution cleanup
-
 void						free_builtin_cmds(t_builtin_cmd *builtin_cmds);
 
 // fake_global.c
@@ -264,7 +259,6 @@ int							*get_exit_status(void);
 
 // minishell.c
 void						init(t_shell *mini);
-
 
 
 /*** # TANJA end # ***/

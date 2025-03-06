@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_msgs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/04 22:19:48 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:35:23 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,3 @@ void	print_redir(t_cmd *cmds)
 		cmds = cmds->next;
 	}
 }
-
-

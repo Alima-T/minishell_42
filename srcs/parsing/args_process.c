@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   args_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/04 22:48:14 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:41:41 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 /**
  * Checks if the given argument is a redirection operator.

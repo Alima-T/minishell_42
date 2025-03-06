@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/04 14:55:46 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:39:02 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 // /**
 //  * Validates the input string for the shell.
-//  *
 //  * @param input The input string to validate.
 //  * @return 0 if the input is valid, -1 if invalid.
 //  */
-
 void	parser(t_shell *mini, t_env *env_dup)
 {
 	(void)env_dup;

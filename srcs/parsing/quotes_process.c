@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/04 14:43:26 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:39:33 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,10 @@ char	*is_db_quote(char *input, int *i, t_env *env_dup)
  * function processes a substring of the input string by extracting parts before,
  * between,  and after specified indices (start and end). It frees the original input
  * and returns a new str that combines the extracted parts.
- *
  * @param input The original input string.
  * @param start The starting index of the substring to be processed.
  * @param end The ending index of the substring to be processed.
- * @return The newly combined string after processing.
+ * @return The combined string after processing.
  */
 char	*combine_subs(char *input, int start, int end)
 {

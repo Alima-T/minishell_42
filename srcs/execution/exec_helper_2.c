@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_helper_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alima <alima@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:09:43 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/04 12:46:58 by alima            ###   ########.fr       */
+/*   Updated: 2025/03/06 18:37:17 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*expand_env_vars(char *str)
 	}
 	return (result);
 }
+
 
 /**
  * IOA
