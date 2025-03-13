@@ -20,12 +20,6 @@ Readline — это lib, в Unix-подобных системах, предос
 Она позволяет пользователям редактировать текущую строку ввода, перемещаться по истории команд и эффективно управлять текстом 
 с использованием знакомых сочетаний клавиш (например, стрелок, комбинаций с Ctrl).
 */
-/**
- * Handles the Ctrl+C (SIGINT) signal in an interactive shell. 
- * It prevents the program from terminating, 
- * clears the current input line, displays a new prompt, 
- * and updates the global exit status to 1 (error code).
- */
 
 void	sig_interact_ctrl_c(int signal)
 {
@@ -47,11 +41,19 @@ Instead of terminating the shell, it can stop the current operation, clear the i
 SIGQUIT Ignored: Prevents the shell from being terminated or creating a core dump 
 when the user presses Ctrl+\ (SIGQUIT), maintaining a clean and controlled session.
 */
+
 void	sigs_interact_shell(void)
-{
+{	struct sigaction	sa_int;
+	struct termios		new_termios;
+
+	sa_int.sa_handler = sig_interact_ctrl_c;
+	sigemptyset(&sa_int.sa_mask);
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGINT, &sig_interact_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
+	tcgetattr(STDIN_FILENO, &new_termios);
+	new_termios.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
 /*handles the SIGQUIT signal by printing the signal number with a "Quit: " prefix to the error stream, 
@@ -62,13 +64,17 @@ frees the mem allocated, sets the exit status to 131 (stand exit code for SIGQUI
 void	sig_non_interact_quit(int signal)
 {
 	char	*nb;
-
-	nb = ft_itoa(signal);
-	ft_putstr_fd("Quit: ", STDERR_FILENO);
-	ft_putendl_fd(nb, STDERR_FILENO);
-	free(nb);
-	nb = NULL;
-	*get_exit_status() = 131;
+	if (signal == SIGQUIT) /* for CTR + \   */
+	{
+		nb = ft_itoa(signal);
+		ft_putstr_fd("ˆ\\Quit: ", STDERR_FILENO);
+		ft_putendl_fd(nb, STDERR_FILENO);
+		free(nb);
+		nb = NULL;
+		*get_exit_status() = 131;
+	}
+	if (signal == SIGINT) // for CTR+C
+		write(1, "^C\n", 3);
 }
 
 /* handles the SIGINT signal, Output a newline character to the error stream.
@@ -85,10 +91,14 @@ void	sig_non_interact_ctrl_c(int signal)
 /* This function sets up signal handlers for the non-interactive shell.
 signal(SIGTERM, SIG_DFL); // - Для сигнала SIGTERM уст-ся станд. действие SIG_DFL (завершение процесса)
 */
+
 void	sigs_non_interact_shell(void)
 {
-	// - Для сигнала SIGTERM устанавливается стандартное действие (SIG_DFL), что означает завершение процесса.
-	signal(SIGTERM, SIG_DFL);
-	signal(SIGINT, sig_non_interact_ctrl_c);
+	struct sigaction	sa_int;
+
+	sa_int.sa_handler = sig_non_interact_quit;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
 	signal(SIGQUIT, sig_non_interact_quit);
 }
