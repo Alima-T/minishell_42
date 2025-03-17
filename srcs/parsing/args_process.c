@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:41:41 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:58:06 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	lex_input(char *input, t_arg **args, t_shell *mini)
 	int		end;
 	int		fl;
 	char	*tmp;
-	
+
 	i = 0;
 	fl = 0;
 	while (input[i] != '\0')
@@ -108,7 +108,7 @@ void	lex_input(char *input, t_arg **args, t_shell *mini)
 		if (input[i] == '\0')			// If the end of the string is reached, exit
 			return ;
 		end = find_boundary(input, i, &fl);	// Find the end of the current token or operator
-		printf("flage is: %d\n", fl); //TO DO delete
+		// printf("flage is: %d\n", fl); //TO DO delete
 		i = end;							// Move the index to the end of the current token
 		// i = skip_space_tab(input, i);		// Skip trailing whitespaces (ensures clean arguments)
 		if (fl != 0)						// If a special operator (<, <<, |, etc.) was detected

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:34:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:38:27 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:00:19 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void process_cmds_and_redirs(t_shell *mini)
 	t_cmd *cmd;
 	t_redir *rdr;
 	int i;
-	
+
 	cmd = mini->cmds;
 	rdr = (t_redir *) mini->cmds->redir;
 	while(cmd)

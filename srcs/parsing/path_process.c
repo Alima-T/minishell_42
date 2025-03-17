@@ -12,8 +12,8 @@ char **get_paths(t_shell *mini)
 	path = find_in_env(mini->env_dup, "PATH");
 	if (!path)
 		return (NULL);
-		paths = ft_split(path, ':');
-		return (paths);
+	paths = ft_split(path, ':');
+	return (paths);
 }
 
 //Checks if the input contains an executable path by looking for the '/' character.

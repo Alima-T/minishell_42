@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:38:51 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:10:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,81 @@ char	*is_slash(char *input, int *i)
 }
 
 /**
- * Parses special characters in the input string, handling quotes, escape characters,
+ * Helper function to check if a character is a valid token separator.
+
+	* This helps determine if quoted strings should be treated as separate arguments.
+ *
+ * @param c The character to check
+ * @return true if the character is a separator, false otherwise
+ */
+static bool	is_token_separator(char c)
+{
+	return (c == ' ' || c == '\t' || c == '|' || c == '<' || c == '>');
+}
+
+/**
+ * Parses special characters in the input string, handling quotes,
+ * escape characters,
  * and variable expansions.
  * @param input The original input string to be parsed.
- * @param env_dup A pointer to the environment variables (used for variable expansion).
+
+	* @param env_dup A pointer to the environment variables (used for variable expansion).
  * @return The modified input string after processing special characters.
  */
 // "", '', $, |, $?, <, >, <<, >>
-
-char	*parse_special_chars(char *input, t_env *env_dup) // "", '', \, $, ;, |, >, >>, <, 'пробел'
+// "", '', \, $, ;, |, >, >>, <, 'пробел'
+char	*parse_special_chars(char *input, t_env *env_dup)
 {
-	int	i;
-	// printf("\ninput = %s\n\n", input);
-	i = -1;
-	while (input[++i])
+	int i;
+
+	if (!input || !*input)
+		return (input);
+	i = 0;
+	while (input[i])
 	{
+		// handle single quotes - no expansion inside
 		if (input[i] == '\'')
+		{
 			input = is_quote(input, &i);
-		if (input[i] == '\\')
-			input = is_slash(input, &i);
-		if (input[i] == '\"')
+			// adjust index if needed after modification
+			if (!input[i])
+				break ;
+			// Check if next character is another quote without separator in between
+			// This helps handle adjacent quoted strings like 'he''llo'
+			if (input[i] && (input[i] == '\'' || input[i] == '\"') && (i == 0
+					|| !is_token_separator(input[i - 1])))
+			{
+				// Don't increment i here to process the next quote in the next iteration
+				continue ;
+			}
+		}
+		// handle double quotes - variables are expanded inside
+		else if (input[i] == '\"')
+		{
 			input = is_db_quote(input, &i, env_dup);
+			// adjust index if needed after modification
+			if (!input[i])
+				break ;
+			// Check if next character is another quote without separator in between
+			if (input[i] && (input[i] == '\'' || input[i] == '\"') && (i == 0
+					|| !is_token_separator(input[i - 1])))
+			{
+				// Don't increment i here to process the next quote in the next iteration
+				continue ;
+			}
+		}
+		// handle environment variables
 		if (input[i] == '$')
+		{
 			input = is_dollar(input, &i, env_dup);
+			// adjust index if needed after modification
+			if (!input[i])
+				break ;
+			// don't increment i here as is_dollar already moves the index
+			continue ;
+		}
+		i++;
 	}
-	// printf("\ninput2 = %s\n\n", input);
 	return (input);
 }
 

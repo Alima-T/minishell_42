@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_create.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:38:19 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:58:51 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	**turn_cmd_to_array(t_arg *args, int lists_count)
 	while (args && (lists_count != 0))
 	{
 		args_array[i] = ft_strdup(args->arg_val);
-		args = args->next;
-		lists_count--;
 		i++;
+		lists_count--;
+		args = args->next;
 	}
 	args_array[i] = NULL;
 	return (args_array);
