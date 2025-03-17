@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:45:15 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 17:31:42 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:26:58 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,4 @@ void	cmdlst_destroy(t_cmd **list)
 		*list = temp;
 	}
 	*list = NULL;
-}
-
-int	get_cmd_size(t_cmd *cmdslst) //TO DO delete if do not use
-{
-	int	i;
-
-	if (!cmdslst)
-		return (0);
-	i = 0;
-	while (cmdslst)
-	{
-		cmdslst = cmdslst->next;
-		i++;
-	}
-	return (i);
 }

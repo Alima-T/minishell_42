@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:36:49 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:25:27 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ t_arg	*new_arg(char *arg_str, t_shell *mini)
 void	append_arg(t_arg **lst, t_arg *new)
 {
 	t_arg	*last;	// Pointer to traverse the list
-	printf("the arg is: %s\n", new->arg_val); //TO DO delete, added foe debagging
+	// printf("the arg is: %s\n", new->arg_val); //TO DO delete, added foe debagging
 	if (!lst || !new)	// Check for NULL
 		exit(EXIT_FAILURE);	// Exit if either is NULL
 	if (*lst)	// If the list is not empty
