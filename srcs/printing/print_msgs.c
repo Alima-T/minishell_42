@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_msgs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:35:23 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:04:34 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	print_msg(int ret_val, char *message, int ext_stat)
 {
-	ft_putstr_fd(BEGIN"msh-1.0$ "CLOSE, STDERR_FILENO);
+	ft_putstr_fd(BEGIN"msh: "CLOSE, STDERR_FILENO);
 	ft_putendl_fd(message, STDERR_FILENO);
 	*get_exit_status() = ext_stat;
 	return (ret_val);

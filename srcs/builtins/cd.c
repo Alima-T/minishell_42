@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:40:25 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:46:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	builtin_cd(int ac, char *av[], t_env **env_dup)
 		return (cd_error("cd: too many arguments"));
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (cd_error(strerror(errno)));
-	target_dir = get_target_dir(ac, av, *env_dup);
+	target_dir = get_target_dir(ac, av, env_dup);
 	if (!target_dir && (ac == 1 || !ft_strcmp(av[1], "~")))
 		return (cd_error("cd: HOME not set"));
 	else if (!target_dir && !ft_strcmp(av[1], "-"))

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:16:01 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:27:17 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,19 @@ char	*is_quote(char *input, int *i)
 {
 	int	start;
 
-	start = *i;           // Store the starting index of the quote.
-	while (input[++(*i)]) // Increment the index until a closing quote is found.
+	// Store the starting index of the quote.
+	start = *i;
+	// Increment the index until a closing quote is found.
+	while (input[++(*i)])
 	{
-		if (input[*i] == '\'') // Check for the closing single quote.
+		// Check for the closing single quote.
+		if (input[*i] == '\'')
 			break ;
 	}
-	input = combine_subs(input, start, *i);
 	// Call combine_subs to process the substring.
-	return (input); // modified input string.
+	input = combine_subs(input, start, *i);
+	// modified input string.
+	return (input);
 }
 
 /**

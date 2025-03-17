@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:55:55 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:56:07 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:05:42 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	create_pipes(t_cmd *cmds)
 	{
 		if (pipe(tmp->pipe_fd) < 0)
 		{
-			ft_putstr_fd(BEGIN "msh-1.0$ " CLOSE, STDERR_FILENO);
+			ft_putstr_fd(BEGIN "msh-1.0: " CLOSE, STDERR_FILENO);
 			ft_putendl_fd("pipe: Resource temporarily unavailable",
 				STDERR_FILENO);
 			*get_exit_status() = 1;

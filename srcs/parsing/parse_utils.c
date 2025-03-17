@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:10:16 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:31:01 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ static bool	is_token_separator(char c)
 // "", '', \, $, ;, |, >, >>, <, 'пробел'
 char	*parse_special_chars(char *input, t_env *env_dup)
 {
-	int i;
+	int		i;
+	bool	in_single_quotes;
 
+	in_single_quotes = false;
 	if (!input || !*input)
 		return (input);
 	i = 0;
@@ -64,6 +66,7 @@ char	*parse_special_chars(char *input, t_env *env_dup)
 		// handle single quotes - no expansion inside
 		if (input[i] == '\'')
 		{
+			in_single_quotes = !in_single_quotes;
 			input = is_quote(input, &i);
 			// adjust index if needed after modification
 			if (!input[i])
@@ -76,6 +79,7 @@ char	*parse_special_chars(char *input, t_env *env_dup)
 				// Don't increment i here to process the next quote in the next iteration
 				continue ;
 			}
+			in_single_quotes = false;
 		}
 		// handle double quotes - variables are expanded inside
 		else if (input[i] == '\"')
@@ -93,7 +97,7 @@ char	*parse_special_chars(char *input, t_env *env_dup)
 			}
 		}
 		// handle environment variables
-		if (input[i] == '$')
+		if (input[i] == '$' && !in_single_quotes)
 		{
 			input = is_dollar(input, &i, env_dup);
 			// adjust index if needed after modification

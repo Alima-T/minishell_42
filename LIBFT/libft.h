@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:26:24 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/01/23 18:05:17 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:51:39 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char				*ft_strjoin_con(char const *s1, char *connector,
 char				*ft_strjoin_char(char *str, char c);
 int					ft_isnum(const char *str);
 size_t				ft_strcspn(const char *s, const char *reject);
+char				*ft_strstr(const char *haystack, const char *needle);
 // // bonus_functions
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);

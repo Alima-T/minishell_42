@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 18:30:17 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:46:17 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,33 +146,6 @@ void	env_del_node(t_env *list)
 	list->val = NULL;
 	free(list);
 	list = NULL;
-}
-
-/**
- * Изменяет значение переменной окружения в связанном списке.
- * Обновляет значение, связанное с указанным ключом, и создает новую строку.
- * @param env_dup Указатель на начало списка переменных окружения.
- * @param key Ключ переменной окружения для изменения.
- * @param val Новое значение для переменной окружения.
- */
-void	update_env(t_env *env_dup, char *key, char *val)
-{
-	if (!env_dup || !key || !val)
-		return ;
-	while (env_dup)
-	{
-		if (!ft_strcmp(env_dup->key, key))
-		{
-			if (env_dup->line)
-				free(env_dup->line);
-			env_dup->line = ft_strjoin_con(key, "=", val);
-			if (env_dup->val)
-				free(env_dup->val);
-			env_dup->val = ft_strdup(val);
-			return ;
-		}
-		env_dup = env_dup->next;
-	}
 }
 
 /**

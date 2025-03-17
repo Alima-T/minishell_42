@@ -6,13 +6,13 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:10:53 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:07:26 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*safe_readline(const char *prompt)
+static char	*safe_readline(const char *prompt)
 {
 	char	*line;
 
@@ -87,7 +87,7 @@ int	parser(t_shell *mini, t_env *env_dup)
 	else
 	{
 		// input validation failed
-		ft_putstr_fd(BEGIN "msh-1.0$: " CLOSE, STDERR_FILENO);
+		// ft_putstr_fd(BEGIN "msh-1.0: " CLOSE, STDERR_FILENO);
 		*get_exit_status() = 2;
 		free(mini->input);
 		mini->input = NULL;

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:53:11 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:59:24 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,7 @@ void	execute_cmd(t_shell *mini)
 	}
 	if (mini->cmds && mini->cmds->next)
 		execute_multiple_cmds(mini);
+	else
 	{
 		if (mini->cmds->inp == 0)
 			mini->cmds->inp = STDIN_FILENO;

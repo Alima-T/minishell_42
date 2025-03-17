@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:43:08 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:53:17 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char						*generate_heredoc_filename(void);
 void						env_destroy(t_env **list);
 void						update_env(t_env *env_dup, char *key, char *val);
 char						*find_in_env(t_env *env_dup, char *key);
-int							env_dup_size(t_env *env_dup);
+int							count_env_vars(t_env *env_dup);
 
 /*** level_change.c ***/
 void						shell_level_down(t_shell *mini);
@@ -168,7 +168,7 @@ t_env						*copy_envp(char **envp);
 int							skip_space_tab(char *inp, int i);
 
 /*** parser.c ***/
-void						parser(t_shell *mini, t_env *env_dup);
+int							parser(t_shell *mini, t_env *env_dup);
 
 /*** path_process.c ***/
 char						**get_paths(t_shell *mini);
@@ -219,7 +219,6 @@ void						sig_non_interact_quit(int signal);
 void						sig_non_interact_ctrl_c(int signal);
 void						sigs_non_interact_shell(void);
 
-
 /*** BUILT-INS ***/
 /*** cd.c ***/
 int							builtin_cd(int ac, char *av[], t_env **env_dup);
@@ -232,6 +231,8 @@ int							builtin_env(t_env *env_dup);
 
 /*** exit.c ***/
 int							builtin_exit(int ac, char *av[], t_shell *mini);
+void						exit_with_error(t_shell *mini, char *arg, char *msg,
+								int status);
 
 /*** exit_helper.c ***/
 int							is_numeric_str(char *str);
@@ -276,7 +277,6 @@ char						*find_executable(char *cmd, t_env *env_dup);
 int							execute_builtin(t_cmd *cmd, t_shell *mini);
 int							is_builtin(const char *cmd,
 								t_builtin_cmd *builtin_cmds);
-int							dispatch_builtin(int ac, char *av[], t_shell *mini);
 t_builtin_cmd				*init_builtin_cmds(void);
 
 /*** heredoc_redir.c ***/

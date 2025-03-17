@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:41:41 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:25:30 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,6 @@ static bool	is_n_option(char *arg)
 	while (arg[j] == 'n')
 		j++;
 	return (arg[j] == '\0');
-}
-
-/**
- * @brief Helper function to check if the next argument is adjacent
- *
- * Determines if args[i+1] should be considered adjacent to args[i]
- * (i.e., was originally part of the same token but was split during parsing)
- *
- * @param args array of arguments
- * @param i current argument index
- * @return true if args[i+1] should be considered adjacent to args[i]
- */
-static bool	is_adjacent_arg(char **args, int i)
-{
-	bool	current_has_no_spaces;
-	bool	next_has_no_spaces;
-
-	if (!args[i + 1])
-		return (false);
-	current_has_no_spaces = (ft_strchr(args[i], ' ') == NULL);
-	next_has_no_spaces = (ft_strchr(args[i + 1], ' ') == NULL);
-	return (current_has_no_spaces && next_has_no_spaces);
 }
 
 /**
@@ -85,15 +63,14 @@ static int	process_echo_options(char **args, bool *newline)
  */
 static void	print_echo_args(char **args, int start_idx, bool newline)
 {
-	int		i;
-	bool	skip_space;
+	int	i;
 
 	i = start_idx;
 	while (args[i])
 	{
 		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
-		skip_space = is_adjacent_arg(args, i);
-		if (args[i + 1] && !skip_space)
+		// Add a space only if this is not the last argument
+		if (args[i + 1])
 			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
@@ -103,7 +80,8 @@ static void	print_echo_args(char **args, int start_idx, bool newline)
 
 /**
  * @brief Implements the built-in echo command.
- * Prints the provided arguments to the standard output with appropriate spacing.
+
+	* Prints the provided arguments to the standard output with appropriate spacing.
  * Handles the -n option to suppress the trailing newline.
  *
  * @param args array of command arguments

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:42:45 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:47:45 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param msg Error message
  * @param status Exit status
  */
-static void	exit_with_error(t_shell *mini, char *arg, char *msg, int status)
+void	exit_with_error(t_shell *mini, char *arg, char *msg, int status)
 {
 	ft_putstr_fd("msh-1.0: exit: ", STDERR_FILENO);
 	if (arg)
