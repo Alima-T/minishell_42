@@ -6,18 +6,19 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 18:00:49 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:44:25 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /**
- * Sorts environment variables using bubble sort.
- * @param arr
- * @param n
+ * @brief Sorts environment variables using bubble sort
+ *
+ * @param env_vars Array of environment variables
+ * @param count Number of variables
  */
-static void	bubble_sort(char **arr, int n)
+static void	sort_env_vars(char **env_vars, int count)
 {
 	int		i;
 	int		j;
@@ -25,17 +26,17 @@ static void	bubble_sort(char **arr, int n)
 	int		swapped;
 
 	i = 0;
-	while (i < n - 1)
+	while (i < count - 1)
 	{
 		j = 0;
 		swapped = 0;
-		while (j < n - i - 1)
+		while (j < count - i - 1)
 		{
-			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
+			if (ft_strcmp(env_vars[j], env_vars[j + 1]) > 0)
 			{
-				temp = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = temp;
+				temp = env_vars[j];
+				env_vars[j] = env_vars[j + 1];
+				env_vars[j + 1] = temp;
 				swapped = 1;
 			}
 			j++;
@@ -47,118 +48,118 @@ static void	bubble_sort(char **arr, int n)
 }
 
 /**
- * Lists environment variables.
- * @param env
+ * @brief Builds an array of formatted environment variables
+ *
+ * @param env_dup Environment list
+ * @param count Number of variables
+ * @return char** Array of formatted strings (NULL on error)
  */
-static void	list_env_vars(char **env)
+static char	**build_env_array(t_env *env_dup, int count)
 {
-	int		i;
 	char	**sorted_env;
+	int		i;
+	t_env	*tmp;
 
-	i = 0;
-	while (env[i] != NULL)
-		i++;
-	sorted_env = malloc(sizeof(char *) * (i + 1));
+	sorted_env = malloc(sizeof(char *) * (count + 1));
 	if (!sorted_env)
-		return ;
+		return (NULL);
 	i = 0;
-	while (env[i] != NULL)
+	tmp = env_dup;
+	while (tmp && i < count)
 	{
-		sorted_env[i] = env[i];
+		sorted_env[i] = format_env_var(tmp);
+		if (!sorted_env[i])
+		{
+			while (--i >= 0)
+				free(sorted_env[i]);
+			free(sorted_env);
+			return (NULL);
+		}
 		i++;
+		tmp = tmp->next;
 	}
 	sorted_env[i] = NULL;
-	bubble_sort(sorted_env, i);
-	i = 0;
-	while (sorted_env[i] != NULL)
-	{
-		write(STDOUT_FILENO, "declare -x ", 11);
-		write(STDOUT_FILENO, sorted_env[i], ft_strlen(sorted_env[i]));
-		write(STDOUT_FILENO, "\n", 1);
-		i++;
-	}
-	free(sorted_env);
+	return (sorted_env);
 }
 
 /**
- * Adds or updates an environment variable.
- * @param arg
- * @return
+ * @brief Lists environment variables in alphabetical order
+ *
+ * @param env_dup Environment linked list
  */
-static int	add_or_upd_env_var(char *arg)
+static void	list_env_vars(t_env *env_dup)
 {
-	char	*equal_sign;
-	char	*name;
-	char	*value;
+	int		count;
+	char	**sorted_env;
 
-	equal_sign = ft_strchr(arg, '=');
-	if (equal_sign)
-	{
-		// split the arg into name and value
-		*equal_sign = '\0';
-		name = arg;
-		value = equal_sign + 1;
-		if (is_valid_var_name(name))
-		{
-			if (setenv(name, value, 1) != 0)
-			{
-				perror("export: failed to set env var");
-				return (1);
-			}
-		}
-		else
-		{
-			write(STDERR_FILENO, "export: not a valid identifier\n", 31);
-			return (1);
-		}
-	}
+	count = count_env_vars(env_dup);
+	sorted_env = build_env_array(env_dup, count);
+	if (!sorted_env)
+		return ;
+	sort_env_vars(sorted_env, count);
+	print_sorted_env(sorted_env, count);
+}
+
+/**
+ * @brief Adds or updates an environment variable
+ *
+ * @param env_dup Environment linked list
+ * @param arg Variable assignment (name=value)
+ * @return int 0 on success, 1 on error
+ */
+static int	add_or_upd_env_var(t_env **env_dup, char *arg)
+{
+	char	*pos;
+	char	*arg_copy;
+	int		result;
+
+	arg_copy = ft_strdup(arg);
+	if (!arg_copy)
+		return (1);
+	pos = ft_strstr(arg_copy, "+=");
+	if (pos)
+		result = process_append(env_dup, arg_copy, pos, arg);
 	else
 	{
-		// no '=' found, set the var with an empty value
-		if (is_valid_var_name(arg))
-		{
-			if (setenv(arg, "", 1) != 0)
-			{
-				perror("export: failed to set env var");
-				return (1);
-			}
-		}
+		pos = ft_strchr(arg_copy, '=');
+		if (pos)
+			result = process_assignment(env_dup, arg_copy, pos, arg);
 		else
-		{
-			write(STDERR_FILENO, "export: not a valid identifier\n", 31);
-			return (1);
-		}
+			result = process_no_value(env_dup, arg_copy, arg);
 	}
-	return (0);
+	free(arg_copy);
+	return (result);
 }
 
 /**
- * Exports environment variables.
- * @param ac
- * @param av
- * @param env
- * @return
+ * @brief Built-in export command
+ *
+ * Lists or sets environment variables. With no arguments, lists all
+ * environment variables in sorted order. With arguments, adds or
+ * updates environment variables.
+ *
+ * @param ac Argument count
+ * @param av Arguments
+ * @param env_dup Environment linked list
+ * @return int 0 on success, 1 on error
  */
-int	builtin_export(int ac, char *av[], char **env)
+int	builtin_export(int ac, char *av[], t_env *env_dup)
 {
 	int	i;
+	int	exit_code;
 
 	if (ac == 1)
 	{
-		// no args, list all env vars
-		list_env_vars(env);
+		list_env_vars(env_dup);
 		return (0);
 	}
-	else
+	exit_code = 0;
+	i = 1;
+	while (i < ac)
 	{
-		// process each arg
-		i = 1;
-		while (i < ac)
-		{
-			if (add_or_upd_env_var(av[i]) != 0)
-				return (1);
-			i++;
-		}
+		if (add_or_upd_env_var(&env_dup, av[i]) != 0)
+			exit_code = 1;
+		i++;
 	}
-	return (0);
+	return (exit_code);
 }

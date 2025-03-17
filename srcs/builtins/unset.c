@@ -3,81 +3,146 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/06 18:40:04 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:48:32 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /**
- * Removes an environment variable from a local environment list.
- * @param env
- * @return
+ * @brief Finds an environment variable node by name
+ *
+ * Traverses the environment list to find a variable with the given name.
+ *
+ * @param env_dup Environment list to search in
+ * @param name Name of the variable to find
+ * @return t_env* Pointer to the found node, or NULL if not found
  */
-static int	remove_env_var(char **env, const char *name)
+static t_env	*find_env_node(t_env *env_dup, const char *name)
 {
-	int	len;
-	int	i;
-	int	j;
-
-	len = ft_strlen(name);
-	i = 0;
-	while (env[i])
+	while (env_dup)
 	{
-		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
-		{
-			// free the memory of the var to be removed
-			free(env[i]);
-			// shift the remaining env vars down
-			j = i;
-			while (env[j])
-			{
-				env[j] = env[j + 1];
-				j++;
-			}
-			return (0);
-		}
-		i++;
+		if (!ft_strcmp(env_dup->key, name))
+			return (env_dup);
+		env_dup = env_dup->next;
 	}
-	// var not found
+	return (NULL);
+}
+
+/**
+ * @brief Deletes an environment variable node
+ *
+ * Removes a node from the environment list and frees its memory.
+ *
+ * @param env_dup Pointer to the environment list
+ * @param node Node to delete
+ */
+static void	del_node(t_env **env_dup, t_env *node)
+{
+	t_env	*current;
+	t_env	*prev;
+
+	current = *env_dup;
+	prev = NULL;
+	while (current)
+	{
+		if (current == node)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*env_dup = current->next;
+			free(current->line);
+			free(current->key);
+			free(current->val);
+			free(current);
+			return ;
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+/**
+ * @brief Removes an environment variable from the list
+ *
+ * Finds a variable by name and removes it from the environment list.
+ *
+ * @param env_dup Pointer to the environment list
+ * @param name Name of the variable to remove
+ * @return int 0 on success, 1 if variable not found
+ */
+static int	remove_env_var(t_env **env_dup, const char *name)
+{
+	t_env	*node;
+
+	node = find_env_node(*env_dup, name);
+	if (node)
+	{
+		del_node(env_dup, node);
+		return (0);
+	}
 	return (1);
 }
 
 /**
- * Unsets an environment variable.
- * @param ac
- * @param av
- * @param env
- * @return
+ * @brief Processes a single unset argument
+ *
+ * Validates that the variable name follows shell naming conventions
+ * and attempts to remove it from the environment. Appropriate error
+ * messages are displayed for invalid names or removal failures.
+ *
+ * @param env Pointer to the environment list
+ * @param varname Name of the variable to unset
+ * @return int 0 on successful removal, 1 if invalid name or removal failed
  */
-int	builtin_unset(int ac, char *av[], char ***env)
+static int	process_unset_arg(t_env **env, char *varname)
+{
+	if (!validate_var_name(varname))
+	{
+		ft_putstr_fd("msh-1.0: unset: `", STDERR_FILENO);
+		ft_putstr_fd(varname, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		return (1);
+	}
+	if (remove_env_var(env, varname) != 0)
+	{
+		ft_putstr_fd("unset: `", STDERR_FILENO);
+		perror(varname);
+		return (1);
+	}
+	return (0);
+}
+
+/**
+ * @brief Implements the built-in unset command
+ *
+ * Removes one or more variables from the environment.
+ *
+ * @param ac Argument count
+ * @param av Argument vector
+ * @param env Pointer to the environment list
+ * @return int 0 on success, 1 if any error occurred
+ */
+int	builtin_unset(int ac, char *av[], t_env **env)
 {
 	int	i;
 	int	exit_code;
 
 	if (ac < 2)
 	{
-		write(STDERR_FILENO, "unset: missing argument\n", 24);
+		ft_putendl_fd("unset: missing argument", STDERR_FILENO);
 		return (1);
 	}
 	exit_code = 0;
 	i = 1;
 	while (i < ac)
 	{
-		if (!is_valid_var_name(av[i]))
-		{
-			ft_perror("msh-1.0: unset: `", av[i],
-				"': not a valid identifier");
+		if (process_unset_arg(env, av[i]) != 0)
 			exit_code = 1;
-		}
-		else if (remove_env_var(*env, av[i]) != 0)
-		{
-			perror("unset");
-			exit_code = 1;
-		}
 		i++;
 	}
 	return (exit_code);

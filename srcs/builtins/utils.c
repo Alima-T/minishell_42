@@ -6,27 +6,39 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:55:59 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/01/23 18:07:59 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:49:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /**
- * Checks if a variable name is valid.
- * @param name
- * @return
+ * @brief Validates if a string is a valid shell variable name
+ *
+ * Checks that the variable name follows shell naming conventions:
+ *
+ * - Must not be NULL or empty
+ *
+ * - First character must be a letter or underscore
+ *
+ * - Remaining characters must be letters, digits, or underscores
+ *
+ * @param name String to validate as a variable name
+ * @return int 1 if name is valid, 0 otherwise
  */
-int	is_valid_var_name(const char *name)
+int	validate_var_name(const char *name)
 {
 	int	i;
 
-	if (!name || !isalpha(name[0]))
+	i = 0;
+	if (!name || !*name)
+		return (0);
+	if (!ft_isalpha(name[0]) && name[0] != '_')
 		return (0);
 	i = 1;
 	while (name[i])
 	{
-		if (!isalnum(name[i]) && name[i] != '_')
+		if (!ft_isalnum(name[i]) && name[i] != '_')
 			return (0);
 		i++;
 	}
@@ -34,18 +46,25 @@ int	is_valid_var_name(const char *name)
 }
 
 /**
- * Prints detailed error messages.
- * @param prefix
- * @param arg
- * @param suffix
+ * @brief Creates a new environment variable with a key and value
+ *
+ * @param key Variable name
+ * @param value Variable value
+ * @return t_env* New environment node
  */
-void	ft_perror(const char *prefix, const char *arg, const char *suffix)
+t_env	*new_env_with_value(char *key, char *value)
 {
-	if (prefix)
-		write(STDERR_FILENO, prefix, ft_strlen(prefix));
-	if (arg)
-		write(STDERR_FILENO, arg, ft_strlen(arg));
-	if (suffix)
-		write(STDERR_FILENO, suffix, ft_strlen(suffix));
-	write(STDERR_FILENO, "\n", 1);
+	t_env	*node;
+	char	*temp;
+
+	node = (t_env *)malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->key = ft_strdup(key);
+	node->val = ft_strdup(value);
+	temp = ft_strjoin(key, "=");
+	node->line = ft_strjoin(temp, value);
+	free(temp);
+	node->next = NULL;
+	return (node);
 }
