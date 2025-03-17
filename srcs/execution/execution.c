@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/06 18:38:09 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:53:11 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 /**
  * Handles the execution of external commands.
- * @param cmd
- * @param mini
- * @return
+ * @param cmd Command structure
+ * @param mini Shell structure
+ * @return Does not return - either executes or exits
  */
-int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
+static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 {
 	char	**envp;
 	char	*executable;
@@ -29,13 +29,37 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 		perror("env_list_to_array");
 		exit(1);
 	}
-	executable = find_executable(cmd->cmd[0]);
-	if (!executable)
+	if (ft_strchr(cmd->cmd[0], '/'))
 	{
-		ft_perror("msh-1.0: ", cmd->cmd[0], ": command not found");
-		free_array(envp);
-		// exit 127 for command not found
-		exit(127);
+		if (access(cmd->cmd[0], F_OK) != 0)
+		{
+			ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
+			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+			free_array(envp);
+			exit(127);
+		}
+		else if (access(cmd->cmd[0], X_OK) != 0)
+		{
+			ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
+			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+			free_array(envp);
+			exit(126);
+		}
+		executable = ft_strdup(cmd->cmd[0]);
+	}
+	else
+	{
+		executable = find_executable(cmd->cmd[0], mini->env_dup);
+		if (!executable)
+		{
+			ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
+			ft_putendl_fd(": command not found", STDERR_FILENO);
+			free_array(envp);
+			exit(127);
+		}
 	}
 	execve(executable, cmd->cmd, envp);
 	perror("execve");
@@ -45,171 +69,145 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 }
 
 /**
- * Executes a built-in command.
- * @param cmd
- * @param mini
- * @return
- */
-int	execute_builtin(t_cmd *cmd, t_shell *mini)
-{
-	int		cmd_count;
-	char	**env_array;
-
-	cmd_count = count_args(cmd->cmd);
-	env_array = env_list_to_array(mini->env_dup);
-	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		return (builtin_cd(cmd_count, cmd->cmd, &mini->env_dup));
-	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
-		return (builtin_pwd());
-	else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		return (builtin_echo(cmd->cmd));
-	else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-		return (builtin_env(env_array));
-	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		return (builtin_export(cmd_count, cmd->cmd, env_array));
-	else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-		return (builtin_unset(cmd_count, cmd->cmd, &env_array));
-	else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
-	{
-		free_array(env_array);
-		builtin_exit(cmd_count, cmd->cmd);
-	}
-	free_array(env_array);
-	return (1);
-}
-
-/**
  * Executes a single command.
- * @param cmd
- * @param mini
- * @return
+ * @param cmd Command structure
+ * @param mini Shell structure
+ * @return 0 on success, error code otherwise
  */
-int	execute_single_cmd_with_redir(t_cmd *cmd, t_shell *mini)
+static int	execute_single_cmd(t_cmd *cmd, t_shell *mini)
 {
-	pid_t	pid;
-	int		status;
+	int	status;
+	int	saved_stdout;
+	int	result;
 
-	if (is_builtin(cmd->cmd[0], mini->builtin_cmds))
-		return (execute_builtin(cmd, mini));
-	else
+	saved_stdout = dup(STDOUT_FILENO);
+	if (!cmd->fork && is_builtin(cmd->cmd[0], mini->builtin_cmds))
 	{
-		// heredoc handler
-		set_heredoc(cmd);
-		pid = fork();
-		if (pid == 0)
+		if (setup_redirections(cmd) != 0)
 		{
-			// Child process
-			if (mini->input_fd != STDIN_FILENO)
-			{
-				dup2(mini->input_fd, STDIN_FILENO);
-				close(mini->input_fd);
-			}
-			if (mini->output_fd != STDOUT_FILENO)
-			{
-				dup2(mini->output_fd, STDOUT_FILENO);
-				close(mini->output_fd);
-			}
-			// redirection handler
-			set_redir(cmd);
-			execute_external_cmd(cmd, mini);
-			exit(EXIT_FAILURE);
-		}
-		else if (pid < 0)
-		{
-			// Fork failed
-			perror("fork");
+			*get_exit_status() = 1;
+			close(saved_stdout);
 			return (1);
 		}
-		else
-		{
-			// Parent process
-			waitpid(pid, &status, 0);
-			*get_exit_status() = WEXITSTATUS(status);
-		}
+		result = execute_builtin(cmd, mini);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
+		return (result);
 	}
+	cmd->pid = fork();
+	if (cmd->pid == 0)
+	{
+		cmd->fork = 1;
+		close(saved_stdout);
+		if (setup_redirections(cmd) != 0)
+			exit(1);
+		if (is_builtin(cmd->cmd[0], mini->builtin_cmds))
+			exit(execute_builtin(cmd, mini));
+		else
+			execute_external_cmd(cmd, mini);
+	}
+	else if (cmd->pid < 0)
+	{
+		ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+		ft_putendl_fd("fork: Resource temporarily unavailable", STDERR_FILENO);
+		close(saved_stdout);
+		return (1);
+	}
+	waitpid(cmd->pid, &status, 0);
+	cleanup_cmd(cmd);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdout);
+	if (WIFEXITED(status))
+		*get_exit_status() = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		*get_exit_status() = 128 + WTERMSIG(status);
 	return (0);
 }
 
 /**
- * Executes multiple commands.
- * @param mini
- * @return
+ * Executes a pipeline of commands.
+ * @param mini Shell structure
+ * @return Status of the last command
  */
-int	execute_multiple_cmds(t_shell *mini)
+static int	execute_multiple_cmds(t_shell *mini)
 {
 	t_cmd	*cmd;
-	int		pipe_fd[2];
+	t_cmd	*tmp;
 	int		status;
-	pid_t	pid;
-	int		prev_fd;
 
+	if (create_pipes(mini->cmds) != 0)
+		return (1);
 	cmd = mini->cmds;
-	prev_fd = STDIN_FILENO;
-	status = 0;
 	while (cmd)
 	{
-		if (cmd->next && pipe(pipe_fd) == -1)
+		cmd->pid = fork();
+		if (cmd->pid == 0)
 		{
-			perror("pipe");
-			return (1);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			return (1);
-		}
-		if (pid == 0)
-		{
-			// Child process
-			if (prev_fd != STDIN_FILENO)
+			tmp = mini->cmds;
+			while (tmp)
 			{
-				dup2(prev_fd, STDIN_FILENO);
-				close(prev_fd);
+				if (tmp != cmd)
+				{
+					if (tmp->pipe_fd[0] > 0 && tmp->pipe_fd[0] != cmd->inp)
+						close(tmp->pipe_fd[0]);
+					if (tmp->pipe_fd[1] > 0 && tmp->pipe_fd[1] != cmd->out)
+						close(tmp->pipe_fd[1]);
+				}
+				tmp = tmp->next;
 			}
-			if (cmd->next)
-			{
-				close(pipe_fd[0]);
-				dup2(pipe_fd[1], STDOUT_FILENO);
-				close(pipe_fd[1]);
-			}
+			if (setup_redirections(cmd) != 0)
+				exit(1);
 			if (is_builtin(cmd->cmd[0], mini->builtin_cmds))
 				exit(execute_builtin(cmd, mini));
 			else
 				execute_external_cmd(cmd, mini);
 		}
-		// Parent process
-		if (prev_fd != STDIN_FILENO)
-			close(prev_fd);
-		if (cmd->next)
+		else if (cmd->pid < 0)
 		{
-			close(pipe_fd[1]);
-			prev_fd = pipe_fd[0];
+			perror("fork");
+			close_all_pipes(mini->cmds);
+			return (1);
 		}
-		if (!cmd->next)
+		if (cmd->pipe_fd[1] > 0)
 		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				*get_exit_status() = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				*get_exit_status() = 128 + WTERMSIG(status);
+			close(cmd->pipe_fd[1]);
+			cmd->pipe_fd[1] = 0;
 		}
 		cmd = cmd->next;
 	}
-	// Wait for all child processes to finish
-	while (wait(&status) > 0)
+	cmd = mini->cmds;
+	while (cmd)
 	{
+		if (cmd->pipe_fd[0] > 0)
+		{
+			close(cmd->pipe_fd[0]);
+			cmd->pipe_fd[0] = 0;
+		}
+		if (cmd->pipe_fd[1] > 0)
+		{
+			close(cmd->pipe_fd[1]);
+			cmd->pipe_fd[1] = 0;
+		}
+		cmd = cmd->next;
+	}
+	cmd = mini->cmds;
+	while (cmd)
+	{
+		waitpid(cmd->pid, &status, 0);
+		cleanup_cmd(cmd);
 		if (WIFEXITED(status))
 			*get_exit_status() = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			*get_exit_status() = 128 + WTERMSIG(status);
+		cmd = cmd->next;
 	}
-	return (status);
+	return (*get_exit_status());
 }
 
 /**
- * Handles built-in and external commands.
- * @param mini
+ * Main command execution function that handles built-ins, signaks,
+	and pipelines
+ * @param mini Shell structure conatining commands and environment
  */
 void	execute_cmd(t_shell *mini)
 {
@@ -220,8 +218,10 @@ void	execute_cmd(t_shell *mini)
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
 	{
-		perror("init_builtin_cmds");
-		exit(EXIT_FAILURE);
+		ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+		ft_putendl_fd("failed to initialize built-in commands", STDERR_FILENO);
+		*get_exit_status() = 1;
+		return ;
 	}
 	cmd = mini->cmds;
 	while (cmd)
@@ -229,20 +229,40 @@ void	execute_cmd(t_shell *mini)
 		i = 0;
 		while (cmd->cmd[i])
 		{
-			expanded_cmd = expand_env_vars(cmd->cmd[i]);
+			expanded_cmd = expand_env_vars(cmd->cmd[i], mini->env_dup);
+			if (!expanded_cmd)
+			{
+				ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+				ft_putendl_fd("expansion error", STDERR_FILENO);
+				free_builtin_cmds(mini->builtin_cmds);
+				*get_exit_status() = 1;
+				return ;
+			}
 			free(cmd->cmd[i]);
 			cmd->cmd[i] = expanded_cmd;
 			i++;
 		}
 		cmd = cmd->next;
 	}
+	cmd = mini->cmds;
+	while (cmd)
+	{
+		if (set_heredoc(cmd) != 0)
+		{
+			free_builtin_cmds(mini->builtin_cmds);
+			return ;
+		}
+		cmd = cmd->next;
+	}
 	if (mini->cmds && mini->cmds->next)
 		execute_multiple_cmds(mini);
-	else if (mini->cmds)
 	{
-		mini->input_fd = STDIN_FILENO;
-		mini->output_fd = STDOUT_FILENO;
-		execute_single_cmd_with_redir(mini->cmds, mini);
+		if (mini->cmds->inp == 0)
+			mini->cmds->inp = STDIN_FILENO;
+		if (mini->cmds->out == 0 || mini->cmds->out == 1)
+			mini->cmds->out = STDOUT_FILENO;
+		execute_single_cmd(mini->cmds, mini);
 	}
 	free_builtin_cmds(mini->builtin_cmds);
+	mini->builtin_cmds = NULL;
 }
