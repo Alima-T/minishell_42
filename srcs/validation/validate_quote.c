@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 16:15:14 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 16:52:15 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:27:31 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	count_pipe_delim(char *input, int i)
 	}
 	return (0);
 }
+
 /**
  * Counts the number of quotes in the input string.
  * It checks for unclosed quotes and reports a syntax error if found.
@@ -59,5 +60,6 @@ int	count_quote(char *input, int *i, char quote)
 		if (input[*i] == quote) // Check for the closing quote
 			return (0);
 	}
-	return (print_msg(1, "syntax error - unclosed quotes", 258)); // Report error for unclosed quotes
+	// Report error for unclosed quotes
+	return (print_msg(1, "syntax error - unclosed quotes", 258));
 }

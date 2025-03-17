@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:36:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/02 16:39:40 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:28:50 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	finish_check(char *input, int *i)
 	if (input[*i] == '<')
 		return (print_msg(1, "syntax error - token `<'", 258));
 	if (input[*i] == ';')
-		return (print_msg(1, "syntax error - token `;'", 258)); 
+		return (print_msg(1, "syntax error - token `;'", 258));
 	return (0);
 }
 
@@ -57,18 +57,18 @@ int	finish_check(char *input, int *i)
  */
 int	redir_writing(char *input, int *i)
 {
-	(*i)++; 
+	(*i)++;
 	if (input[*i] == '\0' || input[*i] == '|')
-		return (print_msg(1, "syntax error - token `newline'", 258)); 
+		return (print_msg(1, "syntax error - token `newline'", 258));
 	if (input[*i] == '<')
 		return (print_msg(1, "syntax error - token `<'", 258));
 	if (input[*i] == '>')
 	{
 		(*i)++;
-		return (finish_check(input, i)); 
+		return (finish_check(input, i));
 	}
 	else
-		return (finish_check(input, i)); 
+		return (finish_check(input, i));
 }
 
 /**
@@ -80,7 +80,8 @@ int	redir_writing(char *input, int *i)
  */
 int	redir_reading(char *input, int *i)
 {
-	(*i)++; // Move to the next character after the redirection operator
+	// Move to the next character after the redirection operator
+	(*i)++;
 	// Check for syntax errors: if the next character is a newline or another '>'
 	if (input[*i] == '\0' || input[*i] == '>')
 		return (print_msg(1, "syntax error - token `newline'", 258));
@@ -109,6 +110,7 @@ int	redir_counting(char *input, int *i, char redir)
 		return (1);
 	if (redir == '<' && redir_reading(input, i))
 		return (1);
-	(*i)--; // Decrement the index to handle cases like 'ls >'1'
+	// Decrement the index to handle cases like 'ls >'1'
+	(*i)--;
 	return (0);
 }

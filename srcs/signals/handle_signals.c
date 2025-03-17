@@ -43,7 +43,8 @@ when the user presses Ctrl+\ (SIGQUIT), maintaining a clean and controlled sessi
 */
 
 void	sigs_interact_shell(void)
-{	struct sigaction	sa_int;
+{
+	struct sigaction	sa_int;
 	struct termios		new_termios;
 
 	sa_int.sa_handler = sig_interact_ctrl_c;
@@ -64,7 +65,8 @@ frees the mem allocated, sets the exit status to 131 (stand exit code for SIGQUI
 void	sig_non_interact_quit(int signal)
 {
 	char	*nb;
-	if (signal == SIGQUIT) /* for CTR + \   */
+	/* for CTR + \   */
+	if (signal == SIGQUIT)
 	{
 		nb = ft_itoa(signal);
 		ft_putstr_fd("ˆ\\Quit: ", STDERR_FILENO);
@@ -73,7 +75,8 @@ void	sig_non_interact_quit(int signal)
 		nb = NULL;
 		*get_exit_status() = 131;
 	}
-	if (signal == SIGINT) // for CTR+C
+	// for CTR+C
+	if (signal == SIGINT)
 		write(1, "^C\n", 3);
 }
 
