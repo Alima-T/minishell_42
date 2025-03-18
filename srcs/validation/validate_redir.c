@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:36:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:28:50 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:18:24 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ int	finish_check(char *input, int *i)
 	*i = skip_space_tab(input, *i); // Skip any leading whitespace
 	// Check if the end of the input is reached
 	if (input[*i] == '\0')
-		return (print_msg(1, "syntax error - token `newline'", 258));
+		return (print_msg(1, "syntax error near unexpected token `newline'", 258));
 	if (input[*i] == '|')
-		return (print_msg(1, "syntax error - token `|'", 258));
+		return (print_msg(1, "syntax error near unexpected token `|'", 258));
 	if (input[*i] == '>')
-		return (print_msg(1, "syntax error - token `>'", 258));
+		return (print_msg(1, "syntax error near unexpected token `>'", 258));
 	if (input[*i] == '<')
-		return (print_msg(1, "syntax error - token `<'", 258));
+		return (print_msg(1, "syntax error near unexpected token `<'", 258));
 	if (input[*i] == ';')
-		return (print_msg(1, "syntax error - token `;'", 258));
+		return (print_msg(1, "syntax error near unexpected token `;'", 258));
 	return (0);
 }
 
@@ -59,9 +59,9 @@ int	redir_writing(char *input, int *i)
 {
 	(*i)++;
 	if (input[*i] == '\0' || input[*i] == '|')
-		return (print_msg(1, "syntax error - token `newline'", 258));
+		return (print_msg(1, "syntax error near unexpected token `newline'", 258));
 	if (input[*i] == '<')
-		return (print_msg(1, "syntax error - token `<'", 258));
+		return (print_msg(1, "syntax error near unexpected token `<'", 258));
 	if (input[*i] == '>')
 	{
 		(*i)++;
@@ -84,9 +84,9 @@ int	redir_reading(char *input, int *i)
 	(*i)++;
 	// Check for syntax errors: if the next character is a newline or another '>'
 	if (input[*i] == '\0' || input[*i] == '>')
-		return (print_msg(1, "syntax error - token `newline'", 258));
+		return (print_msg(1, "syntax error near unexpected token `newline'", 258));
 	if (input[*i] == '|')
-		return (print_msg(1, "syntax error - token `|'", 258));
+		return (print_msg(1, "syntax error near unexpected token `|'", 258));
 	if (input[*i] == '<')
 	{
 		(*i)++;

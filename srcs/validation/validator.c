@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:22:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:26:25 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:18:29 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ This code is part of a parser for a shell-like environment, responsible for vali
 int	start_check(char *input, int i)
 {
 	if (input[i] == '|' && input[i + 1] == '|')
-		return (print_msg(1, "syntax error - token `||'", 258));
+		return (print_msg(1, "syntax error near unexpected token `||'", 258));
 	if (input[i] == '|')
-		return (print_msg(1, "syntax error - token `|'", 258));
+		return (print_msg(1, "syntax error near unexpected token `|'", 258));
 	if (input[i] == ';' && input[i + 1] == ';')
-		return (print_msg(1, "syntax error - token `;;'", 258));
+		return (print_msg(1, "syntax error near unexpected token `;;'", 258));
 	if (input[i] == ';')
-		return (print_msg(1, "syntax error - token `;'", 258));
+		return (print_msg(1, "syntax error near unexpected token `;'", 258));
 	return (0);
 }
 
