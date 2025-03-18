@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 19:53:17 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:15:22 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int							skip_space_tab(char *inp, int i);
 
 /*** parser.c ***/
 int							parser(t_shell *mini, t_env *env_dup);
+int							valid_helper(t_shell *mini);
 
 /*** path_process.c ***/
 char						**get_paths(t_shell *mini);
@@ -302,5 +303,6 @@ int							*get_exit_status(void);
 /*** minishell.c ***/
 void						init(t_shell *mini);
 int							shell_loop(t_shell *mini);
+
 
 #endif

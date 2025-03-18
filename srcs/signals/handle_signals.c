@@ -57,10 +57,9 @@ void	sigs_interact_shell(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
-/*handles the SIGQUIT signal by printing the signal number with a "Quit: " prefix to the error stream, 
+/*handles  CTR + \ - the SIGQUIT signal by printing  "Quit: " + prefix to the error stream, 
 frees the mem allocated, sets the exit status to 131 (stand exit code for SIGQUIT), 
-обрабатывает сигнал SIGQUIT: выводит сообщение "Quit:" и номер сигнала в поток ошибок, 
-освобождает память и устанавливает статус выхода в 131.
+// for CTR+C from execution  writes ^C 
 */
 void	sig_non_interact_quit(int signal)
 {

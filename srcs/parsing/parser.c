@@ -6,7 +6,7 @@
 /*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/18 08:34:11 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:11:37 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,64 +37,117 @@ static char	*safe_readline(const char *prompt)
 //  * @param input The input string to validate.
 //  * @return 0 if the input is valid, -1 if invalid.
 //  */
+// int	parser(t_shell *mini, t_env *env_dup)
+// {
+// 	(void)env_dup;
+
+// 	mini->input = safe_readline(BEGIN "minishell-1.0$ " CLOSE);// get input from the user
+// 	if (!mini->input)// handle EOF (ctrl + D)
+// 	{	
+// 		// write(STDOUT_FILENO, "exit\n", 5);// Write to both stdout and stderr to ensure visibility
+// 		// free_shell_mem_enhanced(mini);	// clean up and exit
+// 		// shell_level_down(mini);
+// 		// exit(*get_exit_status());
+// 		printf("exit\n");
+// 		exit(*get_exit_status());
+// 	}
+// 	if (mini->input[0] != '\0')// add non-empty inputs to history
+// 		add_history(mini->input);
+// 	if (mini->input[0] == '\0')// empty input - nothing to do
+// 	{
+// 		free(mini->input);
+// 		mini->input = NULL;
+// 		return (0);
+// 	}
+// 	if (validator(mini->input) == 0)// validate the input syntax
+// 	{
+// 		mini->args = args_process(mini);// process input into arguments
+// 		if (!mini->args)
+// 		{
+// 			free(mini->input);
+// 			mini->input = NULL;
+// 			return (1);
+// 		}
+// 		mini->cmds = cmds_process(mini);// process arguments into commands
+// 		if (!mini->cmds && mini->args)
+// 		{
+// 			arglst_destroy(&mini->args);// command processing failed
+// 			free(mini->input);
+// 			mini->input = NULL;
+// 			return (1);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		// input validation failed
+// 		// ft_putstr_fd(BEGIN "minishell-1.0$ " CLOSE, STDERR_FILENO);
+// 		*get_exit_status() = 2;
+// 		free(mini->input);
+// 		mini->input = NULL;
+// 		return (2);
+// 	}
+// 	free(mini->input);// free the input string as it's no longer needed
+// 	mini->input = NULL;
+// 	return (0);
+// }
+
+
 int	parser(t_shell *mini, t_env *env_dup)
 {
 	(void)env_dup;
-	// get input from the user
-	mini->input = safe_readline(BEGIN "minishell-1.0$ " CLOSE);
-	// handle EOF (ctrl + D)
-	if (!mini->input)
-	{
-		// Write to both stdout and stderr to ensure visibility
-		write(STDOUT_FILENO, "exit\n", 5);
-		// clean up and exit
-		free_shell_mem_enhanced(mini);
-		shell_level_down(mini);
+
+	mini->input = safe_readline(BEGIN "minishell-1.0$ " CLOSE);// get input from the user
+	if (!mini->input)// handle EOF (ctrl + D)
+	{	
+		// write(STDOUT_FILENO, "exit\n", 5);// Write to both stdout and stderr to ensure visibility ?// it didn't change exit on a newline, but longer
+		// free_shell_mem_enhanced(mini); // clean up and exit ??
+		// shell_level_down(mini);//  ??
+		// exit(*get_exit_status());
+		printf("exit\n");
 		exit(*get_exit_status());
 	}
-	// add non-empty inputs to history
-	if (mini->input[0] != '\0')
+	if (mini->input[0] != '\0')// add non-empty inputs to history
 		add_history(mini->input);
-	// empty input - nothing to do
-	if (mini->input[0] == '\0')
+	if (mini->input[0] == '\0')// empty input - nothing to do
 	{
 		free(mini->input);
 		mini->input = NULL;
 		return (0);
 	}
-	// validate the input syntax
+	valid_helper(mini);
+	free(mini->input);// free the input string as it's no longer needed
+	mini->input = NULL;
+	return (0);
+}
+
+int valid_helper(t_shell *mini) // TO DO Alima, make shorter 
+{
 	if (validator(mini->input) == 0)
 	{
-		// process input into arguments
-		mini->args = args_process(mini);
-		if (!mini->args)
-		{
-			free(mini->input);
-			mini->input = NULL;
-			return (1);
-		}
-		// process arguments into commands
-		mini->cmds = cmds_process(mini);
-		if (!mini->cmds && mini->args)
-		{
-			// command processing failed
-			arglst_destroy(&mini->args);
-			free(mini->input);
-			mini->input = NULL;
-			return (1);
-		}
+		mini->args = args_process(mini);// process input into arguments
+			if (!mini->args)
+			{
+				free(mini->input);
+				mini->input = NULL;
+				return (1);
+			}
+			mini->cmds = cmds_process(mini);// process arguments into commands
+			if (!mini->cmds && mini->args)
+			{
+				arglst_destroy(&mini->args);// command processing failed
+				free(mini->input);
+				mini->input = NULL;
+				return (1);
+			}
 	}
-	else
+	else // input validation failed 
 	{
-		// input validation failed
-		// ft_putstr_fd(BEGIN "minishell-1.0$ " CLOSE, STDERR_FILENO);
+		// ft_putstr_fd(BEGIN "minishell-1.0$ " CLOSE, STDERR_FILENO);//?
 		*get_exit_status() = 2;
 		free(mini->input);
 		mini->input = NULL;
 		return (2);
 	}
-	// free the input string as it's no longer needed
-	free(mini->input);
-	mini->input = NULL;
 	return (0);
 }
+
