@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 19:47:45 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 08:52:48 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 void	exit_with_error(t_shell *mini, char *arg, char *msg, int status)
 {
-	ft_putstr_fd("msh-1.0: exit: ", STDERR_FILENO);
+	ft_putstr_fd(BEGIN "minishell: "CLOSE "exit: ", STDERR_FILENO);
 	if (arg)
 	{
 		ft_putstr_fd(arg, STDERR_FILENO);
@@ -123,7 +123,7 @@ int	builtin_exit(int ac, char *av[], t_shell *mini)
 		handle_exit_no_args(mini);
 	if (ac > 2)
 	{
-		ft_putstr_fd("msh-1.0: exit: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell-1.0: "CLOSE "exit: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	if (!is_numeric_str(av[1]))

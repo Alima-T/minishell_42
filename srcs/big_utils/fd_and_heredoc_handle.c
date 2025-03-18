@@ -66,7 +66,7 @@ int	open_helper(char *path, char flag)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 20:59:24 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:26:09 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	{
 		if (access(cmd->cmd[0], F_OK) != 0)
 		{
-			ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+			ft_putstr_fd(BEGIN "minishell: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 			free_array(envp);
@@ -41,7 +41,7 @@ static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 		}
 		else if (access(cmd->cmd[0], X_OK) != 0)
 		{
-			ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+			ft_putstr_fd(BEGIN"minishell: "CLOSE, STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 			free_array(envp);
@@ -54,7 +54,7 @@ static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 		executable = find_executable(cmd->cmd[0], mini->env_dup);
 		if (!executable)
 		{
-			ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+			ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			ft_putendl_fd(": command not found", STDERR_FILENO);
 			free_array(envp);
@@ -108,7 +108,7 @@ static int	execute_single_cmd(t_cmd *cmd, t_shell *mini)
 	}
 	else if (cmd->pid < 0)
 	{
-		ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
 		ft_putendl_fd("fork: Resource temporarily unavailable", STDERR_FILENO);
 		close(saved_stdout);
 		return (1);
@@ -218,7 +218,7 @@ void	execute_cmd(t_shell *mini)
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
 	{
-		ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell-1.0: "CLOSE, STDERR_FILENO);
 		ft_putendl_fd("failed to initialize built-in commands", STDERR_FILENO);
 		*get_exit_status() = 1;
 		return ;
@@ -232,7 +232,7 @@ void	execute_cmd(t_shell *mini)
 			expanded_cmd = expand_env_vars(cmd->cmd[i], mini->env_dup);
 			if (!expanded_cmd)
 			{
-				ft_putstr_fd("msh-1.0: ", STDERR_FILENO);
+				ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
 				ft_putendl_fd("expansion error", STDERR_FILENO);
 				free_builtin_cmds(mini->builtin_cmds);
 				*get_exit_status() = 1;

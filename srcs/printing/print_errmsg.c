@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_errmsg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:18:03 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 19:18:09 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 08:44:53 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	cmd_not_found_msg(char *message)
 {
-	ft_putstr_fd(BEGIN"msh-1.0$ "CLOSE, STDERR_FILENO);
+	ft_putstr_fd(BEGIN"minishell: "CLOSE, STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("command not found\n", STDERR_FILENO);

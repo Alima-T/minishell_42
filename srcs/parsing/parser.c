@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 21:07:26 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 08:34:11 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	parser(t_shell *mini, t_env *env_dup)
 {
 	(void)env_dup;
 	// get input from the user
-	mini->input = safe_readline(BEGIN "msh-1.0$ " CLOSE);
+	mini->input = safe_readline(BEGIN "minishell-1.0$ " CLOSE);
 	// handle EOF (ctrl + D)
 	if (!mini->input)
 	{
@@ -87,7 +87,7 @@ int	parser(t_shell *mini, t_env *env_dup)
 	else
 	{
 		// input validation failed
-		// ft_putstr_fd(BEGIN "msh-1.0: " CLOSE, STDERR_FILENO);
+		// ft_putstr_fd(BEGIN "minishell-1.0$ " CLOSE, STDERR_FILENO);
 		*get_exit_status() = 2;
 		free(mini->input);
 		mini->input = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:14:03 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:42:12 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:31:31 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	builtin_env(t_env *env_dup)
 {
 	if (!env_dup)
 	{
-		ft_putstr_fd("msh-1.0: env: environment not set\n", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: "CLOSE "env: environment not set\n", STDERR_FILENO);
 		return (1);
 	}
 	while (env_dup)

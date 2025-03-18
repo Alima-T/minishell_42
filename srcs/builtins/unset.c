@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:05:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:48:32 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:31:13 by aokhapki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int	process_unset_arg(t_env **env, char *varname)
 {
 	if (!validate_var_name(varname))
 	{
-		ft_putstr_fd("msh-1.0: unset: `", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: "CLOSE "unset: `", STDERR_FILENO);
 		ft_putstr_fd(varname, STDERR_FILENO);
 		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 		return (1);
