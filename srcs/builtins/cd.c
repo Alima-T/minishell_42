@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 19:46:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:13:07 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
  */
 static int	cd_error(char *message)
 {
+	ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 	ft_putendl_fd(message, STDERR_FILENO);
 	return (1);
 }
@@ -32,6 +33,7 @@ static int	cd_error(char *message)
  */
 static int	cd_path_error(char *path)
 {
+	ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 	ft_putstr_fd("cd: ", STDERR_FILENO);
 	ft_putstr_fd(path, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);

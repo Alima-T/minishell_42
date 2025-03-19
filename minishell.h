@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/19 12:12:16 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:02:27 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int							skip_space_tab(char *inp, int i);
 /*** parser.c ***/
 int							parser(t_shell *mini, t_env *env_dup);
 int							valid_helper(t_shell *mini);
+char						*safe_readline(const char *prompt);
 
 /*** path_process.c ***/
 char						**get_paths(t_shell *mini);
@@ -240,6 +241,7 @@ void						exit_with_error(t_shell *mini, char *arg, char *msg,
 /*** exit_helper.c ***/
 int							is_numeric_str(char *str);
 void						handle_non_digit(t_shell *mini, char *str);
+void						silent_exit(t_shell *mini, int status);
 
 /*** export.c ***/
 int							builtin_export(int ac, char *av[], t_env *env_dup);

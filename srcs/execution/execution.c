@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/19 09:18:34 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:40:32 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	{
 		if (access(cmd->cmd[0], F_OK) != 0)
 		{
-			ft_putstr_fd(BEGIN "minishell: ", STDERR_FILENO);
+			ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 			free_array(envp);
@@ -41,7 +41,7 @@ static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 		}
 		else if (access(cmd->cmd[0], X_OK) != 0)
 		{
-			ft_putstr_fd(BEGIN"minishell: "CLOSE, STDERR_FILENO);
+			ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 			free_array(envp);
@@ -54,7 +54,7 @@ static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 		executable = find_executable(cmd->cmd[0], mini->env_dup);
 		if (!executable)
 		{
-			ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
+			ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			ft_putendl_fd(": command not found", STDERR_FILENO);
 			free_array(envp);
@@ -78,20 +78,25 @@ static int	execute_single_cmd(t_cmd *cmd, t_shell *mini)
 {
 	int	status;
 	int	saved_stdout;
+	int	saved_stdin;
 	int	result;
 
 	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
 	if (!cmd->fork && is_builtin(cmd->cmd[0], mini->builtin_cmds))
 	{
 		if (setup_redirections(cmd) != 0)
 		{
 			*get_exit_status() = 1;
 			close(saved_stdout);
+			close(saved_stdin);
 			return (1);
 		}
 		result = execute_builtin(cmd, mini);
 		dup2(saved_stdout, STDOUT_FILENO);
+		dup2(saved_stdin, STDIN_FILENO);
 		close(saved_stdout);
+		close(saved_stdin);
 		return (result);
 	}
 	cmd->pid = fork();
@@ -99,6 +104,7 @@ static int	execute_single_cmd(t_cmd *cmd, t_shell *mini)
 	{
 		cmd->fork = 1;
 		close(saved_stdout);
+		close(saved_stdin);
 		if (setup_redirections(cmd) != 0)
 			exit(1);
 		if (is_builtin(cmd->cmd[0], mini->builtin_cmds))
@@ -108,15 +114,18 @@ static int	execute_single_cmd(t_cmd *cmd, t_shell *mini)
 	}
 	else if (cmd->pid < 0)
 	{
-		ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 		ft_putendl_fd("fork: Resource temporarily unavailable", STDERR_FILENO);
 		close(saved_stdout);
+		close(saved_stdin);
 		return (1);
 	}
 	waitpid(cmd->pid, &status, 0);
 	cleanup_cmd(cmd);
 	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
+	close(saved_stdin);
 	if (WIFEXITED(status))
 		*get_exit_status() = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -134,9 +143,17 @@ static int	execute_multiple_cmds(t_shell *mini)
 	t_cmd	*cmd;
 	t_cmd	*tmp;
 	int		status;
+	int		saved_stdin;
+	int		saved_stdout;
 
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
 	if (create_pipes(mini->cmds) != 0)
+	{
+		close(saved_stdin);
+		close(saved_stdout);
 		return (1);
+	}
 	cmd = mini->cmds;
 	while (cmd)
 	{
@@ -166,6 +183,8 @@ static int	execute_multiple_cmds(t_shell *mini)
 		{
 			perror("fork");
 			close_all_pipes(mini->cmds);
+			close(saved_stdin);
+			close(saved_stdout);
 			return (1);
 		}
 		if (cmd->pipe_fd[1] > 0)
@@ -201,6 +220,10 @@ static int	execute_multiple_cmds(t_shell *mini)
 			*get_exit_status() = 128 + WTERMSIG(status);
 		cmd = cmd->next;
 	}
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 	return (*get_exit_status());
 }
 
@@ -211,14 +234,14 @@ static int	execute_multiple_cmds(t_shell *mini)
  */
 void	execute_cmd(t_shell *mini)
 {
-	t_cmd	*cmd;
+	t_cmd			*cmd;
+
 	// char	*expanded_cmd;
 	// int		i;
-
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
 	{
-		ft_putstr_fd(BEGIN "minishell-1.0: "CLOSE, STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 		ft_putendl_fd("failed to initialize built-in commands", STDERR_FILENO);
 		*get_exit_status() = 1;
 		return ;
@@ -249,7 +272,6 @@ void	execute_cmd(t_shell *mini)
 	{
 		if (set_heredoc(cmd) != 0)
 		{
-			free_builtin_cmds(mini->builtin_cmds);
 			return ;
 		}
 		cmd = cmd->next;
