@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/18 18:15:22 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:12:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_arg
 {
 	char					*arg_val;
 	int						redir_flag;
+	bool					space_flag_arg;
 	struct s_arg			*next;
 }							t_arg;
 
@@ -87,6 +88,7 @@ typedef struct s_cmd
 	int						pipe_fd[2];
 	int						fork;
 	pid_t					pid;
+	t_arg					*orig_args;
 	struct s_redir			*redir;
 	struct s_cmd			*next;
 }							t_cmd;
@@ -225,7 +227,7 @@ void						sigs_non_interact_shell(void);
 int							builtin_cd(int ac, char *av[], t_env **env_dup);
 
 /*** echo.c ***/
-int							builtin_echo(char **args);
+int							builtin_echo(char **args, t_arg *orig_args);
 
 /*** env.c ***/
 int							builtin_env(t_env *env_dup);
@@ -303,6 +305,5 @@ int							*get_exit_status(void);
 /*** minishell.c ***/
 void						init(t_shell *mini);
 int							shell_loop(t_shell *mini);
-
 
 #endif

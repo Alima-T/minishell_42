@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/18 15:26:09 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:18:34 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,8 @@ static int	execute_multiple_cmds(t_shell *mini)
 void	execute_cmd(t_shell *mini)
 {
 	t_cmd	*cmd;
-	char	*expanded_cmd;
-	int		i;
+	// char	*expanded_cmd;
+	// int		i;
 
 	mini->builtin_cmds = init_builtin_cmds();
 	if (!mini->builtin_cmds)
@@ -223,27 +223,27 @@ void	execute_cmd(t_shell *mini)
 		*get_exit_status() = 1;
 		return ;
 	}
-	cmd = mini->cmds;
-	while (cmd)
-	{
-		i = 0;
-		while (cmd->cmd[i])
-		{
-			expanded_cmd = expand_env_vars(cmd->cmd[i], mini->env_dup);
-			if (!expanded_cmd)
-			{
-				ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
-				ft_putendl_fd("expansion error", STDERR_FILENO);
-				free_builtin_cmds(mini->builtin_cmds);
-				*get_exit_status() = 1;
-				return ;
-			}
-			free(cmd->cmd[i]);
-			cmd->cmd[i] = expanded_cmd;
-			i++;
-		}
-		cmd = cmd->next;
-	}
+	// cmd = mini->cmds;
+	// while (cmd)
+	// {
+	// 	i = 0;
+	// 	while (cmd->cmd[i])
+	// 	{
+	// 		expanded_cmd = expand_env_vars(cmd->cmd[i], mini->env_dup);
+	// 		if (!expanded_cmd)
+	// 		{
+	// 			ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
+	// 			ft_putendl_fd("expansion error", STDERR_FILENO);
+	// 			free_builtin_cmds(mini->builtin_cmds);
+	// 			*get_exit_status() = 1;
+	// 			return ;
+	// 		}
+	// 		free(cmd->cmd[i]);
+	// 		cmd->cmd[i] = expanded_cmd;
+	// 		i++;
+	// 	}
+	// 	cmd = cmd->next;
+	// }
 	cmd = mini->cmds;
 	while (cmd)
 	{

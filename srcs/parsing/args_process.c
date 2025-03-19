@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 18:58:06 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:07:49 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,62 @@ int	find_boundary(char *input, int pos, int *fl)
  * int	fl; - special handling for operators or redirs
  * @param mini A pointer to the shell structure.
  */
+// void	lex_input(char *input, t_arg **args, t_shell *mini)
+// {
+// 	int		i;
+// 	int		start;
+// 	int		end;
+// 	int		fl;
+// 	char	*tmp;
+// 	// int		i_old;
+// 	// bool	has_space;
+// 	// t_arg	*new_node;
+
+// 	i = 0;
+// 	fl = 0;
+// 	while (input[i] != '\0')
+// 	{
+// 		// i_old = i;
+// 		i = skip_space_tab(input, i);
+// 		// if (i_old != i)
+// 		// 	has_space = true;
+// 		// else
+// 		// 	has_space = false;
+// 		// Set the starting index of the current token
+// 		start = i;
+// 		// If the end of the string is reached, exit
+// 		if (input[i] == '\0')
+// 			return ;
+// 		// Find the end of the current token or operator
+// 		end = find_boundary(input, i, &fl);
+// 		// printf("flage is: %d\n", fl); //TO DO delete
+// 		// Move the index to the end of the current token
+// 		i = end;
+// 		// i = skip_space_tab(input, i);
+// 		// Skip trailing whitespaces (ensures clean arguments)
+// 		// If a special operator (<, <<, |, etc.) was detected
+// 		if (fl != 0)
+// 		{
+// 			// Extract the current token
+// 			tmp = ft_substr(input, start, end - start);
+// 			// Check if the token is non-empty
+// 			if (ft_strcmp(tmp, "\0"))
+// 				append_arg(args, new_arg(tmp, mini)); // Add it to the args list
+// 			else
+// 				free(tmp);
+			
+// 			// Add the special operator as a separate argument
+// 			append_arg(args, new_arg(ft_substr(input, end, fl), mini));
+// 			// Skip the special operator's length
+// 			i += fl;
+// 			// Reset the flag
+// 			fl = 0;
+// 		}
+// 		// If no special operator was detected
+// 		else
+// 			append_arg(args, new_arg(ft_substr(input, start, end - start), mini)); // Add the token to the args list
+// 	}
+// }
 void	lex_input(char *input, t_arg **args, t_shell *mini)
 {
 	int		i;
@@ -98,32 +154,60 @@ void	lex_input(char *input, t_arg **args, t_shell *mini)
 	int		end;
 	int		fl;
 	char	*tmp;
+	int		i_old;
+	bool	has_space;
+	t_arg	*new_node;
 
 	i = 0;
 	fl = 0;
 	while (input[i] != '\0')
 	{
+		i_old = i;
 		i = skip_space_tab(input, i);
-		start = i;						// Set the starting index of the current token
-		if (input[i] == '\0')			// If the end of the string is reached, exit
+		if (i_old != i)
+			has_space = true;
+		else
+			has_space = false;
+		// Set the starting index of the current token
+		start = i;
+		// If the end of the string is reached, exit
+		if (input[i] == '\0')
 			return ;
-		end = find_boundary(input, i, &fl);	// Find the end of the current token or operator
+		// Find the end of the current token or operator
+		end = find_boundary(input, i, &fl);
 		// printf("flage is: %d\n", fl); //TO DO delete
-		i = end;							// Move the index to the end of the current token
-		// i = skip_space_tab(input, i);		// Skip trailing whitespaces (ensures clean arguments)
-		if (fl != 0)						// If a special operator (<, <<, |, etc.) was detected
-		{
-			tmp = ft_substr(input, start, end - start);	// Extract the current token
-			if (ft_strcmp(tmp, "\0"))					// Check if the token is non-empty
-				append_arg(args, new_arg(tmp, mini)); // Add it to the args list
-			else
-				free(tmp);
-			append_arg(args, new_arg(ft_substr(input, end, fl), mini)); // Add the special operator as a separate argument
-			i += fl;		// Skip the special operator's length
-			fl = 0;		// Reset the flag
-		}
-		else // If no special operator was detected
-			append_arg(args, new_arg(ft_substr(input, start, end - start), mini));// Add the token to the args list
+		// Move the index to the end of the current token
+		i = end;
+		// i = skip_space_tab(input, i);
+		// Skip trailing whitespaces (ensures clean arguments)
+		// If a special operator (<, <<, |, etc.) was detected
+		if (fl != 0)
+        {
+            // For token before separator
+            tmp = ft_substr(input, start, end - start);
+            if (ft_strcmp(tmp, "\0"))
+            {
+                new_node = new_arg(tmp, mini);
+                new_node->space_flag_arg = has_space;
+                append_arg(args, new_node);
+            }
+            else
+                free(tmp);
+            
+            // For separator token
+            new_node = new_arg(ft_substr(input, end, fl), mini);
+            new_node->space_flag_arg = false;  // Normally no space after separators
+            append_arg(args, new_node);
+            
+            i += fl;
+            fl = 0;
+        }
+        else
+        {
+            new_node = new_arg(ft_substr(input, start, end - start), mini);
+            new_node->space_flag_arg = has_space;
+            append_arg(args, new_node);
+        }
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 20:31:01 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:15:10 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*is_slash(char *input, int *i)
 
 /**
  * Helper function to check if a character is a valid token separator.
-
-	* This helps determine if quoted strings should be treated as separate arguments.
+ * This helps determine if quoted strings should be treated as
+ * separate arguments.
  *
  * @param c The character to check
  * @return true if the character is a separator, false otherwise
@@ -46,8 +46,8 @@ static bool	is_token_separator(char c)
  * escape characters,
  * and variable expansions.
  * @param input The original input string to be parsed.
-
-	* @param env_dup A pointer to the environment variables (used for variable expansion).
+ * @param env_dup A pointer to the environment variables
+ * (used for variable expansion).
  * @return The modified input string after processing special characters.
  */
 // "", '', $, |, $?, <, >, <<, >>
@@ -63,47 +63,32 @@ char	*parse_special_chars(char *input, t_env *env_dup)
 	i = 0;
 	while (input[i])
 	{
-		// handle single quotes - no expansion inside
 		if (input[i] == '\'')
 		{
 			in_single_quotes = !in_single_quotes;
 			input = is_quote(input, &i);
-			// adjust index if needed after modification
 			if (!input[i])
 				break ;
-			// Check if next character is another quote without separator in between
-			// This helps handle adjacent quoted strings like 'he''llo'
 			if (input[i] && (input[i] == '\'' || input[i] == '\"') && (i == 0
 					|| !is_token_separator(input[i - 1])))
-			{
-				// Don't increment i here to process the next quote in the next iteration
 				continue ;
-			}
 			in_single_quotes = false;
 		}
-		// handle double quotes - variables are expanded inside
 		else if (input[i] == '\"')
 		{
 			input = is_db_quote(input, &i, env_dup);
-			// adjust index if needed after modification
 			if (!input[i])
 				break ;
-			// Check if next character is another quote without separator in between
 			if (input[i] && (input[i] == '\'' || input[i] == '\"') && (i == 0
 					|| !is_token_separator(input[i - 1])))
-			{
-				// Don't increment i here to process the next quote in the next iteration
 				continue ;
-			}
 		}
-		// handle environment variables
+		// if (input[i] == '$')
 		if (input[i] == '$' && !in_single_quotes)
 		{
 			input = is_dollar(input, &i, env_dup);
-			// adjust index if needed after modification
 			if (!input[i])
 				break ;
-			// don't increment i here as is_dollar already moves the index
 			continue ;
 		}
 		i++;

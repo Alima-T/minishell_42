@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:54:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:55:09 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:43:46 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ int	handle_heredoc(char *delimiter)
 	pid_t	heredoc_pid;
 
 	tmp_file = generate_heredoc_filename();
-	if (!tmp_file || (fd = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC,
-				0644)) == -1)
+	if (!tmp_file)
+		return (-1);
+	fd = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
 	{
 		free(tmp_file);
 		return (-1);
@@ -66,26 +68,38 @@ int	handle_heredoc(char *delimiter)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	heredoc_pid = fork();
+	if (heredoc_pid == -1)
+	{
+		close(fd);
+		free(tmp_file);
+		return (-1);
+	}
 	if (heredoc_pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		while ((line = readline("> ")))
+		while (1)
 		{
+			line = readline("> ");
+			if (!line)
+			{
+				close(fd);
+				free(tmp_file);
+				exit(0);
+			}
 			if (ft_strcmp(line, delimiter) == 0)
 			{
 				free(line);
-				break ;
+				close(fd);
+				free(tmp_file);
+				exit(0);
 			}
 			write(fd, line, ft_strlen(line));
 			write(fd, "\n", 1);
 			free(line);
 		}
-		close(fd);
-		free(tmp_file);
-		exit(0);
 	}
-	waitpid(heredoc_pid, &heredoc_status, 0);
 	close(fd);
+	waitpid(heredoc_pid, &heredoc_status, 0);
 	signal(SIGINT, sig_non_interact_ctrl_c);
 	signal(SIGQUIT, sig_non_interact_quit);
 	if (WIFSIGNALED(heredoc_status))
@@ -96,13 +110,19 @@ int	handle_heredoc(char *delimiter)
 		return (-1);
 	}
 	fd = open(tmp_file, O_RDONLY);
+	if (fd == -1)
+	{
+		free(tmp_file);
+		return (-1);
+	}
 	unlink(tmp_file);
 	free(tmp_file);
 	return (fd);
 }
 
 /**
- * @brief Handles redirs in the given command and opens appropriate file descriptors.
+
+	* @brief Handles redirs in the given command and opens appropriate file descriptors.
  *
  * Supports three types of redirs:
  *

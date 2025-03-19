@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 18:58:51 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:57:02 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_cmd	*create_cmds_lst(t_arg *args)
 	cmd->redir = (struct s_redir *) redirect_process(&args); // Process redirections and store the result
 	lists_count = find_cmd(args); // Find the number of arguments in the list
 	cmd->cmd = turn_cmd_to_array(args, lists_count); // Convert the argument list to an array
+	cmd->orig_args = args;
 	cmd->inp = 0; // Initialize input file descriptor to 0 (stdin)
 	cmd->out = 1; // Initialize output file descriptor to 1 (stdout)
 	cmd->fork = 0; // Initialize fork flag to 0 (not forked yet)

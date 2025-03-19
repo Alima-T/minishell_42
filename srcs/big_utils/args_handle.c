@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 18:25:27 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:05:32 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_arg	*new_arg(char *arg_str, t_shell *mini)
 		return (NULL);	// Return NULL if allocation fails
 	node->arg_val = ft_strdup(arg_str);	// Duplicate the argument string
 	node->redir_flag = 0;	// Initialize the redirection flag to 0
+	node->space_flag_arg = false;
 	node->next = NULL;	// Set the next pointer to NULL (end of the list)
 	free(arg_str);	// Free the original argument string
 	return (node);	// Return the newly created node

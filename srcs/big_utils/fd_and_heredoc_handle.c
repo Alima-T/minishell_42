@@ -16,9 +16,11 @@
  * existing content of the file and start fresh, which is useful if you want
  * to overwrite the file's content.
  *
- * - O_APPEND: This flag makes sure that any data written to the file is appended
  *
- * to the end of the file rather than overwriting it. If the file already exists,
+	- O_APPEND: This flag makes sure that any data written to the file is appended
+ *
+
+	* to the end of the file rather than overwriting it. If the file already exists,
  * the new data will be added after the existing
  * content.
  *
@@ -66,7 +68,7 @@ int	open_helper(char *path, char flag)
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd(BEGIN "minishell: "CLOSE, STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
@@ -88,6 +90,7 @@ char	*generate_heredoc_filename(void)
 	char		*temp_path;
 	char		*pid_str;
 	char		*counter_str;
+	char		*tmp1;
 	pid_t		pid;
 
 	counter = 0;
@@ -106,10 +109,15 @@ char	*generate_heredoc_filename(void)
 		free(temp_path);
 		return (NULL);
 	}
-	pid_str = ft_strjoin(temp_path, "_");
+	tmp1 = ft_strjoin(temp_path, "_");
 	free(temp_path);
-	temp_path = ft_strjoin(pid_str, counter_str);
-	free(pid_str);
+	if (!tmp1)
+	{
+		free(counter_str);
+		return (NULL);
+	}
+	temp_path = ft_strjoin(tmp1, counter_str);
+	free(tmp1);
 	free(counter_str);
 	return (temp_path);
 }

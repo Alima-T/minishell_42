@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:22:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/18 11:18:29 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:34:43 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 /*
 Summary of Functions:
 1. start_check:
-This function checks the beginning of the input string for syntax errors related to command tokens. It verifies if there are any invalid tokens (like |, ;, ||, ;;) at the start of the command and reports errors if found.
+This function checks the beginning of the input string for syntax errors related to command tokens. It verifies if there are any invalid tokens (like |,
+	;, ||, ;;) at the start of the command and reports errors if found.
 2. validator:
-This function validates the entire input string for syntax errors. It checks for invalid tokens at the start and end, validates pipes, quotes, and redirection operators throughout the input, and returns an error code if any issues are found.
-This code is part of a parser for a shell-like environment, responsible for validating command-line input for syntax errors related to commands and redirections. It ensures that the input adheres to the expected syntax rules and reports errors appropriately.*/
+This function validates the entire input string for syntax errors. It checks for invalid tokens at the start and end,
+	validates pipes, quotes, and redirection operators throughout the input,
+	and returns an error code if any issues are found.
+This code is part of a parser for a shell-like environment,
+	responsible for validating command-line input for syntax errors related to commands and redirections. It ensures that the input adheres to the expected syntax rules and reports errors appropriately.*/
 
 /**
  * Checks the start of the input for syntax errors related to command tokens.
@@ -48,9 +52,36 @@ int	start_check(char *input, int i)
  * @param input The input string to be validated.
  * @return An integer indicating success (0) or an error code (non-zero).
  */
+// int	validator(char *input)
+// {
+// 	int	i; // Index variable for traversing the input string
+
+// 	if (!input)
+// 		return (1);
+// 	i = skip_space_tab(input, 0);
+// 	// Check for invalid tokens at the start
+// 	if (input[i] == '|' || input[i] == ';')
+// 		return (start_check(input, i));
+// 	while (input[i])
+// 	{
+// 		if ((input[i] == '|' || input[i] == ';') && count_pipe_delim(input, i
+				// + 1))
+// 			return (1);
+// 		if (input[i] == '\'' && count_quote(input, &i, input[i]))
+// 			return (1);
+// 		if (input[i] == '\"' && count_quote(input, &i, input[i]))
+// 			return (1);
+// 		if ((input[i] == '<' || input[i] == '>') && redir_counting(input, &i,
+				// input[i]))
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
 int	validator(char *input)
 {
-	int	i; // Index variable for traversing the input string
+	int i; // Index variable for traversing the input string
 
 	if (!input)
 		return (1);
@@ -60,13 +91,15 @@ int	validator(char *input)
 		return (start_check(input, i));
 	while (input[i])
 	{
-		if ((input[i] == '|' || input[i] == ';') && count_pipe_delim(input, i + 1))
+		if ((input[i] == '|' || input[i] == ';') && count_pipe_delim(input, i
+				+ 1))
 			return (1);
 		if (input[i] == '\'' && count_quote(input, &i, input[i]))
-			return (1); 
+			return (1);
 		if (input[i] == '\"' && count_quote(input, &i, input[i]))
 			return (1);
-		if ((input[i] == '<' || input[i] == '>') && redir_counting(input, &i, input[i]))
+		if ((input[i] == '<' || input[i] == '>') && redir_counting(input, &i,
+				input[i]))
 			return (1);
 		i++;
 	}

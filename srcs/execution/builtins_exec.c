@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:50:16 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:51:09 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:04:33 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	is_builtin(const char *cmd, t_builtin_cmd *builtin_cmds)
 	return (0);
 }
 
-static int	dispatch_builtin(int ac, char *av[], t_shell *mini)
+static int	dispatch_builtin(int ac, char *av[], t_shell *mini, t_arg *orig_args)
 {
 	if (ft_strcmp(av[0], "cd") == 0)
 		return (builtin_cd(ac, av, &mini->env_dup));
 	else if (ft_strcmp(av[0], "echo") == 0)
-		return (builtin_echo(av));
+		return (builtin_echo(av, orig_args));
 	else if (ft_strcmp(av[0], "env") == 0)
 		return (builtin_env(mini->env_dup));
 	else if (ft_strcmp(av[0], "exit") == 0)
@@ -111,7 +111,7 @@ int	execute_builtin(t_cmd *cmd, t_shell *mini)
 	{
 		if (ft_strcmp(cmd->cmd[0], current->cmd) == 0)
 		{
-			*get_exit_status() = dispatch_builtin(cmd_count, cmd->cmd, mini);
+			*get_exit_status() = dispatch_builtin(cmd_count, cmd->cmd, mini, cmd->orig_args);
 			return (0);
 		}
 		current = current->next;

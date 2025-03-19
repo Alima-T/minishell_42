@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 20:25:30 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:11:15 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,18 @@ static int	process_echo_options(char **args, bool *newline)
 	return (i);
 }
 
+// static bool	is_adjacent_arg(char **args, int i)
+// {
+// 	bool	current_has_no_spaces;
+// 	bool	next_has_no_spaces;
+
+// 	if (!args[i + 1])
+// 		return (false);
+// 	current_has_no_spaces = (ft_strchr(args[i], ' ') == NULL);
+// 	next_has_no_spaces = (ft_strchr(args[i + 1], ' ') == NULL);
+// 	return (current_has_no_spaces && next_has_no_spaces);
+// }
+
 /**
  * @brief Prints the arguments to standard output
  *
@@ -61,18 +73,25 @@ static int	process_echo_options(char **args, bool *newline)
  * @param start_idx index to start printing from
  * @param newline whether to add a newline at the end
  */
-static void	print_echo_args(char **args, int start_idx, bool newline)
+static void	print_echo_args(char **args, int start_idx, bool newline,
+		t_arg *orig_args)
 {
-	int	i;
+	int		i;
+	t_arg	*current;
 
+	current = orig_args;
 	i = start_idx;
 	while (args[i])
 	{
 		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
-		// Add a space only if this is not the last argument
-		if (args[i + 1])
-			write(STDOUT_FILENO, " ", 1);
+		if (args[i + 1] && current && current->space_flag_arg)
+		{
+			if (current->next->space_flag_arg)
+				write(STDOUT_FILENO, " ", 1);
+		}
 		i++;
+		if (current)
+			current = current->next;
 	}
 	if (newline)
 		write(STDOUT_FILENO, "\n", 1);
@@ -87,12 +106,21 @@ static void	print_echo_args(char **args, int start_idx, bool newline)
  * @param args array of command arguments
  * @return int 0 on success
  */
-int	builtin_echo(char **args)
+int	builtin_echo(char **args, t_arg *orig_args)
 {
 	int		start_idx;
 	bool	newline;
+	t_arg	*current;
+	int		i;
 
 	start_idx = process_echo_options(args, &newline);
-	print_echo_args(args, start_idx, newline);
+	current = orig_args;
+	i = 0;
+	while (current && i < start_idx)
+	{
+		current = current->next;
+		i++;
+	}
+	print_echo_args(args, start_idx, newline, current);
 	return (0);
 }
