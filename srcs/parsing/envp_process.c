@@ -3,24 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   envp_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:35:35 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/06 18:38:41 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:04:02 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h" // Includes the header file for the minishell project
+#include "../../minishell.h"
 
 /**
 Summary of Functions:
-1. copy_value: duplicates the value part of an environment variable string (in the format KEY=VALUE). 
+1. copy_value: duplicates the value part of an environment variable string
+(in the format KEY=VALUE). 
 Returns the duplicated value or NULL if no value exists.
-2. copy_key: duplicates the key part of an environment variable string. Returns the duplicated key.
-3. new_env: creates a new environment variable node. It allocates memory for the node, duplicates the entire environment variable string, extracts the key and value, and initializes the node's fields.
-4. append_env: adds a new environment variable node to the end of a linked list. It checks if the list is empty and either sets the new node as the head or traverses to the end of the list and links the new node there.
-5. copy_envp: copies the environment variables from an array into a linked list. It iterates through the array, creating new nodes for each environment variable and adding them to the linked list.
-This code is part of a system for managing environment variables in a shell-like environment, allowing for the storage and retrieval of key-value pairs representing environment settings. It ensures proper memory management and linked list operations for the environment variables.
+2. copy_key: duplicates the key part of an environment variable string.
+Returns the duplicated key.
+3. new_env: creates a new environment variable node. It allocates memory for
+the node, duplicates the entire environment variable string, extracts the key
+and value, and initializes the node's fields.
+4. append_env: adds a new environment variable node to the end of a linked
+list. It checks if the list is empty and either sets the new node as the head
+or traverses to the end of the list and links the new node there.
+5. copy_envp: copies the environment variables from an array into a linked
+list. It iterates through the array, creating new nodes for each environment
+variable and adding them to the linked list.
+This code is part of a system for managing environment variables in a
+shell-like environment, allowing for the storage and retrieval of key-value
+pairs representing environment settings. It ensures proper memory management
+and linked list operations for the environment variables.
  * Duplicates the value part of an environment variable string.
  * The input string is expected to be in the format "KEY=VALUE".
  * @param env_part The environment variable string to process.
@@ -31,14 +42,13 @@ char	*copy_value(char *env_part)
 	int		i;
 	char	*valdup;
 
-	i = 0; // Initialize index
-	// Traverse the string until '=' or end of string
+	i = 0;
 	while (env_part[i] != '=' && env_part[i] != '\0')
 		i++;
-	if (env_part[i] == '\0') // If no '=' found, there is no value
+	if (env_part[i] == '\0')
 		valdup = NULL;
 	else
-		valdup = ft_strdup(&env_part[i + 1]); // Duplicate the value part (after '=')
+		valdup = ft_strdup(&env_part[i + 1]);
 	return (valdup);
 }
 
@@ -53,11 +63,10 @@ char	*copy_key(char *env_part)
 	int		i;
 	char	*keydup;
 
-	i = 0; // Initialize index
-	// Traverse the string until '=' or end of string
+	i = 0;
 	while (env_part[i] != '=' && env_part[i] != '\0')
 		i++;
-	keydup = ft_substr(env_part, 0, i); // Duplicate the key part (before '=')
+	keydup = ft_substr(env_part, 0, i);
 	return (keydup);
 }
 
@@ -76,9 +85,8 @@ t_env	*new_env(char *env_str)
 	node = (t_env *)malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->line = ft_strdup(env_str); // Duplicate the entire environment variable string
-	node->key = copy_key(env_str); // Extract and duplicate the key
-	// If the key is "OLDPWD", set the value to NULL; otherwise, copy the value
+	node->line = ft_strdup(env_str);
+	node->key = copy_key(env_str);
 	if (ft_strcmp(node->key, "OLDPWD") == 0)
 		node->val = NULL;
 	else

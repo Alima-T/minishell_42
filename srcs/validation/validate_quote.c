@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 16:15:14 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/18 16:45:57 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:23:19 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 /* 
 1. count_pipe_delim:
-This function counts the number of pipe delimiters in the input string and checks for syntax errors related to their usage. It checks for single and double pipes (|, ||) and single and double semicolons (;, ;;), reporting errors as necessary.
+This function counts the number of pipe delimiters in the input string and
+checks for syntax errors related to their usage. It checks for single and
+double pipes (|, ||) and single and double semicolons (;, ;;), reporting
+errors as necessary.
 2. count_quote:
-This function counts the number of quotes in the input string and checks for unclosed quotes. It reports a syntax error if it finds an unclosed quote.
-*/ 
+This function counts the number of quotes in the input string and checks for
+unclosed quotes. It reports a syntax error if it finds an unclosed quote.
+*/
 /**
  * Counts the number of pipe delimiters in the input string.
  * It checks for syntax errors related to pipe usage.
@@ -32,13 +36,15 @@ int	count_pipe_delim(char *input, int i)
 	if (input[i] == '|')
 	{
 		if (input[i + 1] == '|')
-			return (print_msg(1, "syntax error near unexpected token `||'", 258));
+			return (print_msg(1, "syntax error near unexpected token `||'", \
+				258));
 		return (print_msg(1, "syntax error near unexpected token `|'", 258));
 	}
 	if (input[i] == ';')
 	{
 		if (input[i + 1] == ';' || input[i - 1] == ';')
-			return (print_msg(1, "syntax error near unexpected token `;;'", 258));
+			return (print_msg(1, "syntax error near unexpected token `;;'", \
+				258));
 		return (print_msg(1, "syntax error near unexpected token `;'", 258));
 	}
 	return (0);
@@ -57,9 +63,8 @@ int	count_quote(char *input, int *i, char quote)
 {
 	while (input[++(*i)])
 	{
-		if (input[*i] == quote) // Check for the closing quote
+		if (input[*i] == quote)
 			return (0);
 	}
-	// Report error for unclosed quotes
 	return (print_msg(1, "syntax error - unclosed quotes", 258));
 }

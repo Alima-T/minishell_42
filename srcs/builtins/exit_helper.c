@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:43:06 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/19 16:10:15 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:02:06 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ void	handle_non_digit(t_shell *mini, char *str)
 
 void	silent_exit(t_shell *mini, int status)
 {
-	// if (status == -1)
-	// 	status = *get_exit_status();
-	ft_putstr_fd(BEGIN "minishell-1.0$ " CLOSE "exit", STDIN_FILENO);
+	ft_putendl_fd(BEGIN "minishell-1.0$ " CLOSE "exit", STDIN_FILENO);
 	free_shell_mem_enhanced(mini);
 	shell_level_down(mini);
 	exit(status);

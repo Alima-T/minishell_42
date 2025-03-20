@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:17:26 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/19 15:53:56 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:29:10 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ int	builtin_exit(int ac, char *av[], t_shell *mini)
 		handle_exit_no_args(mini);
 	if (ac > 2)
 	{
-		ft_putstr_fd(BEGIN "minishell: "CLOSE "exit: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd(BEGIN "minishell: "CLOSE "exit: too many arguments\n", \
+			STDERR_FILENO);
 		return (1);
 	}
 	if (!is_numeric_str(av[1]))

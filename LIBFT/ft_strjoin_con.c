@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:35:24 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/19 09:02:07 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:14:07 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strjoin_con(char const *s1, char *connector, char const *s2)
 
 	if (!s1 || !connector || !s2)
 		return (NULL);
-	str = (char *) malloc(sizeof(char) * 
-			(ft_strlen(s1) + ft_strlen(connector) + ft_strlen(s2) + 1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(connector)
+				+ ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	x = 0;

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fd_and_heredoc_handle.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 12:25:23 by tbolsako          #+#    #+#             */
+/*   Updated: 2025/03/20 12:25:26 by tbolsako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../minishell.h"
 
@@ -17,10 +28,12 @@
  * to overwrite the file's content.
  *
  *
-	- O_APPEND: This flag makes sure that any data written to the file is appended
+	- O_APPEND: This flag makes sure that any data written to the file is
+	appended
  *
 
-	* to the end of the file rather than overwriting it. If the file already exists,
+	* to the end of the file rather than overwriting it. If the file already
+	exists,
  * the new data will be added after the existing
  * content.
  *

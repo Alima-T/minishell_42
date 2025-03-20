@@ -6,25 +6,29 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:39:49 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/19 12:05:32 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:19:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /**
-1. new_arg: Creates a new argument node, duplicates the argument string, and initializes the node.
+1. new_arg: Creates a new argument node, duplicates the argument string, and
+initializes the node.
 2. append_arg: Adds a new node to the end of the linked list of argument nodes.
 3. del_first_node: Deletes the first node in the list and frees its memory.
 4. del_one_arg: Deletes a specific node and frees its memory.
 5. arglst_destroy: Deletes all nodes in the list, freeing all allocated memory.
-This code is part of a linked list implementation for managing command-line arguments in a shell-like environment.
-1. new_arg: Создает новый узел аргумента, дублирует строку аргумента и инициализирует узел.
+This code is part of a linked list implementation for managing command-line
+arguments in a shell-like environment.
+1. new_arg: Создает новый узел аргумента, дублирует строку аргумента и
+инициализирует узел.
 2. append_arg: Добавляет новый узел в конец связанного списка узлов аргументов.
 3. del_first_node: Удаляет первый узел в списке и освобождает его память.
 4. del_one_arg: Удаляет конкретный узел и освобождает его память.
 5. arglst_destroy: Удаляет все узлы в списке, освобождая всю выделенную память.
-Этот код является частью реализации связанного списка для управления аргументами командной строки в окружении, похожем на shell.
+Этот код является частью реализации связанного списка для управления аргументами
+командной строки в окружении, похожем на shell.
 */
 /**
  * Удаляет первый узел в списке аргументов.
@@ -39,11 +43,11 @@ void	del_first_node(t_arg **args)
 
 	if (!args || !(*args))
 		return ;
-	next = (*args)->next;	// Store the next node
-	free((*args)->arg_val);	// Free the arg string of the first node
-	(*args)->arg_val = NULL;	// Set the arg string ptr to NULL 
-	free((*args));	// Free the first node
-	*args = next;	// Update the head to the next node
+	next = (*args)->next;
+	free((*args)->arg_val);
+	(*args)->arg_val = NULL;
+	free((*args));
+	*args = next;
 }
 
 /**
@@ -55,12 +59,11 @@ void	del_one_arg(t_arg *lst)
 {
 	if (!lst)
 		return ;
-	free(lst->arg_val);	// Free arg string
-	lst->arg_val = NULL;	// Set arg string ptr to NULL
-	free(lst);	// Free node itself 
-	lst = NULL;	// Set node ptr to NULL (note: this does not affect the caller)
+	free(lst->arg_val);
+	lst->arg_val = NULL;
+	free(lst);
+	lst = NULL;
 }
-
 
 /**
  * Destroys the entire argument list by deleting each node.
@@ -71,17 +74,17 @@ void	del_one_arg(t_arg *lst)
  */
 void	arglst_destroy(t_arg **lst)
 {
-	t_arg	*tmp;	// Temporary pointer to hold the next node
+	t_arg	*tmp;
 
-	if (!lst)	// Check for NULL
+	if (!lst)
 		return ;
-	while (*lst)	// While there are nodes in the list
+	while (*lst)
 	{
-		tmp = (*lst)->next;	// Store the next node
-		del_one_arg(*lst);	// Delete the current node
-		*lst = tmp;	// Move to the next node
+		tmp = (*lst)->next;
+		del_one_arg(*lst);
+		*lst = tmp;
 	}
-	*lst = NULL;	// Set the head of the list to NULL (list is now empty)
+	*lst = NULL;
 }
 
 /*
@@ -89,23 +92,23 @@ void	arglst_destroy(t_arg **lst)
  * Выделяет память для нового узла и дублирует строку аргумента.
  * @param arg_str Строка аргумента, которая будет сохранена в новом узле.
  * @param mini Указатель на структуру shell (не используется в этой функции).
- * @return Указатель на созданный узел аргумента или NULL, если выделение памяти не удалось.
+ * @return Указатель на созданный узел аргумента или NULL,
+	если выделение памяти не удалось.
  */
-
 t_arg	*new_arg(char *arg_str, t_shell *mini)
 {
-	t_arg	*node;	// Pointer to the new argument node
+	t_arg	*node;
 
-	(void)mini;	// Ignore the mini parameter as it's not used
-	node = (t_arg *)malloc(sizeof(t_arg));	// Allocate memory for the new node
-	if (!node)	// Check if memory allocation failed
-		return (NULL);	// Return NULL if allocation fails
-	node->arg_val = ft_strdup(arg_str);	// Duplicate the argument string
-	node->redir_flag = 0;	// Initialize the redirection flag to 0
+	(void)mini;
+	node = (t_arg *)malloc(sizeof(t_arg));
+	if (!node)
+		return (NULL);
+	node->arg_val = ft_strdup(arg_str);
+	node->redir_flag = 0;
 	node->space_flag_arg = false;
-	node->next = NULL;	// Set the next pointer to NULL (end of the list)
-	free(arg_str);	// Free the original argument string
-	return (node);	// Return the newly created node
+	node->next = NULL;
+	free(arg_str);
+	return (node);
 }
 
 /**
@@ -118,17 +121,17 @@ t_arg	*new_arg(char *arg_str, t_shell *mini)
  */
 void	append_arg(t_arg **lst, t_arg *new)
 {
-	t_arg	*last;	// Pointer to traverse the list
-	// printf("the arg is: %s\n", new->arg_val); //TO DO delete, added foe debagging
-	if (!lst || !new)	// Check for NULL
-		exit(EXIT_FAILURE);	// Exit if either is NULL
-	if (*lst)	// If the list is not empty
+	t_arg	*last;
+
+	if (!lst || !new)
+		exit(EXIT_FAILURE);
+	if (*lst)
 	{
-		last = *lst; // Start from the head of the list
-		while (last->next) // Traverse to the end of the list
-			last = last->next; // Move to the next node
-		last->next = new; // Link the new node at the end
+		last = *lst;
+		while (last->next)
+			last = last->next;
+		last->next = new;
 	}
 	else
-		*lst = new; // If the list is empty, set the new node as the head
+		*lst = new;
 }

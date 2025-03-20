@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:36:01 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:36:29 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:25:52 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	cleanup_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	// close any open file descriptors
 	if (cmd->inp != STDIN_FILENO && cmd->inp > 2)
 	{
 		close(cmd->inp);
@@ -31,7 +30,6 @@ void	cleanup_cmd(t_cmd *cmd)
 		close(cmd->out);
 		cmd->out = STDOUT_FILENO;
 	}
-	// close pipe file descriptors if they're open
 	if (cmd->pipe_fd[0] > 2)
 	{
 		close(cmd->pipe_fd[0]);
@@ -51,7 +49,6 @@ void	cleanup_heredoc_files(void)
 {
 	char	*cmd;
 
-	// remove any temporary heredoc files that might have been left behind
 	cmd = "rm -f /tmp/.heredoc_*";
 	system(cmd);
 }

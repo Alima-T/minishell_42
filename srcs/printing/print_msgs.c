@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_msgs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:28:37 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/18 08:44:56 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:18:14 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void	print_redir(t_cmd *cmds)
 			break ;
 		while (tmp)
 		{
-			printf("redirect type - |%s| \t name - |%s|\n", tmp->type, tmp->name);
+			printf("redirect type - |%s| \t name - |%s|\n", tmp->type, \
+				tmp->name);
 			tmp = tmp->next;
 		}
 		cmds = cmds->next;

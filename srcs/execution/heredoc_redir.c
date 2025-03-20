@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:54:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/19 14:18:24 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:39:25 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ int	handle_heredoc(char *delimiter)
 
 /**
 
-	* @brief Handles redirs in the given command and opens appropriate file descriptors.
+	* @brief Handles redirs in the given command and opens appropriate file
+	descriptors.
  *
  * Supports three types of redirs:
  *

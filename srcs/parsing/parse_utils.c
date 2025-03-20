@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:33:17 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/19 09:15:10 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:05:26 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ char	*parse_special_chars(char *input, t_env *env_dup)
 					|| !is_token_separator(input[i - 1])))
 				continue ;
 		}
-		// if (input[i] == '$')
 		if (input[i] == '$' && !in_single_quotes)
 		{
 			input = is_dollar(input, &i, env_dup);
