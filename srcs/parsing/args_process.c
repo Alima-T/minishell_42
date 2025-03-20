@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:32:40 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 12:44:42 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:15:43 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@
  */
 int	is_redir(char *arg)
 {
-	if ((ft_strcmp(arg, ">") == 0)
-		|| (ft_strcmp(arg, ">>") == 0)
-		|| (ft_strcmp(arg, "<") == 0)
-		|| (ft_strcmp(arg, "<<") == 0))
+	if ((ft_strcmp(arg, ">") == 0) || (ft_strcmp(arg, ">>") == 0)
+		|| (ft_strcmp(arg, "<") == 0) || (ft_strcmp(arg, "<<") == 0))
 		return (1);
 	return (0);
 }
@@ -106,14 +104,16 @@ void	lex_input(char *input, t_arg **args, t_shell *mini)
 	{
 		i_old = i;
 		i = skip_space_tab(input, i);
-		if (i_old != i)
-			has_space = true;
-		else
-			has_space = false;
+		// if (i_old != i)
+		has_space = false;
+		// else
+		// 	has_space = true;
 		start = i;
 		if (input[i] == '\0')
 			return ;
 		end = find_boundary(input, i, &fl);
+		if (!input[end] || input[end] == ' ' || input[end] == '\t')
+			has_space = true;
 		i = end;
 		if (fl != 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 12:28:23 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:29:03 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static void	print_echo_args(char **args, int start_idx, bool newline,
 	while (args[i])
 	{
 		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
-		if (args[i + 1] && current && current->space_flag_arg)
+		if (args[i + 1] && current)
 		{
-			if (current->next->space_flag_arg)
+			if (current->space_flag_arg)
 				write(STDOUT_FILENO, " ", 1);
 		}
 		i++;

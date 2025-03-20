@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:25:23 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 14:27:13 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:11:46 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,37 +84,64 @@ int	open_helper(char *path, char flag)
 	return (fd);
 }
 
-static char	*join_filename_parts(char *pid_str, char *counter_str)
-{
-	char	*temp_path;
-	char	*tmp1;
-	char	*result;
+// static char	*join_filename_parts(char *pid_str, char *counter_str)
+// {
+// 	char	*temp_path;
+// 	char	*tmp1;
+// 	char	*result;
 
-	temp_path = ft_strjoin("/tmp/.heredoc_", pid_str);
-	if (!temp_path)
-		return (NULL);
-	tmp1 = ft_strjoin(temp_path, "_");
-	free(temp_path);
-	if (!tmp1)
-		return (NULL);
-	result = ft_strjoin(tmp1, counter_str);
-	free(tmp1);
-	return (result);
-}
+// 	temp_path = ft_strjoin("/tmp/.heredoc_", pid_str);
+// 	if (!temp_path)
+// 		return (NULL);
+// 	tmp1 = ft_strjoin(temp_path, "_");
+// 	free(temp_path);
+// 	if (!tmp1)
+// 		return (NULL);
+// 	result = ft_strjoin(tmp1, counter_str);
+// 	free(tmp1);
+// 	return (result);
+// }
 
-/**
- * @brief Generates a unique temporary file name for heredoc
- *
- * Creates a unique filename in /tmp based on process ID and a counter
- *
- * @return char* Allocated string with file path or NULL on error
- */
+// /**
+//  * @brief Generates a unique temporary file name for heredoc
+//  *
+//  * Creates a unique filename in /tmp based on process ID and a counter
+//  *
+//  * @return char* Allocated string with file path or NULL on error
+//  */
+// char	*generate_heredoc_filename(void)
+// {
+// 	static int	counter;
+// 	char		*pid_str;
+// 	char		*counter_str;
+// 	char		*result;
+// 	pid_t		pid;
+
+// 	counter = 0;
+// 	pid = getpid();
+// 	counter++;
+// 	pid_str = ft_itoa(pid);
+// 	if (!pid_str)
+// 		return (NULL);
+// 	counter_str = ft_itoa(counter);
+// 	if (!counter_str)
+// 	{
+// 		free(pid_str);
+// 		return (NULL);
+// 	}
+// 	result = join_filename_parts(pid_str, counter_str);
+// 	free(pid_str);
+// 	free(counter_str);
+// 	return (result);
+// }
+
 char	*generate_heredoc_filename(void)
 {
 	static int	counter;
+	char		*temp_path;
 	char		*pid_str;
 	char		*counter_str;
-	char		*result;
+	char		*tmp1;
 	pid_t		pid;
 
 	counter = 0;
@@ -123,14 +150,25 @@ char	*generate_heredoc_filename(void)
 	pid_str = ft_itoa(pid);
 	if (!pid_str)
 		return (NULL);
+	temp_path = ft_strjoin("/tmp/.heredoc_", pid_str);
+	free(pid_str);
+	if (!temp_path)
+		return (NULL);
 	counter_str = ft_itoa(counter);
 	if (!counter_str)
 	{
-		free(pid_str);
+		free(temp_path);
 		return (NULL);
 	}
-	result = join_filename_parts(pid_str, counter_str);
-	free(pid_str);
+	tmp1 = ft_strjoin(temp_path, "_");
+	free(temp_path);
+	if (!tmp1)
+	{
+		free(counter_str);
+		return (NULL);
+	}
+	temp_path = ft_strjoin(tmp1, counter_str);
+	free(tmp1);
 	free(counter_str);
-	return (result);
+	return (temp_path);
 }

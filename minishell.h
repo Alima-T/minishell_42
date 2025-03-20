@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 15:38:35 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:59:59 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,9 +282,13 @@ int							execute_single_cmd(t_cmd *cmd, t_shell *mini);
 /*** exec_multiple.c ***/
 int							execute_multiple_cmds(t_shell *mini);
 
-/*** exec_helper.c ***/
-char						**env_list_to_array(t_env *env_dup);
+/*** find_executable.c ***/
 char						*find_executable(char *cmd, t_env *env_dup);
+
+/*** exec_utils.c ***/
+char						**env_list_to_array(t_env *env_dup);
+int							*save_std_fds(void);
+void						restore_std_fds(int *saved_fds);
 
 /*** builtins_exec.c ***/
 int							execute_builtin(t_cmd *cmd, t_shell *mini);
@@ -292,15 +296,29 @@ int							is_builtin(const char *cmd,
 								t_builtin_cmd *builtin_cmds);
 t_builtin_cmd				*init_builtin_cmds(void);
 
-/*** heredoc_redir.c ***/
-int							setup_redirections(t_cmd *cmds);
-int							set_redir(t_cmd *cmds);
+/*** heredoc.c ***/
 int							handle_heredoc(char *delimiter);
 int							set_heredoc(t_cmd *cmds);
+
+/*** heredoc_utils.c ***/
+int							open_heredoc_for_reading(char *tmp_file);
+void						process_heredoc_input(int fd, char *tmp_file,
+								char *delimiter);
 
 /*** pipes.c ***/
 int							create_pipes(t_cmd *cmds);
 void						close_all_pipes(t_cmd *cmds);
+void						close_unused_pipes(t_cmd *cmds, t_cmd *current);
+void						close_cmd_output_pipe(t_cmd *cmd);
+
+/*** redir.c ***/
+int							help_setup_redirections(t_cmd *cmds);
+int							set_redir(t_cmd *cmds);
+
+/*** redir_utils.c ***/
+int							input_redir(char *filename);
+int							output_redir(char *filename);
+int							append_redir(char *filename);
 
 /*** FAKE GLOBAL ***/
 /*** fake_global.c ***/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aokhapki <aokhapki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:55:55 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/18 15:25:11 by aokhapki         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:20:20 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,32 @@ void	close_all_pipes(t_cmd *cmds)
 			tmp->pipe_fd[1] = -1;
 		}
 		tmp = tmp->next;
+	}
+}
+
+void	close_unused_pipes(t_cmd *cmds, t_cmd *current)
+{
+	t_cmd	*tmp;
+
+	tmp = cmds;
+	while (tmp)
+	{
+		if (tmp != current)
+		{
+			if (tmp->pipe_fd[0] > 0 && tmp->pipe_fd[0] != current->inp)
+				close(tmp->pipe_fd[0]);
+			if (tmp->pipe_fd[1] > 0 && tmp->pipe_fd[1] != current->out)
+				close(tmp->pipe_fd[1]);
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	close_cmd_output_pipe(t_cmd *cmd)
+{
+	if (cmd->pipe_fd[1] > 0)
+	{
+		close(cmd->pipe_fd[1]);
+		cmd->pipe_fd[1] = 0;
 	}
 }

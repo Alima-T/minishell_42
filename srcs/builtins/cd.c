@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/19 14:13:07 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:19:34 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static char	*get_target_dir(int ac, char *av[], t_env **env_dup)
 		target_dir = find_in_env(*env_dup, "OLDPWD");
 		if (!target_dir)
 			return (NULL);
+		if (ft_strncmp(target_dir, "OLDPWD=", 7) == 0)
+			target_dir += 7;
 		ft_putendl_fd(target_dir, STDOUT_FILENO);
 	}
 	else
@@ -100,9 +102,9 @@ int	builtin_cd(int ac, char *av[], t_env **env_dup)
 		return (cd_error("cd: HOME not set"));
 	else if (!target_dir && !ft_strcmp(av[1], "-"))
 		return (cd_error("cd: OLDPWD not set"));
-	update_env(*env_dup, "OLDPWD", cwd);
-	if (chdir(target_dir))
+	if (chdir(target_dir) == -1)
 		return (cd_path_error(target_dir));
+	update_env(*env_dup, "OLDPWD", cwd);
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (cd_error(strerror(errno)));
 	update_env(*env_dup, "PWD", cwd);
