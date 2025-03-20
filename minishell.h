@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 17:59:59 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:05:18 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@
 # define BOLD "\001\033[1m\002"
 # define BEGIN "\001\033[1;32;40m\002"
 
+typedef struct s_num
+{
+	int						i;
+	int						start;
+	int						end;
+	int						i_old;
+	int						fl;
+	bool					has_space;
+}							t_num;
+
 typedef struct s_builtin_cmd
 {
 	char					*cmd;
@@ -54,6 +64,7 @@ typedef struct s_shell
 	struct s_env			*env_dup;
 	struct s_arg			*args;
 	struct s_cmd			*cmds;
+	struct s_num			nums;
 	t_builtin_cmd			*builtin_cmds;
 }							t_shell;
 
@@ -112,10 +123,10 @@ int							open_helper(char *path, char flag);
 char						*generate_heredoc_filename(void);
 
 /*** env_handle.c ***/
-void						env_destroy(t_env **list);
 void						update_env(t_env *env_dup, char *key, char *val);
 char						*find_in_env(t_env *env_dup, char *key);
 int							count_env_vars(t_env *env_dup);
+void						env_del_node(t_env *list);
 
 /*** level_change.c ***/
 void						shell_level_down(t_shell *mini);
@@ -123,7 +134,7 @@ void						shell_level_up(t_shell *mini);
 
 /*** mem_mngt.c ***/
 void						cleanup_cmd(t_cmd *cmd);
-void						cleanup_heredoc_files(void);
+void						env_destroy(t_env **list);
 
 /*** mem_utils.c ***/
 void						*mem_allocator(size_t size);
@@ -136,7 +147,7 @@ void						free_shell_mem_enhanced(t_shell *mini);
 int							find_boundary(char *input, int pos, int *flag);
 int							is_redir(char *arg);
 void						set_redirect(t_arg *args);
-void						lex_input(char *input, t_arg **args, t_shell *mini);
+void						lex_input(t_arg **args, t_shell *mini);
 t_arg						*args_process(t_shell *mini);
 
 /*** cmds_create ***/

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 14:18:50 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:55:33 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,27 +150,4 @@ void	env_del_node(t_env *list)
 	list->val = NULL;
 	free(list);
 	list = NULL;
-}
-
-/**
- * @brief Destroys the entire environment variable linked list.Уничтожает весь
- * связанный список переменных окружения.
- * It iterates through the list and deletes each node.Проходит по списку и
- * удаляет каждый узел.
- * @param list A double pointer to the head of the environment variable list.
- * 	*list = NULL;	// Set the head of the list to NULL (list is now empty)
- */
-void	env_destroy(t_env **list)
-{
-	t_env	*temp;
-
-	if (!list)
-		return ;
-	while (*list)
-	{
-		temp = (*list)->next;
-		env_del_node(*list);
-		*list = temp;
-	}
-	*list = NULL;
 }

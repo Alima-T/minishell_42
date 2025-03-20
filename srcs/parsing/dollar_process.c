@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:47:13 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 12:56:53 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:08:21 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,78 @@ char	is_valid_char(char c)
 // Check for dollar in the input string and determines if they represent
 // an environment variable or a special case ("?"). Updates the iterator
 // and calls the appropriate handler function to process the input.
+// char	*is_dollar(char *input, int *i, t_env *env_dup)
+// {
+// 	int	start;
+// 	int	key_start;
+// 	int	key_end;
+
+// 	start = *i;
+// 	if (ft_strchr("?", input[start + 1]))
+// 	{
+// 		*i += 2;
+// 		return (question_handle(input, start, i));
+// 	}
+// 	if (input[start + 1] == '{')
+// 	{
+// 		(*i)++;
+// 		while (input[++(*i)])
+// 		{
+// 			if (input[*i] == '}')
+// 			{
+// 				(*i)++;
+// 				break ;
+// 			}
+// 			if (!is_valid_char(input[*i]) && input[*i] != '}')
+// 				return (input);
+// 		}
+// 		if (input[*i - 1] != '}')
+// 			return (input);
+// 		key_start = start + 2;
+// 		key_end = *i - 1;
+// 		if (key_end <= key_start)
+// 			return (input);
+// 		return (replace_env(input, start, *i, env_dup));
+// 	}
+// 	while (input[++(*i)])
+// 	{
+// 		if (!is_valid_char(input[*i]))
+// 			break ;
+// 	}
+// 	if (*i == start + 1)
+// 		return (input);
+// 	input = replace_env(input, start, *i, env_dup);
+// 	return (input);
+// }
+
+static char	*handle_curly(char *input, int *i, int start, t_env *env_dup)
+{
+	int	key_start;
+	int	key_end;
+
+	(*i)++;
+	while (input[++(*i)])
+	{
+		if (input[*i] == '}')
+		{
+			(*i)++;
+			break ;
+		}
+		if (!is_valid_char(input[*i]) && input[*i] != '}')
+			return (input);
+	}
+	if (input[*i - 1] != '}')
+		return (input);
+	key_start = start + 2;
+	key_end = *i - 1;
+	if (key_end <= key_start)
+		return (input);
+	return (replace_env(input, start, *i, env_dup));
+}
+
 char	*is_dollar(char *input, int *i, t_env *env_dup)
 {
 	int	start;
-	int	key_start;
-	int	key_end;
 
 	start = *i;
 	if (ft_strchr("?", input[start + 1]))
@@ -113,26 +180,7 @@ char	*is_dollar(char *input, int *i, t_env *env_dup)
 		return (question_handle(input, start, i));
 	}
 	if (input[start + 1] == '{')
-	{
-		(*i)++;
-		while (input[++(*i)])
-		{
-			if (input[*i] == '}')
-			{
-				(*i)++;
-				break ;
-			}
-			if (!is_valid_char(input[*i]) && input[*i] != '}')
-				return (input);
-		}
-		if (input[*i - 1] != '}')
-			return (input);
-		key_start = start + 2;
-		key_end = *i - 1;
-		if (key_end <= key_start)
-			return (input);
-		return (replace_env(input, start, *i, env_dup));
-	}
+		return (handle_curly(input, i, start, env_dup));
 	while (input[++(*i)])
 	{
 		if (!is_valid_char(input[*i]))

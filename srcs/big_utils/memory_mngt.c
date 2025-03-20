@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:36:01 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 14:30:31 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:55:55 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,27 @@ void	cleanup_cmd(t_cmd *cmd)
 		close(cmd->pipe_fd[1]);
 		cmd->pipe_fd[1] = -1;
 	}
+}
+
+/**
+ * @brief Destroys the entire environment variable linked list.Уничтожает весь
+ * связанный список переменных окружения.
+ * It iterates through the list and deletes each node.Проходит по списку и
+ * удаляет каждый узел.
+ * @param list A double pointer to the head of the environment variable list.
+ * 	*list = NULL;	// Set the head of the list to NULL (list is now empty)
+ */
+void	env_destroy(t_env **list)
+{
+	t_env	*temp;
+
+	if (!list)
+		return ;
+	while (*list)
+	{
+		temp = (*list)->next;
+		env_del_node(*list);
+		*list = temp;
+	}
+	*list = NULL;
 }
