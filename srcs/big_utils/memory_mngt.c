@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:36:01 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 12:25:52 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:30:31 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,4 @@ void	cleanup_cmd(t_cmd *cmd)
 		close(cmd->pipe_fd[1]);
 		cmd->pipe_fd[1] = -1;
 	}
-}
-
-/**
- * Ensures all temporary files from heredocs are cleaned up
- */
-void	cleanup_heredoc_files(void)
-{
-	char	*cmd;
-
-	cmd = "rm -f /tmp/.heredoc_*";
-	system(cmd);
 }

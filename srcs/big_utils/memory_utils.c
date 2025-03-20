@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/17 18:38:05 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:29:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	free_shell_mem_enhanced(t_shell *mini)
 		}
 		cmdlst_destroy(&mini->cmds);
 	}
-	cleanup_heredoc_files();
 	if (mini->builtin_cmds)
 	{
 		free_builtin_cmds(mini->builtin_cmds);

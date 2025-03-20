@@ -6,67 +6,11 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:17:08 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 12:35:59 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:58:55 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/**
- * Handles the execution of external commands.
- * @param cmd Command structure
- * @param mini Shell structure
- * @return Does not return - either executes or exits
- */
-static int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
-{
-	char	**envp;
-	char	*executable;
-
-	envp = env_list_to_array(mini->env_dup);
-	if (!envp)
-	{
-		perror("env_list_to_array");
-		exit(1);
-	}
-	if (ft_strchr(cmd->cmd[0], '/'))
-	{
-		if (access(cmd->cmd[0], F_OK) != 0)
-		{
-			ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
-			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
-			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-			free_array(envp);
-			exit(127);
-		}
-		else if (access(cmd->cmd[0], X_OK) != 0)
-		{
-			ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
-			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
-			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-			free_array(envp);
-			exit(126);
-		}
-		executable = ft_strdup(cmd->cmd[0]);
-	}
-	else
-	{
-		executable = find_executable(cmd->cmd[0], mini->env_dup);
-		if (!executable)
-		{
-			ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
-			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
-			ft_putendl_fd(": command not found", STDERR_FILENO);
-			free_array(envp);
-			exit(127);
-		}
-	}
-	execve(executable, cmd->cmd, envp);
-	perror("execve");
-	free_array(envp);
-	free(executable);
-	exit(EXIT_FAILURE);
-}
 
 /**
  * Executes a single command.

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 12:38:16 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:59:42 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,9 @@ t_env						*new_env_with_value(char *key, char *value);
 /*** execution.c ***/
 void						execute_cmd(t_shell *mini);
 
+/*** exec_external.c ***/
+int							execute_external_cmd(t_cmd *cmd, t_shell *mini);
+
 /*** exec_helper.c ***/
 char						**env_list_to_array(t_env *env_dup);
 char						*find_executable(char *cmd, t_env *env_dup);
@@ -292,11 +295,6 @@ int							set_heredoc(t_cmd *cmds);
 /*** pipes.c ***/
 int							create_pipes(t_cmd *cmds);
 void						close_all_pipes(t_cmd *cmds);
-
-/*** expansion.c ***/
-// char						*expand_env_vars(char *str, t_env *env_dup);
-// char						*get_env_var_value(t_env *env_dup,
-// 								const char *name);
 
 /*** FAKE GLOBAL ***/
 /*** fake_global.c ***/

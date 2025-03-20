@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:45:29 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 12:22:25 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:18:50 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ env_dup_size: подсчитывает количество узлов в спи
 update_env: обновляет значение переменной окружения в списке,
 	создав новую строку для переменной.
 */
-
 /**
 
 	* Находит значение для указанного ключа в связанном списке переменных
@@ -88,6 +87,16 @@ int	count_env_vars(t_env *env_dup)
 	return (count);
 }
 
+static void	update_existing_env(t_env *current, char *key, char *val)
+{
+	if (current->val)
+		free(current->val);
+	current->val = ft_strdup(val);
+	if (current->line)
+		free(current->line);
+	current->line = ft_strjoin_con(key, "=", val);
+}
+
 /**
  * Изменяет значение переменной окружения в связанном списке.
  * Обновляет значение, связанное с указанным ключом, и создает новую строку.
@@ -108,12 +117,7 @@ void	update_env(t_env *env_dup, char *key, char *val)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-			if (current->val)
-				free(current->val);
-			current->val = ft_strdup(val);
-			if (current->line)
-				free(current->line);
-			current->line = ft_strjoin_con(key, "=", val);
+			update_existing_env(current, key, val);
 			return ;
 		}
 		current = current->next;
