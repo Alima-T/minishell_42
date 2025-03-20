@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:01:06 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 14:59:42 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:38:35 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,12 @@ void						execute_cmd(t_shell *mini);
 
 /*** exec_external.c ***/
 int							execute_external_cmd(t_cmd *cmd, t_shell *mini);
+
+/*** exec_single.c ***/
+int							execute_single_cmd(t_cmd *cmd, t_shell *mini);
+
+/*** exec_multiple.c ***/
+int							execute_multiple_cmds(t_shell *mini);
 
 /*** exec_helper.c ***/
 char						**env_list_to_array(t_env *env_dup);
