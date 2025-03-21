@@ -6,16 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:42:43 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 14:29:57 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:55:48 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
-function to safely allocate memory using malloc.
-If the allocation fails, prints an err_msg and exits
-*/
 void	*mem_allocator(size_t size)
 {
 	void	*allocated_mem;
@@ -29,7 +25,6 @@ void	*mem_allocator(size_t size)
 	return (allocated_mem);
 }
 
-// frees arrays
 void	free_array(char **arr)
 {
 	int	i;
@@ -47,10 +42,6 @@ void	free_array(char **arr)
 	arr = NULL;
 }
 
-/**
- * Frees the linked list of built-in commands.
- * @param builtin_cmds
- */
 void	free_builtin_cmds(t_builtin_cmd *builtin_cmds)
 {
 	t_builtin_cmd	*current;
@@ -66,10 +57,6 @@ void	free_builtin_cmds(t_builtin_cmd *builtin_cmds)
 	}
 }
 
-/**
- * Frees all memory in shell structure
- * @param mini Shell structure
- */
 void	free_shell_mem_enhanced(t_shell *mini)
 {
 	t_cmd	*current;

@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:45:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 21:19:53 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:58:53 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ static char	*search_in_paths(char **paths, char *cmd)
 	return (NULL);
 }
 
-/**
- * Searches for executable in PATH or uses absolute path
- * @param cmd Command name
- * @return Path to executable or NULL if not found
- */
 char	*find_executable(char *cmd, t_env *env_dup)
 {
 	char	**paths;
@@ -97,58 +92,3 @@ char	*find_executable(char *cmd, t_env *env_dup)
 		return (NULL);
 	return (search_in_paths(paths, cmd));
 }
-
-// char	*find_executable(char *cmd, t_env *env_dup)
-// {
-// 	char	**paths;
-// 	char	*path;
-// 	char	*full_path;
-// 	int		i;
-// 	t_env	*path_env;
-
-// 	if (ft_strchr(cmd, '/') != NULL)
-// 	{
-// 		if (access(cmd, X_OK) == 0)
-// 			return (ft_strdup(cmd));
-// 		else
-// 			return (NULL);
-// 	}
-// 	path_env = env_dup;
-// 	while (path_env)
-// 	{
-// 		if (ft_strcmp(path_env->key, "PATH") == 0)
-// 			break ;
-// 		path_env = path_env->next;
-// 	}
-// 	if (!path_env)
-// 		return (NULL);
-// 	paths = ft_split(path_env->val, ':');
-// 	if (!paths)
-// 		return (NULL);
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		path = ft_strjoin(paths[i], "/");
-// 		if (!path)
-// 		{
-// 			free_array(paths);
-// 			return (NULL);
-// 		}
-// 		full_path = ft_strjoin(path, cmd);
-// 		free(path);
-// 		if (!full_path)
-// 		{
-// 			free_array(paths);
-// 			return (NULL);
-// 		}
-// 		if (access(full_path, X_OK) == 0)
-// 		{
-// 			free_array(paths);
-// 			return (full_path);
-// 		}
-// 		free(full_path);
-// 		i++;
-// 	}
-// 	free_array(paths);
-// 	return (NULL);
-// }

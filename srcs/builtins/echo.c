@@ -6,20 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:34:47 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 20:29:03 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:56:15 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * @brief Checks if an argument has the -n option format
- *
- * Validates if the argument is a valid -n option (contains only 'n' characters)
- *
- * @param arg the argument to check
- * @return true if it's a valid -n option, false otherwise
- */
 static bool	is_n_option(char *arg)
 {
 	int	j;
@@ -32,14 +24,6 @@ static bool	is_n_option(char *arg)
 	return (arg[j] == '\0');
 }
 
-/**
- * @brief Process arguments to determine where to start printing and if newline
- * is needed.
- *
- * @param args array of arguments
- * @param newline pointer to newline flag
- * @return int Index to start printing from
- */
 static int	process_echo_options(char **args, bool *newline)
 {
 	int	i;
@@ -54,13 +38,6 @@ static int	process_echo_options(char **args, bool *newline)
 	return (i);
 }
 
-/**
- * @brief Prints the arguments to standard output
- *
- * @param args arguments to print
- * @param start_idx index to start printing from
- * @param newline whether to add a newline at the end
- */
 static void	print_echo_args(char **args, int start_idx, bool newline,
 		t_arg *orig_args)
 {
@@ -85,16 +62,6 @@ static void	print_echo_args(char **args, int start_idx, bool newline,
 		write(STDOUT_FILENO, "\n", 1);
 }
 
-/**
- * @brief Implements the built-in echo command.
-
-	* Prints the provided arguments to the standard output with
-	appropriate spacing.
- * Handles the -n option to suppress the trailing newline.
- *
- * @param args array of command arguments
- * @return int 0 on success
- */
 int	builtin_echo(char **args, t_arg *orig_args)
 {
 	int		start_idx;

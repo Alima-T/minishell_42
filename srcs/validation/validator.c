@@ -6,37 +6,13 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:22:52 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 13:26:12 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:44:56 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
-Summary of Functions:
-1. start_check:
-This function checks the beginning of the input string for syntax errors
-related to command tokens. It verifies if there are any invalid tokens (like |,
-	;, ||, ;;) at the start of the command and reports errors if found.
-2. validator:
-This function validates the entire input string for syntax errors. It checks
-for invalid tokens at the start and end,
-	validates pipes, quotes, and redirection operators throughout the input,
-	and returns an error code if any issues are found.
-This code is part of a parser for a shell-like environment,
-	responsible for validating command-line input for syntax errors related to
-	commands and redirections. It ensures that the input adheres to the
-	expected syntax rules and reports errors appropriately.
-*/
-/**
- * Checks the start of the input for syntax errors related to command tokens.
- * It verifies if there are any invalid tokens at the beginning of the command.
- *
- * @param input The input string to be validated.
- * @param i The current index in the input string.
- * @return An integer indicating success (0) or an error code (non-zero).
- */
-int	start_check(char *input, int i)
+static int	start_check(char *input, int i)
 {
 	if (input[i] == '|' && input[i + 1] == '|')
 		return (print_msg(1, "syntax error near unexpected token `||'", 258));
@@ -49,13 +25,6 @@ int	start_check(char *input, int i)
 	return (0);
 }
 
-/**
- * Validates the entire input string for syntax errors.
- * It checks for various syntax rules related to commands and redirections.
- * And report error for '\0(new line), |, >, <, ;
- * @param input The input string to be validated.
- * @return An integer indicating success (0) or an error code (non-zero).
- */
 int	validator(char *input)
 {
 	int	i;

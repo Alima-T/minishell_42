@@ -1,22 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_exec.c                                    :+:      :+:    :+:   */
+/*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:50:16 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 12:31:13 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:58:16 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * Counts the number of arguments in a command.
- * @param args
- * @return
- */
 static int	count_args(char **args)
 {
 	int	count;
@@ -27,12 +22,6 @@ static int	count_args(char **args)
 	return (count);
 }
 
-/**
- * Checks if a command is a built-in command.
- * @param cmd
- * @param builtin_cmds
- * @return
- */
 int	is_builtin(const char *cmd, t_builtin_cmd *builtin_cmds)
 {
 	t_builtin_cmd	*current;
@@ -67,11 +56,6 @@ static int	dispatch_builtin(int ac, char *av[], t_shell *mini, \
 	return (1);
 }
 
-/**
- * Initializes the linked list of built-in commands.
- * @param
- * @return
- */
 t_builtin_cmd	*init_builtin_cmds(void)
 {
 	t_builtin_cmd	*head;
@@ -95,12 +79,6 @@ t_builtin_cmd	*init_builtin_cmds(void)
 	return (head);
 }
 
-/**
- * Executes a built-in command.
- * @param cmd
- * @param mini
- * @return
- */
 int	execute_builtin(t_cmd *cmd, t_shell *mini)
 {
 	t_builtin_cmd	*current;

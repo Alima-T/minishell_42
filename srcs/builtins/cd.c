@@ -6,18 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:17:00 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 19:19:34 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:56:01 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * @brief Handles errors in the cd command
- *
- * @param message Error message to display
- * @return int 1 to indicate error
- */
 static int	cd_error(char *message)
 {
 	ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
@@ -25,12 +19,6 @@ static int	cd_error(char *message)
 	return (1);
 }
 
-/**
- * @brief Handles path-specific errors in the cd command
- *
- * @param path Path that caused the error
- * @return int 1 to indicate error
- */
 static int	cd_path_error(char *path)
 {
 	ft_putstr_fd(BEGIN "minishell: " CLOSE, STDERR_FILENO);
@@ -41,14 +29,6 @@ static int	cd_path_error(char *path)
 	return (1);
 }
 
-/**
- * @brief Gets the target directory based on arguments
- *
- * @param ac Number of arguments
- * @param av Array of arguments
- * @param env_dup Environment variables
- * @return char* Target directory or NULL if error
- */
 static char	*get_target_dir(int ac, char *av[], t_env **env_dup)
 {
 	char	*target_dir;
@@ -73,21 +53,6 @@ static char	*get_target_dir(int ac, char *av[], t_env **env_dup)
 	return (target_dir);
 }
 
-/**
- * @brief This function handles various cases like changing directory to home,
- * previous directory, or a specific path, while maintaining environment
- * variables.
- *
- * - cwd - buffer to store the current working directory path
- *
- * - target_dir - the target directory to change to
- *
- * @param ac number of command-line arguments
- * @param av array of strings containing the arguments
- * @param env_dup pointer to the environment variables list
- *
- * @return int 0 on success, 1 on error
- */
 int	builtin_cd(int ac, char *av[], t_env **env_dup)
 {
 	char	cwd[PATH_MAX];

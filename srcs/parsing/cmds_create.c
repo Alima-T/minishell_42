@@ -6,20 +6,13 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:23:55 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 12:49:33 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:29:41 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * Converts a linked list of arguments into an array of strings.
- * Allocates memory for the array and duplicates each argument string.
- * @param args A pointer to the linked list of arguments.
- * @param lists_count The number of arguments to convert.
- * @return A pointer to the created array of strings
- */
-char	**turn_cmd_to_array(t_arg *args, int lists_count)
+static char	**turn_cmd_to_array(t_arg *args, int lists_count)
 {
 	char	**args_array;
 	int		i;
@@ -39,13 +32,7 @@ char	**turn_cmd_to_array(t_arg *args, int lists_count)
 	return (args_array);
 }
 
-/**
- * Finds the position of the command in the linked list of arguments.
- * Counts the number of arguments until a pipe character is found.
- * @param args A pointer to the linked list of arguments.
- * @return The position of the command or 0 if a pipe is found.
- */
-int	find_cmd(t_arg *args)
+static int	find_cmd(t_arg *args)
 {
 	t_arg	*tmp;
 	int		count;
@@ -66,15 +53,6 @@ int	find_cmd(t_arg *args)
 	return (count);
 }
 
-/**
- * Creates a command structure from the linked list of arguments.
- * Allocates memory for the command structure and initializes its fields.
- * @param args A pointer to the linked list of arguments.
- * int lists_count; // Number of arguments in the linked list
- * t_cmd *cmd; // Pointer to the command structure
- * @return A pointer to the created command structure or NULL if allocation
- * fails.
- */
 t_cmd	*create_cmds_lst(t_arg *args)
 {
 	int		lists_count;

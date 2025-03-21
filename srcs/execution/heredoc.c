@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:54:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 21:20:15 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:59:07 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,6 @@ static int	wait_heredoc_process(pid_t heredoc_pid, char *tmp_file)
 	return (0);
 }
 
-/**
- * Handles heredoc input and writes to a temporary file
- * @param delimiter The string that terminates heredoc input
- * @return File descriptor for reading heredoc or -1 on error
- */
 int	handle_heredoc(char *delimiter)
 {
 	char	*tmp_file;
@@ -87,83 +82,6 @@ int	handle_heredoc(char *delimiter)
 	return (open_heredoc_for_reading(tmp_file));
 }
 
-// int	handle_heredoc(char *delimiter)
-// {
-// 	char	*line;
-// 	int		fd;
-// 	char	*tmp_file;
-// 	int		heredoc_status;
-// 	pid_t	heredoc_pid;
-
-// 	tmp_file = generate_heredoc_filename();
-// 	if (!tmp_file)
-// 		return (-1);
-// 	fd = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-// 	if (fd == -1)
-// 	{
-// 		free(tmp_file);
-// 		return (-1);
-// 	}
-// 	signal(SIGINT, SIG_IGN);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	heredoc_pid = fork();
-// 	if (heredoc_pid == -1)
-// 	{
-// 		close(fd);
-// 		free(tmp_file);
-// 		return (-1);
-// 	}
-// 	if (heredoc_pid == 0)
-// 	{
-// 		signal(SIGINT, SIG_DFL);
-// 		while (1)
-// 		{
-// 			line = readline("> ");
-// 			if (!line)
-// 			{
-// 				close(fd);
-// 				free(tmp_file);
-// 				exit(0);
-// 			}
-// 			if (ft_strcmp(line, delimiter) == 0)
-// 			{
-// 				free(line);
-// 				close(fd);
-// 				free(tmp_file);
-// 				exit(0);
-// 			}
-// 			write(fd, line, ft_strlen(line));
-// 			write(fd, "\n", 1);
-// 			free(line);
-// 		}
-// 	}
-// 	close(fd);
-// 	waitpid(heredoc_pid, &heredoc_status, 0);
-// 	signal(SIGINT, sig_non_interact_ctrl_c);
-// 	signal(SIGQUIT, sig_non_interact_quit);
-// 	if (WIFSIGNALED(heredoc_status))
-// 	{
-// 		unlink(tmp_file);
-// 		free(tmp_file);
-// 		*get_exit_status() = 130;
-// 		return (-1);
-// 	}
-// 	fd = open(tmp_file, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		free(tmp_file);
-// 		return (-1);
-// 	}
-// 	unlink(tmp_file);
-// 	free(tmp_file);
-// 	return (fd);
-// }
-
-/**
- * Sets up heredocs for a command
- * @param cmds Command structure
- * @return 0 on success, -1 on error
- */
 int	set_heredoc(t_cmd *cmds)
 {
 	t_redir	*tmp;

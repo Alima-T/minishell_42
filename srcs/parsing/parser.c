@@ -6,41 +6,11 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:51:57 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 23:10:44 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:38:28 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// int	validate_input(t_shell *mini)
-// {
-// 	if (validator(mini->input) == 0)
-// 	{
-// 		mini->args = args_process(mini);
-// 		if (!mini->args)
-// 		{
-// 			free(mini->input);
-// 			mini->input = NULL;
-// 			return (1);
-// 		}
-// 		mini->cmds = cmds_process(mini);
-// 		if (!mini->cmds && mini->args)
-// 		{
-// 			arglst_destroy(&mini->args);
-// 			free(mini->input);
-// 			mini->input = NULL;
-// 			return (1);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		*get_exit_status() = 2;
-// 		free(mini->input);
-// 		mini->input = NULL;
-// 		return (2);
-// 	}
-// 	return (0);
-// }
 
 static int	free_input(t_shell *mini)
 {
@@ -49,7 +19,7 @@ static int	free_input(t_shell *mini)
 	return (1);
 }
 
-int	validate_input(t_shell *mini)
+static int	validate_input(t_shell *mini)
 {
 	if (validator(mini->input) == 0)
 	{

@@ -6,18 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:44:56 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:46:00 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:56:59 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * @brief Creates a quoted value for an environment variable
- *
- * @param value Value to quote
- * @return char* Quoted value (must be freed by caller)
- */
 static char	*create_quoted_value(char *value)
 {
 	char	*quoted_val;
@@ -31,12 +25,6 @@ static char	*create_quoted_value(char *value)
 	return (result);
 }
 
-/**
- * @brief Creates a formatted string for an environment variable
- *
- * @param env_node Environment node to format
- * @return char* Formatted string (must be freed by caller)
- */
 char	*format_env_var(t_env *env_node)
 {
 	char	*key_value;
@@ -60,12 +48,6 @@ char	*format_env_var(t_env *env_node)
 	return (final);
 }
 
-/**
- * @brief Prints and frees the sorted environment array
- *
- * @param sorted_env Array of sorted environment strings
- * @param count Number of variables
- */
 void	print_sorted_env(char **sorted_env, int count)
 {
 	int	i;
@@ -81,13 +63,6 @@ void	print_sorted_env(char **sorted_env, int count)
 	free(sorted_env);
 }
 
-/**
- * @brief Updates environment variable by appending a value
- *
- * @param existing Existing environment variable to update
- * @param name Variable name
- * @param value Value to append
- */
 static void	update_env_append(t_env *existing, char *name, char *value)
 {
 	char	*new_value;
@@ -107,14 +82,6 @@ static void	update_env_append(t_env *existing, char *name, char *value)
 	free(new_line);
 }
 
-/**
- * @brief Handles appending to an existing environment variable
- *
- * @param env_dup Environment list
- * @param name Variable name
- * @param value Value to append
- * @return int 0 on success
- */
 int	handle_append_operation(t_env **env_dup, char *name, char *value)
 {
 	t_env	*existing;

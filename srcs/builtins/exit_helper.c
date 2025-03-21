@@ -6,18 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:43:06 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 12:02:06 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:44:57 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * @brief Checks if a string contains only numeric characters
- *
- * @param str String to check
- * @return int 1 if numeric, 0 otherwise
- */
 int	is_numeric_str(char *str)
 {
 	int	i;
@@ -38,12 +32,6 @@ int	is_numeric_str(char *str)
 	return (1);
 }
 
-/**
- * @brief Processes a non-digit character in exit code conversion
- *
- * @param mini Shell structure
- * @param str String being converted
- */
 void	handle_non_digit(t_shell *mini, char *str)
 {
 	exit_with_error(mini, str, "numeric argument required", 255);
@@ -53,6 +41,7 @@ void	silent_exit(t_shell *mini, int status)
 {
 	ft_putendl_fd(BEGIN "minishell-1.0$ " CLOSE "exit", STDIN_FILENO);
 	free_shell_mem_enhanced(mini);
-	shell_level_down(mini);
+	env_destroy(&mini->env_dup);
+	free(mini);
 	exit(status);
 }

@@ -6,13 +6,13 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:33:23 by aokhapki          #+#    #+#             */
-/*   Updated: 2025/03/20 13:16:40 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:42:11 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	redir_add_end(t_redir **list, t_redir *new)
+static void	redir_add_end(t_redir **list, t_redir *new)
 {
 	t_redir	*last;
 
@@ -29,8 +29,7 @@ void	redir_add_end(t_redir **list, t_redir *new)
 	}
 }
 
-// Function to create a new redirection
-t_redir	*redir_new(char *type, char *name)
+static t_redir	*redir_new(char *type, char *name)
 {
 	t_redir	*new_redir;
 
@@ -43,12 +42,7 @@ t_redir	*redir_new(char *type, char *name)
 	return (new_redir);
 }
 
-/**
- обрабатывает список аргументов ( t_arg связанный список) и обрабатывает
- флаги перенаправления, обновляя список перенаправления ( t_redir).
- */
-// Function to handle the first redirection
-int	redir_first(t_arg **args, t_redir **rdr)
+static int	redir_first(t_arg **args, t_redir **rdr)
 {
 	while (*args)
 	{
@@ -69,7 +63,6 @@ int	redir_first(t_arg **args, t_redir **rdr)
 	return (0);
 }
 
-// Function to add a new redirection to the end of the list
 t_redir	*redirect_process(t_arg **args)
 {
 	t_arg	*tmp;

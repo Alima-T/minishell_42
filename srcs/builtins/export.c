@@ -6,18 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:00:30 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:44:25 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:57:31 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * @brief Sorts environment variables using bubble sort
- *
- * @param env_vars Array of environment variables
- * @param count Number of variables
- */
 static void	sort_env_vars(char **env_vars, int count)
 {
 	int		i;
@@ -47,13 +41,6 @@ static void	sort_env_vars(char **env_vars, int count)
 	}
 }
 
-/**
- * @brief Builds an array of formatted environment variables
- *
- * @param env_dup Environment list
- * @param count Number of variables
- * @return char** Array of formatted strings (NULL on error)
- */
 static char	**build_env_array(t_env *env_dup, int count)
 {
 	char	**sorted_env;
@@ -82,11 +69,6 @@ static char	**build_env_array(t_env *env_dup, int count)
 	return (sorted_env);
 }
 
-/**
- * @brief Lists environment variables in alphabetical order
- *
- * @param env_dup Environment linked list
- */
 static void	list_env_vars(t_env *env_dup)
 {
 	int		count;
@@ -100,13 +82,6 @@ static void	list_env_vars(t_env *env_dup)
 	print_sorted_env(sorted_env, count);
 }
 
-/**
- * @brief Adds or updates an environment variable
- *
- * @param env_dup Environment linked list
- * @param arg Variable assignment (name=value)
- * @return int 0 on success, 1 on error
- */
 static int	add_or_upd_env_var(t_env **env_dup, char *arg)
 {
 	char	*pos;
@@ -131,18 +106,6 @@ static int	add_or_upd_env_var(t_env **env_dup, char *arg)
 	return (result);
 }
 
-/**
- * @brief Built-in export command
- *
- * Lists or sets environment variables. With no arguments, lists all
- * environment variables in sorted order. With arguments, adds or
- * updates environment variables.
- *
- * @param ac Argument count
- * @param av Arguments
- * @param env_dup Environment linked list
- * @return int 0 on success, 1 on error
- */
 int	builtin_export(int ac, char *av[], t_env *env_dup)
 {
 	int	i;

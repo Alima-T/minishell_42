@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:44:37 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 21:19:01 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:58:41 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ static char	**cleanup_env_array(char **envp, int i)
 	return (NULL);
 }
 
-/**
- * Converts environment linked list to array format for execve
- * @param env_dup Environment linked list
- * @return Array of environment variables or NULL on error
- */
 char	**env_list_to_array(t_env *env_dup)
 {
 	int		size;

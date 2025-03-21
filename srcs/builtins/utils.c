@@ -6,26 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:55:59 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/17 18:49:16 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:58:00 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * @brief Validates if a string is a valid shell variable name
- *
- * Checks that the variable name follows shell naming conventions:
- *
- * - Must not be NULL or empty
- *
- * - First character must be a letter or underscore
- *
- * - Remaining characters must be letters, digits, or underscores
- *
- * @param name String to validate as a variable name
- * @return int 1 if name is valid, 0 otherwise
- */
 int	validate_var_name(const char *name)
 {
 	int	i;
@@ -45,13 +31,6 @@ int	validate_var_name(const char *name)
 	return (1);
 }
 
-/**
- * @brief Creates a new environment variable with a key and value
- *
- * @param key Variable name
- * @param value Variable value
- * @return t_env* New environment node
- */
 t_env	*new_env_with_value(char *key, char *value)
 {
 	t_env	*node;

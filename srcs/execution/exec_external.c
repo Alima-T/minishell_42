@@ -6,7 +6,7 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 14:58:31 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 21:18:31 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:47:42 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ static char	*get_path_from_env(char *cmd, t_env *env_dup, char **envp)
 	return (executable);
 }
 
-/**
- * Handles the execution of external commands.
- * @param cmd Command structure
- * @param mini Shell structure
- * @return Does not return - either executes or exits
- */
 int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 {
 	char	**envp;
@@ -72,6 +66,10 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	if (!envp)
 	{
 		perror("env_list_to_array");
+		free(envp);
+		free_shell_mem_enhanced(mini);
+		env_destroy(&mini->env_dup);
+		free(mini);
 		exit(1);
 	}
 	if (ft_strchr(cmd->cmd[0], '/'))
@@ -82,5 +80,8 @@ int	execute_external_cmd(t_cmd *cmd, t_shell *mini)
 	perror("execve");
 	free_array(envp);
 	free(executable);
+	free_shell_mem_enhanced(mini);
+	env_destroy(&mini->env_dup);
+	free(mini);
 	exit(EXIT_FAILURE);
 }

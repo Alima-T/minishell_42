@@ -6,16 +6,12 @@
 /*   By: tbolsako <tbolsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:36:01 by tbolsako          #+#    #+#             */
-/*   Updated: 2025/03/20 22:55:55 by tbolsako         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:55:35 by tbolsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/**
- * Safely frees resources and closes file descriptors for a command
- * @param cmd Command structure to clean up
- */
 void	cleanup_cmd(t_cmd *cmd)
 {
 	if (!cmd)
@@ -42,14 +38,6 @@ void	cleanup_cmd(t_cmd *cmd)
 	}
 }
 
-/**
- * @brief Destroys the entire environment variable linked list.Уничтожает весь
- * связанный список переменных окружения.
- * It iterates through the list and deletes each node.Проходит по списку и
- * удаляет каждый узел.
- * @param list A double pointer to the head of the environment variable list.
- * 	*list = NULL;	// Set the head of the list to NULL (list is now empty)
- */
 void	env_destroy(t_env **list)
 {
 	t_env	*temp;
